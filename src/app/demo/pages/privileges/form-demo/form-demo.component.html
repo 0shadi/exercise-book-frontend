@@ -1,0 +1,99 @@
+<div  class="container">
+  <div class="form-section">
+    <form [formGroup] = "demoForm"  class="example-form" (ngSubmit) = "onSubmit()">
+      <mat-form-field class="example-full-width">
+        <mat-label>First Name</mat-label>
+        <input matInput placeholder="First Name"  formControlName = "firstName">
+        <span class="text-danger" *ngIf="(demoForm.get('firstName').touched || submitted) && demoForm.get('firstName').errors && demoForm.get('firstName').errors['required']">First name is required</span>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+          <mat-label>Last Name</mat-label>
+          <input matInput placeholder="Last Name"  formControlName = "lastName">
+          <!--To check errors
+            <span class="text-danger" *ngIf="(demoForm.get('lastName').touched || submitted) && demoForm.get('lastName').errors">
+              {{demoForm.get('lastName').errors | json}}
+            </span> -->
+          <span class="text-danger" *ngIf="(demoForm.get('lastName').touched || submitted) && demoForm.get('lastName').errors && demoForm.get('lastName').errors['minlength']">Enter minimum three characters</span>
+          <span class="text-danger" *ngIf="(demoForm.get('lastName').touched || submitted) && demoForm.get('lastName').errors && demoForm.get('lastName').errors['maxlength']">Enter maximum 8 characters</span>
+        </mat-form-field>
+  
+        <mat-form-field class="example-full-width">
+          <mat-label>Age</mat-label>
+          <input matInput placeholder="Age"  formControlName = "age">
+          <span class="text-danger" *ngIf="(demoForm.get('age').touched || submitted ) && demoForm.get('age').errors">
+            <span *ngIf = "demoForm.get('age').errors['min']"> Age must be greater than 0 </span>
+            <span *ngIf = "demoForm.get('age').errors['max']"> Age must be less than 70 </span>
+            <span *ngIf = "demoForm.get('age').errors['customAgeValidator']"> Insert a valid age </span>
+          </span>
+        </mat-form-field>
+  
+        <mat-form-field class="example-full-width">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Email"  formControlName = "email">
+          <span class="text-danger" *ngIf="(demoForm.get('email').touched || submitted) && demoForm.get('email').errors && demoForm.get('email').errors['email']">Please enter a valid email</span>
+        </mat-form-field>
+        
+        <button color="primary" type="submit" class="form-button" [disabled]="isButtonDisabled">{{saveButtonLabel}}</button>
+        <button color="secondary" type="reset" class="form-button" (click)="resetData()">Reset</button>
+  
+    </form>
+  </div>
+  <div  class="table-section">
+    <div class="refresh-filter-section">
+      <div class="refreshButton">
+        <button mat-icon-button color="primary" (click) = "refreshData()">
+          <mat-icon>refresh</mat-icon>  
+        </button>
+    </div>
+    <mat-form-field class="filter">
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+    </mat-form-field>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef> First Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+      </ng-container>
+    
+      <!-- Name Column -->
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef> Last Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+      </ng-container>
+    
+      <!-- Weight Column -->
+      <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef> Age </th>
+        <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+      </ng-container>
+    
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element"> 
+            <button mat icon-button color="warm" (click)="editData(element)" matTooltip="edit">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat icon-button color="warm" (click)="deleteData(element)" matTooltip="delete">
+              <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    
+  </div>
+</div>
+  
