@@ -3,13 +3,37 @@ import { CommonModule } from '@angular/common';
 import { RegistrationRoutes } from './registration.routing.module';
 import { RouterModule } from '@angular/router';
 import { EmployeeRegistrationComponent } from './employee-registration/employee-registration.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {FormsModule} from '@angular/forms';
+import {MatRadioModule} from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatTableModule} from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
   declarations: [EmployeeRegistrationComponent],
   imports: [
     RouterModule.forChild(RegistrationRoutes),
-    CommonModule
-  ]
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTableModule,
+    MatIconModule,
+    MatPaginatorModule,
+    MatSortModule
+
+  ],
+  
 })
 export class RegistrationModule { }
