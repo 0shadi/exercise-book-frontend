@@ -10,20 +10,45 @@
     flex: 1;
     padding: 5px;
     border-right: 1px solid #ccc;
-    .input {
-      font-size: 60%;
+    input {
+      font-size: 100%;
     }
     mat-radio-button {
-      font-size: 60%;
+      font-size: 100%;
     }
-    
-  }
+
+    mat-label{
+      margin-bottom: 50%;
+    }
+    }
   
   .table-section{
     flex: 2;
-    max-height: 650px; /* Limit height */
-    overflow-y: auto;
+    
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-height: 600px; /* Limit height */
+    overflow-y: auto;
+    overflow-x: auto;
+    width: 100%;
+    td{
+      font-size: 90%;
+      border-right: 1px solid #ccc; /* Light gray column separator */
+      padding: 3px;
+      border-bottom: 0px;
+    }
+
+    th{
+      font-size: 90%;
+      font-weight: 1000;
+      border-right: 1px solid #ccc; /* Light gray column separator */
+      padding: 8px;
+    }
+
+    mat-paginator{
+      width: 100%;
+    }
   }
 
   .example-full-width {
@@ -44,14 +69,46 @@
 
   .filter-section{
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px; 
+    width: 100%;
     
   }
 
   .refresh{
-    flex: 0;
+    margin-right: 16px;
+    padding: 5px 10px;
+
   }
 
   .filter{
+    flex: 1; 
     width: 100%;
+    mat-form-field{
+      width: 100%;
+    }
   }
+
+  .mdc-data-table__cell {
+    text-align: center;
+  }
+
+  .mdc-data-table__cell, .mdc-data-table__header-cell {
+    padding: 0 5px;
+  }
+
+  .submit-btn {
+    float: left;
+    padding: 5px 10px;
+    font-size: 18px;
+    border-radius: 8px;
+  }
+  
+  .reset-btn {
+    float: right;
+    padding: 5px 10px;
+    font-size: 18px;
+    border-radius: 8px;
+  }
+
+  

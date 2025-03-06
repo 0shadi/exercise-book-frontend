@@ -107,21 +107,51 @@ const NavigationItems = [
   },
   {
     id: 'registration',
-    title: 'Registration',
+    title: 'Registration Section',
     type: 'group',
     icon: 'icon-navigation',
-    auth: authenticationEnum.Home,
     isVisible: false,
+    auth: authenticationEnum.Privileges,
     children: [
       {
-        id: 'employeeRegistration',
-        title: 'Employee Registration',
-        type: 'item',
-        url: '/registration/employee-registration',
-        icon: 'feather icon-home',
-        classes: 'nav-item',
-        auth: authenticationEnum.Home_Dashboard,
-        isVisible: true
+        id: 'registrationDetails',
+        title: 'Registration',
+        type: 'collapse',
+        icon: 'ti ti-key',
+        auth: authenticationEnum.Privileges,
+        isVisible: false,
+        children: [
+          {
+            id: 'employeeRegistraion',
+            title: 'Employee Registration',
+            type: 'item',
+            url: '/registration/employee-registration',
+            icon: 'ti ti-dashboard',
+            breadcrumbs: false,
+            auth: authenticationEnum.System_Privileges,
+            isVisible: false
+          },
+          {
+            id: 'customerRegistration',
+            title: 'Customer Registraion',
+            type: 'item',
+            url: '/registration/customer-registration',
+            icon: 'ti ti-dashboard',
+            breadcrumbs: false,
+            auth: authenticationEnum.Privilege_Groups,
+            isVisible: false
+          },
+          {
+            id: 'itemRegistration',
+            title: 'Item Registraion',
+            type: 'item',
+            url: '/registration/item-registration',
+            icon: 'ti ti-dashboard',
+            breadcrumbs: false,
+            auth: authenticationEnum.Privilege_Groups,
+            isVisible: false
+          }
+        ]
       }
     ]
   }

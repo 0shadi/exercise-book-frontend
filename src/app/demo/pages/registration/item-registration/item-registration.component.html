@@ -1,0 +1,152 @@
+<div class="item-container">
+    <div class="form-section">
+        <form class="item-form" [formGroup] ="itemForm" (ngSubmit)="onSubmit()">
+    
+            <!-- <mat-form-field class="example-full-width" >
+              <mat-label formControlName="customerType">itemId</mat-label>
+              <input matInput placeholder="" formControlName="itemId">
+            </mat-form-field> -->
+    
+            <mat-form-field class="example-full-width" >
+                <mat-label>Item Code</mat-label>
+                <input matInput placeholder="Enter the Item Code" formControlName="itemCode">
+                <span class="text-danger" *ngIf="(itemForm.get('itemCode').touched || submitted) && itemForm.get('itemCode').errors && itemForm.get('itemCode').errors['required']">Item code is required</span>
+                <span class="text-danger" *ngIf="(itemForm.get('itemCode').touched || submitted) && itemForm.get('itemCode').errors && itemForm.get('itemCode').errors['pattern']">Enter a valid item code (Ex:-ABC-123)</span>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width" >
+                <mat-label>Item Name</mat-label>
+                <input matInput placeholder="Enter the Item Name" formControlName="itemName">
+                <span class="text-danger" *ngIf="(itemForm.get('itemName').touched || submitted) && itemForm.get('itemName').errors && itemForm.get('itemName').errors['required']">Item name is required</span>
+                <span class="text-danger" *ngIf="(itemForm.get('itemName').touched || submitted) && itemForm.get('itemName').errors && itemForm.get('itemName').errors['pattern']">Enter a valid item name</span>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width">
+                <mat-label>Item Type</mat-label>
+                <mat-select formControlName="itemType">
+                  <mat-option value="paper/cover">Papers/Covers</mat-option>
+                  <mat-option value="binding material">Binding material</mat-option>
+                  <mat-option value="machinery">Machines</mat-option>
+                </mat-select>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width" *ngIf="showElementType">
+                <mat-label>Element Type</mat-label>
+                <mat-select formControlName="elementType">
+                  <mat-option value="glue">Glue</mat-option>
+                  <mat-option value="stapler">Stapler</mat-option>
+                  <mat-option value="threads">Threads</mat-option>
+                  <mat-option value="needles">Needles</mat-option>
+                </mat-select>
+            </mat-form-field>
+    
+            <mat-form-field class="example-full-width">
+                <mat-label>Item Brand</mat-label>
+                <mat-select formControlName="itemBrand">
+                  <mat-option value="Brand A">Brand A</mat-option>
+                  <mat-option value="Brand B">Brand B</mat-option>
+                </mat-select>
+            </mat-form-field>
+    
+              <mat-form-field class="example-full-width" >
+                <mat-label>Description</mat-label>
+                <input matInput placeholder="Description of the item" formControlName="description">
+                <span class="text-danger" *ngIf="(itemForm.get('description').touched || submitted) && itemForm.get('description').errors && itemForm.get('description').errors['pattern']">Enter a valid description between 5 to 200 characters</span>
+              </mat-form-field>
+    
+              <mat-form-field class="example-full-width">
+                <mat-label>Supplier</mat-label>
+                <mat-select formControlName="supplier">
+                  <mat-option value="Supplier A">Supplier A</mat-option>
+                  <mat-option value="Supplier B">Supplier B</mat-option>
+                </mat-select>
+              </mat-form-field>
+              
+              <button type="submit" color="primary" mat-raised-button [disabled]="isDisabled">{{saveButtonLabel}}</button>
+              <button type="reset" color="secondary" mat-raised-button (click) = "resetItem()">Reset</button>
+        </form>
+    
+    </div>
+    <div class="table-section">
+      <div class="filter-section">
+        <div class="refresh">
+          <button mat-icon-button color="primary" (click)="refreshData()">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+    
+        <div class="filter">
+          <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="itemId">
+          <th mat-header-cell *matHeaderCellDef> Item Id </th>
+          <td mat-cell *matCellDef="let element"> {{element.itemId}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="itemCode">
+          <th mat-header-cell *matHeaderCellDef> Item Code </th>
+          <td mat-cell *matCellDef="let element"> {{element.itemCode}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="itemName">
+          <th mat-header-cell *matHeaderCellDef> Item Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="itemType">
+          <th mat-header-cell *matHeaderCellDef> Item Type </th>
+          <td mat-cell *matCellDef="let element"> {{element.itemType}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="elementType">
+          <th mat-header-cell *matHeaderCellDef> Element Type </th>
+          <td mat-cell *matCellDef="let element"> {{element.elementType}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="itemBrand">
+          <th mat-header-cell *matHeaderCellDef> Item Brand </th>
+          <td mat-cell *matCellDef="let element"> {{element.itemBrand}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="supplier">
+          <th mat-header-cell *matHeaderCellDef> Supplier </th>
+          <td mat-cell *matCellDef="let element"> {{element.supplier}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element"> 
+            <button mat icon-button color="warm" (click)="editItem(element)" matTooltip="edit">
+                <mat-icon>edit</mat-icon>
+            </button>
+
+            <button mat icon-button color="warm" (click)="deleteItem(element)" matTooltip="delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+           
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>      
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+      </mat-paginator>
+    
+    </div>
+    
+</div>

@@ -21,7 +21,7 @@ const ELEMENT_DATA: any[] = [
   styleUrl: './employee-registration.component.scss',
 })
 export class EmployeeRegistrationComponent implements OnInit {
-  displayedColumns: any[] = ['employeeNumber', 'fullName', 'callingName', 'nic','bDay','gender','address','emergencyContactNumber','email','actions'];
+  displayedColumns: any[] = ['employeeNumber', 'fullName', 'callingName', 'nic','contactNo','bDay','gender','address','emergencyContactNumber','email','jobRole','actions'];
   dataSource:MatTableDataSource<any>;
   saveButtonLabel='Save';
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -43,11 +43,13 @@ export class EmployeeRegistrationComponent implements OnInit {
       fullName:new FormControl('',[Validators.required,Validators.pattern('^[A-Za-z ]+$')]),
       callingName:new FormControl('',[Validators.minLength(3),Validators.maxLength(15),Validators.pattern('^[A-Za-z]+$')]),
       nic:new FormControl('',[Validators.pattern(/^(?:\d{9}[VvXx]|\d{12})$/)]),
+      contactNo: new FormControl('',[Validators.required,Validators.pattern(/^0?[1-9]\d-?\d{7}$/)]),
       bDay:new FormControl('',[this.validateAge]),
       gender:new FormControl(''),
       address:new FormControl(''),
       emergencyContactNumber:new FormControl('',[Validators.pattern(/^0?[1-9]\d-?\d{7}$/)]),
-      email:new FormControl('',[Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)])
+      email:new FormControl('',[Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
+      jobRole:new FormControl('')
     });
   }
 
@@ -155,7 +157,7 @@ export class EmployeeRegistrationComponent implements OnInit {
   deleteEmployee(data:any){
     try{
       this.selectedData = data;
-    const id = data.employeeNumber;
+      const id = data.employeeNumber;
 
     this.employeeService.deleteData(id).subscribe({
       next:(datalist:any[]) =>{

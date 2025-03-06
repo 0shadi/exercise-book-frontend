@@ -22,6 +22,13 @@
           <input matInput placeholder="NIC Number" formControlName = "nic">
           <span class="text-danger" *ngIf="(employeeForm.get('nic').touched||submitted) && employeeForm.get('nic').errors && employeeForm.get('nic').errors['pattern']">Enter a valid NIC number</span>
         </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Contact Number</mat-label>
+          <input matInput placeholder="Enter your Contact Number" formControlName = "contactNo">
+          <span class="text-danger" *ngIf="(employeeForm.get('contactNo').touched||submitted) && employeeForm.get('contactNo').errors && employeeForm.get('contactNo').errors['required']">Contact number is required</span>
+          <span class="text-danger" *ngIf="(employeeForm.get('contactNo').touched||submitted) && employeeForm.get('contactNo').errors && employeeForm.get('contactNo').errors['pattern']">Enter a valid contact number</span>
+        </mat-form-field>
   
         <mat-form-field class="example-full-width">
           <mat-label>Choose your date of Birth</mat-label>
@@ -32,7 +39,7 @@
         </mat-form-field>
   
         <div class="radio-button mb-4">
-          <mat-label class="ml-2">Choose your gender</mat-label><br>
+          <mat-label >Choose your gender</mat-label><br>
           <mat-radio-group aria-label="Select an option" formControlName = "gender">          
             <mat-radio-button value="Male">Male</mat-radio-button>
             <mat-radio-button value="Female">Female</mat-radio-button>
@@ -55,9 +62,17 @@
           <input matInput placeholder="Email" formControlName = "email">
           <span class="text-danger" *ngIf="(employeeForm.get('email').touched||submitted) && employeeForm.get('email').errors && employeeForm.get('email').errors['pattern']">Enter a valid email</span>
         </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Job role</mat-label>
+          <mat-select formControlName="jobRole">
+            <mat-option value="Binder">Binder</mat-option>
+            <mat-option value="Cashier">Cashier</mat-option>
+          </mat-select>
+        </mat-form-field>
   
-        <button type="submit" color="primary" mat-raised-button [disabled]="isDisabled">{{saveButtonLabel}}</button>
-        <button type="reset" color="secondary" mat-raised-button (click) = "resetEmployee()">Reset</button>
+        <button mat-raised-button class="submit-btn" type="submit" color="primary" [disabled]="isDisabled">{{saveButtonLabel}}</button>
+        <button class="reset-btn" type="reset" color="secondary" mat-raised-button (click) = "resetEmployee()">Reset</button>
     </form>
   </div>
 
@@ -77,6 +92,7 @@
       </div>
     </div>
 
+    <div class="table-container">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="employeeNumber">
         <th mat-header-cell *matHeaderCellDef> Employee Number </th>
@@ -96,6 +112,11 @@
       <ng-container matColumnDef="nic">
         <th mat-header-cell *matHeaderCellDef> NIC number </th>
         <td mat-cell *matCellDef="let element"> {{element.nic}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="contactNo">
+        <th mat-header-cell *matHeaderCellDef> Contact Number </th>
+        <td mat-cell *matCellDef="let element"> {{element.contactNo}} </td>
       </ng-container>
 
       <ng-container matColumnDef="bDay">
@@ -123,6 +144,11 @@
         <td mat-cell *matCellDef="let element"> {{element.email}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="jobRole">
+        <th mat-header-cell *matHeaderCellDef> Job Role </th>
+        <td mat-cell *matCellDef="let element"> {{element.jobRole}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let element"> 
@@ -139,6 +165,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+  </div>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
     

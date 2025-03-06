@@ -12,12 +12,19 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatTableModule} from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { CustomerRegistrationComponent } from './customer-registration/customer-registration.component';
+import { MatSelectModule } from '@angular/material/select';
+import { ItemRegistrationComponent } from './item-registration/item-registration.component';
 
 
 @NgModule({
-  declarations: [EmployeeRegistrationComponent],
+  declarations: [
+    EmployeeRegistrationComponent,
+    CustomerRegistrationComponent,
+    ItemRegistrationComponent,
+  ],
   imports: [
     RouterModule.forChild(RegistrationRoutes),
     CommonModule,
@@ -31,8 +38,11 @@ import { MatSortModule } from '@angular/material/sort';
     MatTableModule,
     MatIconModule,
     MatPaginatorModule,
-    MatSortModule
-
+    MatSortModule,
+    MatSelectModule,
+    MatPaginatorModule,
+    MatPaginator
+  
   ],
   
 })
