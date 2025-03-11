@@ -103,7 +103,7 @@ export class ItemRegistrationComponent implements OnInit {
               return;
             }
   
-            let elementIndex = this.dataSource.data.findIndex((element) => element.customerId === this.selectedData?.customerId);
+            let elementIndex = this.dataSource.data.findIndex((element) => element.itemId === this.selectedData?.itemId);
             this.dataSource.data[elementIndex] = datalist;          
             this.dataSource = new MatTableDataSource(this.dataSource.data);
   

@@ -150,6 +150,16 @@ const NavigationItems = [
             breadcrumbs: false,
             auth: authenticationEnum.Privilege_Groups,
             isVisible: false
+          },
+          {
+            id: 'supplierRegistration',
+            title: 'Supplier Registraion',
+            type: 'item',
+            url: '/registration/supplier-registration',
+            icon: 'ti ti-dashboard',
+            breadcrumbs: false,
+            auth: authenticationEnum.Privilege_Groups,
+            isVisible: false
           }
         ]
       }
