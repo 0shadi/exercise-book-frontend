@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder,FormGroup,FormControl } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder,FormGroup,FormControl, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import { SupplierRegistrationService } from 'src/app/services/supplier-registration/supplier-registration.service';
@@ -20,6 +21,10 @@ export class SupplierRegistrationComponent implements OnInit {
   saveButtonLabel = 'Save';
   mode = 'add';
   selectedData;
+  isDisabled = false;
+  submitted = false;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private fb:FormBuilder,
@@ -28,42 +33,66 @@ export class SupplierRegistrationComponent implements OnInit {
   ){
     this.supplierForm = this.fb.group({
       supplierId: new FormControl(''),
-      supplierName: new FormControl(''),
-      contactNo: new FormControl(''),
-      email: new FormControl(''),
+      supplierName: new FormControl('',[Validators.required,Validators.pattern('^[A-Za-z ]+$')]),
+      contactNo: new FormControl('',[Validators.pattern(/^0?[1-9]\d-?\d{7}$/)]),
+      email: new FormControl('',[Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
       address: new FormControl(''),
     })
   }
 
   onSubmit(){
-    if(this.mode === 'add'){
-      this.supplierService.serviceCall(this.supplierForm.value).subscribe({
-        next:(datalist:any[])=>{
-          if(datalist.length <= 0){
-            return;
-          }
-          console.log('Form Submitted!', this.supplierForm.value);
-        },
-        error:(error)=>{
-          this.messageService.showError('Action failed with error ' + error);
-    }
-  });
-    }
-    else if( this.mode === 'edit'){
-      this.supplierService.editItem(this.selectedData?.supplierId, this.supplierForm.value).subscribe({
-        next: (datalist:any[]) => {
-          if(datalist.length<=0){
-            return;
-          }
+    try{
+      this.submitted = true;
 
-          let elementIndex = this.dataSource.data.findIndex((element) => element.supplierId === this.selectedData?.supplierId);
-          this.dataSource.data[elementIndex] = datalist;          
-          
-          this.messageService.showSuccess('Data Edited Successfully');
-        },
-        error: (error) => this.messageService.showError('Action failed with error'+ error)
-      });
+      if(this.supplierForm.invalid){
+        return;
+      }
+
+      if(this.mode === 'add'){
+        this.supplierService.serviceCall(this.supplierForm.value).subscribe({
+          next:(datalist:any[])=>{
+            if(datalist.length <= 0){
+              return;
+            }
+            if(this.dataSource && this.dataSource.data && this.dataSource.data.length >0){
+              this.dataSource= new MatTableDataSource([datalist,...this.dataSource.data]);
+            }         
+            else{
+              this.dataSource= new MatTableDataSource([datalist]);
+            }
+  
+            this.messageService.showSuccess('Data Saved Successfully');
+  
+          },
+          error:(error)=>{
+            this.messageService.showError('Action failed with error ' + error);
+      }
+    });
+      }
+      else if( this.mode === 'edit'){
+        this.supplierService.editItem(this.selectedData?.supplierId, this.supplierForm.value).subscribe({
+          next: (datalist:any[]) => {
+            if(datalist.length<=0){
+              return;
+            }
+  
+            let elementIndex = this.dataSource.data.findIndex((element) => element.supplierId === this.selectedData?.supplierId);
+            this.dataSource.data[elementIndex] = datalist;       
+            this.dataSource = new MatTableDataSource(this.dataSource.data);   
+            
+            this.messageService.showSuccess('Data Edited Successfully');
+          },
+          error: (error) => this.messageService.showError('Action failed with error'+ error)
+        });
     }
+  }
+    catch (error) {
+      this.messageService.showError('Action failed with error'+ error);
+    }
+
+    this.mode = 'add';
+    this.supplierForm.disable();
+    this.isDisabled = true;
   }
 
   ngOnInit(){
@@ -80,6 +109,9 @@ export class SupplierRegistrationComponent implements OnInit {
         
                 console.log('get data response: ',datalist);
                 this.dataSource = new MatTableDataSource(datalist);
+
+                this.dataSource.paginator = this.paginator;
+
               },        
               error: (error) => this.messageService.showError('Action failed with error ' + error)
             });
@@ -97,10 +129,49 @@ export class SupplierRegistrationComponent implements OnInit {
   }
 
   deleteItem(data:any){
+    try{
+      const id = data.supplierId;
 
+    this.supplierService.deleteSupplier(id).subscribe({
+      next: (datalist:any[]) => {
+        if(datalist.length<=0){
+          return;
+        }
+
+        const index = this.dataSource.data.findIndex((element) => element.supplierId === id);
+
+        if(index !== -1){//If the index is available
+          this.dataSource.data.splice(index,1); //Remove the item from the data source
+        }
+
+        this.dataSource = new MatTableDataSource(this.dataSource.data);
+
+        this.messageService.showSuccess('Data Deleted Successfully');
+      },
+      error: (error) => this.messageService.showError('Action failed with error'+ error)
+    });
+    }
+    catch (error) {
+      this.messageService.showError('Action failed with error ' + error);
+    }
   }
 
-  reset(){
+  resetSupplier(){
     this.saveButtonLabel = 'Save';
+    this.supplierForm.enable();
+    this.isDisabled = false;
+
+    this.supplierForm.setErrors =null;
+    this.supplierForm.updateValueAndValidity();
+    this.submitted=false;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  refreshData(){
+    this.populateData();
   }
 }

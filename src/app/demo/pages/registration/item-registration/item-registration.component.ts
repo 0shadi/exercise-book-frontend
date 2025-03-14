@@ -28,10 +28,6 @@ export class ItemRegistrationComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
-
   constructor(
     private fb: FormBuilder,
     private itemService : ItemRegistrationService,

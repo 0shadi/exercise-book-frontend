@@ -51,6 +51,19 @@ export class SupplierRegistrationService {
 
     return this.http.put(requestUrl,value,{headers:headers});
   }
+
+  deleteSupplier(id:any){
+    const requestUrl = environment.baseUrl + '/supplier-registration/'+id.toString();
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.delete(requestUrl,{headers:headers});
+  }
  
 
   
