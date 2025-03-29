@@ -73,7 +73,7 @@ const NavigationItems = [
           },
           {
             id: 'privilegeGroups',
-            title: 'Privilege Grops',
+            title: 'Privilege Groups',
             type: 'item',
             url: '/privileges/privilege-groups',
             icon: 'ti ti-dashboard',
@@ -133,7 +133,7 @@ const NavigationItems = [
           },
           {
             id: 'customerRegistration',
-            title: 'Customer Registraion',
+            title: 'Customer Registration',
             type: 'item',
             url: '/registration/customer-registration',
             icon: 'ti ti-dashboard',
@@ -143,7 +143,7 @@ const NavigationItems = [
           },
           {
             id: 'itemRegistration',
-            title: 'Item Registraion',
+            title: 'Item Registration',
             type: 'item',
             url: '/registration/item-registration',
             icon: 'ti ti-dashboard',
@@ -153,14 +153,24 @@ const NavigationItems = [
           },
           {
             id: 'supplierRegistration',
-            title: 'Supplier Registraion',
+            title: 'Supplier Registration',
             type: 'item',
             url: '/registration/supplier-registration',
             icon: 'ti ti-dashboard',
             breadcrumbs: false,
             auth: authenticationEnum.Privilege_Groups,
             isVisible: false
-          }
+          },
+          {
+            id: 'sellingItemRegistration',
+            title: 'Selling Item Registration',
+            type: 'item',
+            url: '/registration/selling-item-registration',
+            icon: 'ti ti-dashboard',
+            breadcrumbs: false,
+            auth: authenticationEnum.Privilege_Groups,
+            isVisible: false
+          },
         ]
       }
     ]

@@ -44,21 +44,6 @@ export class ItemRegistrationComponent implements OnInit {
       description: new FormControl('',[Validators.pattern(/^[A-Za-z0-9.,()'"\s-]{5,200}$/)]),
       supplier: new FormControl('')
     });
-  
-
-  this.itemForm.get('itemType')?.valueChanges.subscribe((value ) => {
-    if (value === 'binding material') {
-      this.showElementType = true;
-      this.itemForm.get('elementType')?.enable(); // Enable the field
-    } else {
-      this.showElementType = false;
-      this.itemForm.get('elementType')?.setValue(''); // Reset value
-      this.itemForm.get('elementType')?.disable(); // Disable the field
-    }
-    });
-
-    // Initially disable elementType
-    this.itemForm.get('elementType')?.disable();
   }
 
   onSubmit(){
@@ -128,6 +113,7 @@ export class ItemRegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.populateData();
+    this.showElement();
   }
 
   populateData(){
@@ -186,6 +172,22 @@ export class ItemRegistrationComponent implements OnInit {
         this.messageService.showError('Action failed with error'+ error);
       }
     
+    }
+
+    showElement(){
+      this.itemForm.get('itemType')?.valueChanges.subscribe((value ) => {
+        if (value === 'binding material') {
+          this.showElementType = true;
+          this.itemForm.get('elementType')?.enable(); // Enable the field
+        } else {
+          this.showElementType = false;
+          this.itemForm.get('elementType')?.setValue(''); // Reset value
+          this.itemForm.get('elementType')?.disable(); // Disable the field
+        }
+        });
+    
+        // Initially disable elementType
+        this.itemForm.get('elementType')?.disable();
     }
     
 

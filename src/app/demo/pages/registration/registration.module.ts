@@ -18,6 +18,7 @@ import { CustomerRegistrationComponent } from './customer-registration/customer-
 import { MatSelectModule } from '@angular/material/select';
 import { ItemRegistrationComponent } from './item-registration/item-registration.component';
 import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
+import { SellingItemRegistrationComponent } from './selling-item-registration/selling-item-registration.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { SupplierRegistrationComponent } from './supplier-registration/supplier-
     CustomerRegistrationComponent,
     ItemRegistrationComponent,
     SupplierRegistrationComponent,
+    SellingItemRegistrationComponent,
   ],
   imports: [
     RouterModule.forChild(RegistrationRoutes),

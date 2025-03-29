@@ -1,0 +1,169 @@
+<div class="item-container">
+  <div class="form-section">
+    <form class="example-form" [formGroup] ="sellingItemForm" (ngSubmit)="onSubmit()">
+      <!-- <mat-form-field class="example-full-width">
+        <mat-label>Item Id</mat-label>
+        <input matInput placeholder="Item Id" formControlName="itemId">
+      </mat-form-field> -->
+  
+      <mat-form-field class="example-full-width">
+          <mat-label>Item Type</mat-label>
+          <mat-select formControlName="itemType">
+            <mat-option value="exercise_books">Exercise Books</mat-option>
+            <mat-option value="stationaries">Stationaries</mat-option>
+            <mat-option value="paper_products">Paper products</mat-option>
+          </mat-select>
+          <span class="text-danger" *ngIf="(sellingItemForm.get('itemType').touched || submitted) && sellingItemForm.get('itemType').errors && sellingItemForm.get('itemType').errors['required']">Item type is required</span>
+      </mat-form-field>
+  
+      <mat-form-field class="example-full-width" *ngIf="showBookDetails">
+          <mat-label>Book Type</mat-label>
+          <mat-select formControlName="bookType">
+            <mat-option value="single_ruled">Single ruled</mat-option>
+            <mat-option value="square_ruled">Square ruled</mat-option>
+            <mat-option value="double_ruled">Double Ruled</mat-option>
+          </mat-select>
+          <span class="text-danger" *ngIf="(sellingItemForm.get('bookType').touched || submitted) && sellingItemForm.get('bookType').errors && sellingItemForm.get('bookType').errors['required']">Book type is required</span>
+      </mat-form-field>
+  
+      <mat-form-field class="example-full-width" *ngIf="showBookDetails">
+          <mat-label>Number of Pages</mat-label>
+          <mat-select formControlName="pagesCount">
+            <mat-option value="80">80</mat-option>
+            <mat-option value="120">120</mat-option>
+            <mat-option value="160">160</mat-option>
+          </mat-select>
+          <span class="text-danger" *ngIf="(sellingItemForm.get('pagesCount').touched || submitted) && sellingItemForm.get('pagesCount').errors && sellingItemForm.get('pagesCount').errors['required']">Pages Count is required</span>
+      </mat-form-field>
+  
+      <mat-form-field class="example-full-width" *ngIf="showBookDetails">
+          <mat-label>Book Size</mat-label>
+          <mat-select formControlName="bookSize">
+            <mat-option value="A4">A4</mat-option>
+            <mat-option value="A5">A5</mat-option>
+            <mat-option value="B5">B5</mat-option>
+          </mat-select>
+          <span class="text-danger" *ngIf="(sellingItemForm.get('bookSize').touched || submitted) && sellingItemForm.get('bookSize').errors && sellingItemForm.get('bookSize').errors['required']">Book Size is required</span>
+      </mat-form-field>
+  
+      <mat-form-field class="example-full-width" *ngIf="showBrand">
+          <mat-label>Item Brand</mat-label>
+          <input matInput placeholder="Item Brand" formControlName="itemBrand">
+          <span class="text-danger" *ngIf="(sellingItemForm.get('itemBrand').touched || submitted) && sellingItemForm.get('itemBrand').errors && sellingItemForm.get('itemBrand').errors['pattern']">Enter a brand name</span>
+      </mat-form-field>
+  
+      <mat-form-field class="example-full-width">
+          <mat-label>Item Name</mat-label>
+          <input matInput placeholder="Item Name" formControlName="itemName">
+          <span class="text-danger" *ngIf="(sellingItemForm.get('itemName').touched || submitted) && sellingItemForm.get('itemName').errors && sellingItemForm.get('itemName').errors['required']">Item name is required</span>
+          <span class="text-danger" *ngIf="(sellingItemForm.get('itemName').touched || submitted) && sellingItemForm.get('itemName').errors && sellingItemForm.get('itemName').errors['pattern']">Enter a valid name</span>
+      </mat-form-field>
+  
+      <mat-form-field class="example-full-width">
+          <mat-label>Item Description</mat-label>
+          <input matInput placeholder="Item Descriptio" formControlName="itemDescription">
+          <span class="text-danger" *ngIf="(sellingItemForm.get('itemDescription').touched || submitted) && sellingItemForm.get('itemDescription').errors && sellingItemForm.get('itemDescription').errors['pattern']">Enter a valid item description</span>
+      </mat-form-field>
+  
+      <div class="example-full-width">
+        <mat-label>Upload Photo</mat-label>
+        <div>
+          <img [src]="selectedImageUrl ? selectedImageUrl : 'assets/images/authentication/google.svg'" width="100px" height="100px" />
+        </div>
+        <input type="file" formControlName="itemImage" (change)="onFileSelected($event)"#fileInput accept="image/*">
+      </div>
+      <img *ngIf="photoPreview" [src]="photoPreview" alt="Preview" width="100">
+  
+      <button type="submit" color="primary" mat-raised-button [disabled]="isDisabled" >{{saveButtonLabel}}</button>
+      <button type="reset" color="secondary" (click) = "resetItem()" mat-raised-button>Reset</button>
+  
+  </form>
+  </div>
+    
+  <div class="table-section">
+    <div class="filter-section">
+      <div class="refresh">
+        <button mat-icon-button color="primary" (click)="refreshData()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+  
+      <div class="filter">
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="itemId">
+        <th mat-header-cell *matHeaderCellDef> Item Id </th>
+        <td mat-cell *matCellDef="let element"> {{element.itemId}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="itemType">
+        <th mat-header-cell *matHeaderCellDef> Item Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.itemType}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="bookType">
+        <th mat-header-cell *matHeaderCellDef> Book Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.bookType}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="pagesCount">
+        <th mat-header-cell *matHeaderCellDef> Pages Count </th>
+        <td mat-cell *matCellDef="let element"> {{element.pagesCount}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="bookSize">
+        <th mat-header-cell *matHeaderCellDef> Book Size </th>
+        <td mat-cell *matCellDef="let element"> {{element.bookSize}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="itemBrand">
+        <th mat-header-cell *matHeaderCellDef> Item Brand </th>
+        <td mat-cell *matCellDef="let element"> {{element.itemBrand}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="itemName">
+        <th mat-header-cell *matHeaderCellDef> Item Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="itemDescription">
+        <th mat-header-cell *matHeaderCellDef> Item Description </th>
+        <td mat-cell *matCellDef="let element"> {{element.itemDescription}} </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="itemImage">
+        <th mat-header-cell *matHeaderCellDef> Item Image </th>
+        <td mat-cell *matCellDef="let element"> {{element.itemImage}} </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element"> 
+          <button mat icon-button color="warm" (click)="editItem(element)" matTooltip="edit">
+              <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat icon-button color="warm" (click)="deleteItem(element)" matTooltip="delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+    </mat-paginator>
+    
+  </div>
+</div>
