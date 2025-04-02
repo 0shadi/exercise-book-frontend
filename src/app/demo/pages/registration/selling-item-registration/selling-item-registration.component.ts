@@ -49,12 +49,14 @@ export class SellingItemRegistrationComponent implements OnInit{
     this.sellingItemForm = this.fb.group({
       itemId:new FormControl(''),
       itemType:new FormControl('',[Validators.required]),
-      bookType:new FormControl('',[Validators.required]),
-      pagesCount:new FormControl('',[Validators.required]),
-      bookSize:new FormControl('',[Validators.required]),
+      bookType:new FormControl(''),
+      pagesCount:new FormControl(''),
+      bookSize:new FormControl(''),
       itemBrand:new FormControl('',[Validators.pattern(/^[A-Za-z0-9\s(),&-]{1,100}$/)]),
       itemName:new FormControl('',[Validators.required,Validators.pattern(/^[A-Za-z0-9\s(),&-]{1,100}$/)]),
       itemDescription:new FormControl('',[Validators.pattern(/^[A-Za-z0-9.,()'"\s-]{5,200}$/)]),
+      imageName: new FormControl(''),
+      imageType: new FormControl(''),
       itemImage:new FormControl(null),
     });
   }
@@ -116,13 +118,16 @@ export class SellingItemRegistrationComponent implements OnInit{
   onSubmit(){
     try{
       this.submitted = true;
+
       if(this.sellingItemForm.invalid){
+        console.log("Form is invalid");
         return;
       }
+      console.log("Form submitted", this.sellingItemForm.value);
 
       if(this.mode === 'add'){
         console.log("submitted");
-        this.selllingItemService.serviceCall(this.sellingItemForm.value).subscribe({
+        this.selllingItemService.serviceCall(this.prepareFormData()).subscribe({
           next:(datalist:any[])=>{
             if(datalist.length <= 0){
               return;
@@ -143,7 +148,7 @@ export class SellingItemRegistrationComponent implements OnInit{
         });
       }
       else if(this.mode === 'edit'){
-        this.selllingItemService.editItem(this.selectedData?.itemId, this.sellingItemForm.value).subscribe({
+        this.selllingItemService.editItem(this.selectedData?.itemId, this.prepareFormData()).subscribe({
           next: (datalist:any[]) => {
             if(datalist.length<=0){
               return;
@@ -244,5 +249,32 @@ export class SellingItemRegistrationComponent implements OnInit{
   refreshData(){
     this.populateData();
   }
+
+  public prepareFormData(): FormData {
+    const sellingItemFormData = new FormData();
+    
+    sellingItemFormData.append('sellingItemForm', new Blob([JSON.stringify(this.sellingItemForm.value)], { type: 'application/json' }));
+
+    if (this.photoFile) {
+      sellingItemFormData.append('itemImage', this.sellingItemForm.get('itemImage').value, this.sellingItemForm.get('itemImage').value.name);
+    } else {
+      const imageBlob = this.base64ToBlob(this.sellingItemForm.get('itemImage').value, this.sellingItemForm.get('imageType').value);
+      const file = new File([imageBlob], this.sellingItemForm.get('imageName').value, { type: this.sellingItemForm.get('imageType').value });
+      sellingItemFormData.append('itemImage', file, file.name);
+    }
+
+    return sellingItemFormData;
+  }
+
+  base64ToBlob(base64: string, mimeType: string): Blob {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
+  }
+
   
 }

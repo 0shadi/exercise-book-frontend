@@ -23,7 +23,7 @@
             <mat-option value="square_ruled">Square ruled</mat-option>
             <mat-option value="double_ruled">Double Ruled</mat-option>
           </mat-select>
-          <span class="text-danger" *ngIf="(sellingItemForm.get('bookType').touched || submitted) && sellingItemForm.get('bookType').errors && sellingItemForm.get('bookType').errors['required']">Book type is required</span>
+          <!-- <span class="text-danger" *ngIf="(sellingItemForm.get('bookType').touched || submitted) && sellingItemForm.get('bookType').errors && sellingItemForm.get('bookType').errors['required']">Book type is required</span> -->
       </mat-form-field>
   
       <mat-form-field class="example-full-width" *ngIf="showBookDetails">
@@ -33,7 +33,7 @@
             <mat-option value="120">120</mat-option>
             <mat-option value="160">160</mat-option>
           </mat-select>
-          <span class="text-danger" *ngIf="(sellingItemForm.get('pagesCount').touched || submitted) && sellingItemForm.get('pagesCount').errors && sellingItemForm.get('pagesCount').errors['required']">Pages Count is required</span>
+          <!-- <span class="text-danger" *ngIf="(sellingItemForm.get('pagesCount').touched || submitted) && sellingItemForm.get('pagesCount').errors && sellingItemForm.get('pagesCount').errors['required']">Pages Count is required</span> -->
       </mat-form-field>
   
       <mat-form-field class="example-full-width" *ngIf="showBookDetails">
@@ -43,7 +43,7 @@
             <mat-option value="A5">A5</mat-option>
             <mat-option value="B5">B5</mat-option>
           </mat-select>
-          <span class="text-danger" *ngIf="(sellingItemForm.get('bookSize').touched || submitted) && sellingItemForm.get('bookSize').errors && sellingItemForm.get('bookSize').errors['required']">Book Size is required</span>
+          <!-- <span class="text-danger" *ngIf="(sellingItemForm.get('bookSize').touched || submitted) && sellingItemForm.get('bookSize').errors && sellingItemForm.get('bookSize').errors['required']">Book Size is required</span> -->
       </mat-form-field>
   
       <mat-form-field class="example-full-width" *ngIf="showBrand">
@@ -68,9 +68,9 @@
       <div class="example-full-width">
         <mat-label>Upload Photo</mat-label>
         <div>
-          <img [src]="selectedImageUrl ? selectedImageUrl : 'assets/images/authentication/google.svg'" width="100px" height="100px" />
+          <img [src]="selectedImageUrl ? selectedImageUrl : 'assets/images/download.png'" width="100px" height="100px" />
         </div>
-        <input type="file" formControlName="itemImage" (change)="onFileSelected($event)"#fileInput accept="image/*">
+        <input type="file"  (change)="onFileSelected($event)"#fileInput accept="image/*">
       </div>
       <img *ngIf="photoPreview" [src]="photoPreview" alt="Preview" width="100">
   
