@@ -29,7 +29,7 @@ export class SellingItemRegistrationComponent implements OnInit{
   photoPreview: string | null = null;
   selectedImageUrl;
 
-  displayedColumns: string[] = ['itemId', 'itemType', 'bookType', 'pagesCount','bookSize','itemBrand','itemName','itemDescription','actions'];
+  displayedColumns: string[] = ['itemId', 'itemType','itemName','itemPrice','itemQuantity','actions'];
   dataSource:MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -40,6 +40,7 @@ export class SellingItemRegistrationComponent implements OnInit{
   isDisabled=false;
 
   submitted = false;
+  itemName;
 
   constructor(
     private fb:FormBuilder,
@@ -52,9 +53,11 @@ export class SellingItemRegistrationComponent implements OnInit{
       bookType:new FormControl(''),
       pagesCount:new FormControl(''),
       bookSize:new FormControl(''),
-      itemBrand:new FormControl('',[Validators.pattern(/^[A-Za-z0-9\s(),&-]{1,100}$/)]),
+      itemBrand:new FormControl('',[Validators.pattern(/^[A-Za-z0-9\s(),&-]{1,25}$/)]),
+      stationaryName:new FormControl('',[Validators.pattern(/^[A-Za-z0-9\s(),&-]{1,25}$/)]),
       itemName:new FormControl('',[Validators.required,Validators.pattern(/^[A-Za-z0-9\s(),&-]{1,100}$/)]),
-      itemDescription:new FormControl('',[Validators.pattern(/^[A-Za-z0-9.,()'"\s-]{5,200}$/)]),
+      itemPrice:new FormControl('',[Validators.required,Validators.pattern(/^\d{1,3}(,\d{3})*(\.\d{2})?$|^\d+(\.\d{2})?$/)]),
+      itemQuantity:new FormControl('',[Validators.pattern(/^[1-9]\d*$/)]),
       imageName: new FormControl(''),
       imageType: new FormControl(''),
       itemImage:new FormControl(null),
@@ -235,6 +238,7 @@ export class SellingItemRegistrationComponent implements OnInit{
     this.sellingItemForm.setErrors = null;
     this.sellingItemForm.updateValueAndValidity();
     this.submitted = false;
+    this.photoPreview = null;
   }
 
   applyFilter(event: Event) {
@@ -275,6 +279,26 @@ export class SellingItemRegistrationComponent implements OnInit{
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type: mimeType });
   }
+
+  generateItemName() {
+    const itemBrand = this.sellingItemForm.get('itemBrand')?.value;
+    const stationaryName = this.sellingItemForm.get('stationaryName')?.value;
+
+    const bookType = this.sellingItemForm.get('bookType')?.value;
+    const bookSize = this.sellingItemForm.get('bookSize')?.value;
+    const pagesCount = this.sellingItemForm.get('pagesCount')?.value;
+
+    if (bookType && bookSize && pagesCount) {
+      this.itemName = `${bookType}   ${bookSize}   ${pagesCount} Pages`;
+    } 
+    else if (itemBrand && stationaryName) {
+      this.itemName = `${itemBrand} ${stationaryName}`;
+    } 
+    else {
+      this.itemName = ''; // Clear if any field is missing
+    }
+  }
+  
 
   
 }

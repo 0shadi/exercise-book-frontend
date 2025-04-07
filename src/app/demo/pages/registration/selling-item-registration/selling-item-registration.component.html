@@ -18,17 +18,17 @@
   
       <mat-form-field class="example-full-width" *ngIf="showBookDetails">
           <mat-label>Book Type</mat-label>
-          <mat-select formControlName="bookType">
-            <mat-option value="single_ruled">Single ruled</mat-option>
-            <mat-option value="square_ruled">Square ruled</mat-option>
-            <mat-option value="double_ruled">Double Ruled</mat-option>
+          <mat-select  (selectionChange)="generateItemName()" formControlName="bookType">
+            <mat-option value="Single ruled">Single ruled</mat-option>
+            <mat-option value="Square ruled">Square ruled</mat-option>
+            <mat-option value="Double ruled">Double Ruled</mat-option>
           </mat-select>
           <!-- <span class="text-danger" *ngIf="(sellingItemForm.get('bookType').touched || submitted) && sellingItemForm.get('bookType').errors && sellingItemForm.get('bookType').errors['required']">Book type is required</span> -->
       </mat-form-field>
   
       <mat-form-field class="example-full-width" *ngIf="showBookDetails">
           <mat-label>Number of Pages</mat-label>
-          <mat-select formControlName="pagesCount">
+          <mat-select (selectionChange)="generateItemName()" formControlName="pagesCount">
             <mat-option value="80">80</mat-option>
             <mat-option value="120">120</mat-option>
             <mat-option value="160">160</mat-option>
@@ -38,7 +38,7 @@
   
       <mat-form-field class="example-full-width" *ngIf="showBookDetails">
           <mat-label>Book Size</mat-label>
-          <mat-select formControlName="bookSize">
+          <mat-select  (selectionChange)="generateItemName()" formControlName="bookSize">
             <mat-option value="A4">A4</mat-option>
             <mat-option value="A5">A5</mat-option>
             <mat-option value="B5">B5</mat-option>
@@ -48,21 +48,34 @@
   
       <mat-form-field class="example-full-width" *ngIf="showBrand">
           <mat-label>Item Brand</mat-label>
-          <input matInput placeholder="Item Brand" formControlName="itemBrand">
+          <input matInput placeholder="Item Brand" (input)="generateItemName()" formControlName="itemBrand">
           <span class="text-danger" *ngIf="(sellingItemForm.get('itemBrand').touched || submitted) && sellingItemForm.get('itemBrand').errors && sellingItemForm.get('itemBrand').errors['pattern']">Enter a brand name</span>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" *ngIf="showBrand">
+        <mat-label>Stationary Name</mat-label>
+        <input matInput placeholder="Stationary Name"  (input)="generateItemName()" formControlName="stationaryName">
+        <span class="text-danger" *ngIf="(sellingItemForm.get('stationaryName').touched || submitted) && sellingItemForm.get('stationaryName').errors && sellingItemForm.get('stationaryName').errors['pattern']">Enter the stationary name</span>
       </mat-form-field>
   
       <mat-form-field class="example-full-width">
           <mat-label>Item Name</mat-label>
-          <input matInput placeholder="Item Name" formControlName="itemName">
+          <input matInput placeholder="Item Name" [(ngModel)]="itemName" formControlName="itemName">
           <span class="text-danger" *ngIf="(sellingItemForm.get('itemName').touched || submitted) && sellingItemForm.get('itemName').errors && sellingItemForm.get('itemName').errors['required']">Item name is required</span>
           <span class="text-danger" *ngIf="(sellingItemForm.get('itemName').touched || submitted) && sellingItemForm.get('itemName').errors && sellingItemForm.get('itemName').errors['pattern']">Enter a valid name</span>
       </mat-form-field>
   
       <mat-form-field class="example-full-width">
-          <mat-label>Item Description</mat-label>
-          <input matInput placeholder="Item Descriptio" formControlName="itemDescription">
-          <span class="text-danger" *ngIf="(sellingItemForm.get('itemDescription').touched || submitted) && sellingItemForm.get('itemDescription').errors && sellingItemForm.get('itemDescription').errors['pattern']">Enter a valid item description</span>
+          <mat-label>Item Price</mat-label>
+          <input matInput placeholder="Rs." formControlName="itemPrice">
+          <span class="text-danger" *ngIf="(sellingItemForm.get('itemPrice').touched || submitted) && sellingItemForm.get('itemPrice').errors && sellingItemForm.get('itemPrice').errors['required']">Price is required</span>
+          <span class="text-danger" *ngIf="(sellingItemForm.get('itemPrice').touched || submitted) && sellingItemForm.get('itemPrice').errors && sellingItemForm.get('itemPrice').errors['pattern']">Enter a valid price</span>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Item Quantity</mat-label>
+        <input matInput placeholder="Item Quantity" formControlName="itemQuantity">
+        <span class="text-danger" *ngIf="(sellingItemForm.get('itemQuantity').touched || submitted) && sellingItemForm.get('itemQuantity').errors && sellingItemForm.get('itemQuantity').errors['pattern']">Enter a valid quantity</span>
       </mat-form-field>
   
       <div class="example-full-width">
@@ -108,7 +121,7 @@
         <td mat-cell *matCellDef="let element"> {{element.itemType}} </td>
       </ng-container>
     
-      <ng-container matColumnDef="bookType">
+      <!-- <ng-container matColumnDef="bookType">
         <th mat-header-cell *matHeaderCellDef> Book Type </th>
         <td mat-cell *matCellDef="let element"> {{element.bookType}} </td>
       </ng-container>
@@ -126,22 +139,22 @@
       <ng-container matColumnDef="itemBrand">
         <th mat-header-cell *matHeaderCellDef> Item Brand </th>
         <td mat-cell *matCellDef="let element"> {{element.itemBrand}} </td>
-      </ng-container>
+      </ng-container> -->
 
       <ng-container matColumnDef="itemName">
         <th mat-header-cell *matHeaderCellDef> Item Name </th>
         <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="itemDescription">
-        <th mat-header-cell *matHeaderCellDef> Item Description </th>
-        <td mat-cell *matCellDef="let element"> {{element.itemDescription}} </td>
+      <ng-container matColumnDef="itemPrice">
+        <th mat-header-cell *matHeaderCellDef> Item Price </th>
+        <td mat-cell *matCellDef="let element"> {{element.itemPrice}} </td>
       </ng-container>
 
-      <!-- <ng-container matColumnDef="itemImage">
-        <th mat-header-cell *matHeaderCellDef> Item Image </th>
-        <td mat-cell *matCellDef="let element"> {{element.itemImage}} </td>
-      </ng-container> -->
+      <ng-container matColumnDef="itemQuantity">
+        <th mat-header-cell *matHeaderCellDef> Item Quantity </th>
+        <td mat-cell *matCellDef="let element"> {{element.itemQuantity}} </td>
+      </ng-container>
 
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
