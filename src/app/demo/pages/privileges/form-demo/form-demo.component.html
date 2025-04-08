@@ -33,6 +33,11 @@
           <input matInput placeholder="Email"  formControlName = "email">
           <span class="text-danger" *ngIf="(demoForm.get('email').touched || submitted) && demoForm.get('email').errors && demoForm.get('email').errors['email']">Please enter a valid email</span>
         </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Salary</mat-label>
+          <input matInput placeholder="Email"  formControlName = "salary">
+        </mat-form-field>
         
         <button color="primary" type="submit" class="form-button" [disabled]="isButtonDisabled">{{saveButtonLabel}}</button>
         <button color="secondary" type="reset" class="form-button" (click)="resetData()">Reset</button>
@@ -75,6 +80,11 @@
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef> Email </th>
         <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="salary">
+        <th mat-header-cell *matHeaderCellDef> Salary </th>
+        <td mat-cell *matCellDef="let element"> {{element.salary}} </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">

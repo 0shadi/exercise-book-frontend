@@ -20,7 +20,7 @@ const ELEMENT_DATA: any[] = [
 export class FormDemoComponent implements OnInit{
     demoForm : FormGroup;
 
-    displayedColumns: string[] = ['firstName', 'lastName', 'age', 'email','actions'];
+    displayedColumns: string[] = ['firstName', 'lastName', 'age', 'email','salary','actions'];
     dataSource : MatTableDataSource<any>;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -41,6 +41,7 @@ export class FormDemoComponent implements OnInit{
         lastName: new FormControl('',[Validators.minLength(3),Validators.maxLength(8)]),
         age: new FormControl('',[Validators.min(1),Validators.max(70),this.customAgeValidator]),
         email: new FormControl('',[Validators.email]),
+        salary: new FormControl(''),
       });
     }
 
