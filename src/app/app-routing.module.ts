@@ -60,7 +60,11 @@ const routes: Routes = [
       {
         path: 'registration',
         loadChildren: () => import('./demo/pages/registration/registration.module').then((m) => m.RegistrationModule)
-      }
+      },
+      {
+        path: 'orders',
+        loadChildren: () => import('./demo/pages/orders/orders.module').then((m) => m.OrdersModule)
+      },
     ]
   },
 

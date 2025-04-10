@@ -9,8 +9,8 @@
             <mat-form-field class="example-full-width">
                 <mat-label>Customer Type</mat-label>
                 <mat-select formControlName="customerType">
-                  <mat-option value="option 1">Individual customer</mat-option>
-                  <mat-option value="option 2">Retailer</mat-option>
+                  <mat-option value="Individual customer">Individual customer</mat-option>
+                  <mat-option value="Retailer">Retailer</mat-option>
                 </mat-select>
                 <span class="text-danger" *ngIf="(customerForm.get('customerType').touched || submitted) && customerForm.get('customerType').errors && customerForm.get('customerType').errors['required']">Customer Type is required</span>
             </mat-form-field>

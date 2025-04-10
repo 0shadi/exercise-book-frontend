@@ -31,6 +31,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 import { RegistrationModule } from './demo/pages/registration/registration.module';
 import { MatSelectModule } from '@angular/material/select';
+import { OrdersModule } from './demo/pages/orders/orders.module';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { MatSelectModule } from '@angular/material/select';
     MaterialModule,
     ToastrModule.forRoot(),
     RegistrationModule,
-    MatSelectModule
+    MatSelectModule,
+    OrdersModule
   ],
   providers: [
     NavigationItem,

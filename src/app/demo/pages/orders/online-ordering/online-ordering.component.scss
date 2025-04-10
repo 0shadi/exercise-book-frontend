@@ -1,0 +1,32 @@
+.item-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+    gap: 10px; /* Adds space between cards */
+    padding: 16px;
+  }
+  
+.item-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 300px; /* Adjust the width of the card */
+    height: 500px; /* Automatically adjust the height based on content */
+    margin: 10px; /* Add margin around the card */
+    padding: 10px; /* Reduce padding inside the card */
+    button{
+      
+    }
+  }
+
+  mat-card-title {
+    font-weight: 500;
+  }
+
+  mat-card-actions{
+    justify-content: center;
+  }
+
+  .mat-mdc-card-avatar {
+    width: 0px; 
+}
+  
