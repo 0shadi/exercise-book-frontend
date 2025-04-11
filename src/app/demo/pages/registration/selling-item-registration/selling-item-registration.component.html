@@ -7,13 +7,11 @@
       </mat-form-field> -->
   
       <mat-form-field class="example-full-width">
-          <mat-label>Item Type</mat-label>
-          <mat-select formControlName="itemType">
-            <mat-option value="Exercise Books">Exercise Books</mat-option>
-            <mat-option value="Stationaries">Stationaries</mat-option>
-            <mat-option value="Paper products">Paper products</mat-option>
-          </mat-select>
-          <span class="text-danger" *ngIf="(sellingItemForm.get('itemType').touched || submitted) && sellingItemForm.get('itemType').errors && sellingItemForm.get('itemType').errors['required']">Item type is required</span>
+        <mat-label>Item Type</mat-label>
+        <mat-select  formControlName="itemType">
+          <mat-option *ngFor="let type of itemTypes" [value]="type.itemType">{{ type.itemType }}</mat-option>
+        </mat-select>
+        <span class="text-danger" *ngIf="(sellingItemForm.get('itemType').touched || submitted) && sellingItemForm.get('itemType').errors && sellingItemForm.get('itemType').errors['required']">Item type is required</span>
       </mat-form-field>
   
       <mat-form-field class="example-full-width" *ngIf="showBookDetails">

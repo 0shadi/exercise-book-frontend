@@ -66,4 +66,17 @@ export class SellingItemRegistrationService {
     return this.http.delete(requestUrl,{headers:headers});
   }
 
+  getItemTypes() {
+    const requestUrl = environment.baseUrl + '/selling-item-types';
+    
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl, {headers:headers});
+  }
+
 }

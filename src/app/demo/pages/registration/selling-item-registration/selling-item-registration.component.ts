@@ -41,6 +41,7 @@ export class SellingItemRegistrationComponent implements OnInit{
 
   submitted = false;
   itemName;
+  itemTypes: any[] = []; 
 
   constructor(
     private fb:FormBuilder,
@@ -72,7 +73,7 @@ export class SellingItemRegistrationComponent implements OnInit{
 
   showBookInfo(){
     this.sellingItemForm.get('itemType')?.valueChanges.subscribe((value ) => {
-      if (value === 'exercise_books') {
+      if (value === 'Exercise Books') {
         this.showBookDetails = true;
         this.sellingItemForm.get('bookType')?.enable(); // Enable the field
       } else {
@@ -87,7 +88,7 @@ export class SellingItemRegistrationComponent implements OnInit{
 
   showStationaryInfo(){
     this.sellingItemForm.get('itemType')?.valueChanges.subscribe((value ) => {
-      if (value === 'stationaries') {
+      if (value === 'Stationaries') {
         this.showBrand = true;
         this.sellingItemForm.get('itemBrand')?.enable(); // Enable the field
       } else {
@@ -185,6 +186,16 @@ export class SellingItemRegistrationComponent implements OnInit{
             return;
           }
           this.dataSource = new MatTableDataSource(datalist);
+        },        
+        error: (error) => this.messageService.showError('Action failed with error ' + error)
+      });
+
+      this.selllingItemService.getItemTypes().subscribe({
+        next: (datalist:any[]) => {
+          if(datalist.length<=0){
+            return;
+          }
+          this.itemTypes = datalist;
         },        
         error: (error) => this.messageService.showError('Action failed with error ' + error)
       });
