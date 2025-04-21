@@ -21,7 +21,12 @@ export class BookCustomizeComponent {
   coverPhotoUrl: string = '';
   imageUrl: string | ArrayBuffer | null = '/assets/images/dog.jpg';
   defaultBookImage = ''; // 'assets/plain-book.png';
-  materials = ['Paper', 'Pulp', 'Paper Board', 'Washi'];
+  materials = [
+    { title: 'Paper', value: 'paper' },
+    { title: 'Pulp', value: 'pulp' },
+    { title: 'Paper Board', value: 'paperboard' },
+    { title: 'Washi', value: 'washi' }
+  ];
   colors = [
     { title: 'White', value: 'white' },
     { title: 'Red', value: 'red' },
@@ -29,6 +34,7 @@ export class BookCustomizeComponent {
     { title: 'Yellow', value: 'yellow' } /* Add more colors if want */
   ];
   selectedColor = 'white';
+  selectedMaterial = 'paper';
 
   @ViewChild('prevBtn') prevBtn!: ElementRef;
   @ViewChild('nextBtn') nextBtn!: ElementRef;

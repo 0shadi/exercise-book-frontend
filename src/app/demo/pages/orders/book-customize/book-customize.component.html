@@ -9,10 +9,10 @@
 
       <div class="form-group">
         <label for="material">Material</label>
-        <select id="material" formControlName="material" class="form-control">
+        <select id="material" formControlName="material" class="form-control" [(ngModel)]="selectedMaterial">
           <option value="">Select Material</option>
-          <option *ngFor="let material of materials" [value]="material">
-            {{ material }}
+          <option *ngFor="let material of materials" [value]="material.value">
+            {{ material.title }}
           </option>
         </select>
       </div>
@@ -64,14 +64,14 @@
         <!-- paper 2 -->
         <!-- [ngClass]="{ flipped: isPageTwoFlipped }" [ngStyle]="page2Style" -->
         <div id="p2" #p2 class="paper">
-          <div class="front" [style.backgroundColor]="selectedColor">
+          <div class="front" [style.backgroundColor]="selectedColor" [ngClass]="selectedMaterial">
             <div id="f2" #f2 class="front-content">
-              <p class="rotingtxt">original</p>
+              <!-- <p class="rotingtxt">original</p> -->
               <h1>Front 2</h1>
             </div>
           </div>
           <div class="back">
-            <div id="b2" #b2 class="back-content" [style.backgroundColor]="selectedColor">
+            <div id="b2" #b2 class="back-content" [style.backgroundColor]="selectedColor" [ngClass]="selectedMaterial">
               <h1>Back 2</h1>
             </div>
           </div>
