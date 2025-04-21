@@ -1,0 +1,163 @@
+.book-customize-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.inputs {
+    width: 30%;
+    padding: 20px;
+    background-color: #f0f0f0;
+    overflow-y: auto;
+    border: white;
+    border-style: solid;
+}
+
+.preview {
+    width: 70%;
+    padding: 20px;
+    background-color: #f0f0f0;
+    overflow-y: auto;
+}
+
+.book-customize {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: sans-serif;
+    background-color: powderblue;
+}
+
+// book
+.book {
+    position: relative;
+    width: 300px;
+    height: 450px;
+    transition: transform 0.5s;
+}
+
+.paper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    perspective: 1500px;
+}
+
+.front,
+.back {
+    background-color: white;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform-origin: left;
+    transition: transform 0.5s;
+}
+
+.front {
+    z-index: 1;
+    backface-visibility: hidden;
+    border-left: 3px solid powderblue;
+}
+
+.back {
+    z-index: 0;
+}
+
+.front-content,
+.back-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.back-content {
+    transform: rotateY(180deg);
+}
+
+.flipped .front,
+.flipped .back {
+    transform: rotateY(-180deg);
+}
+
+// controllable buttons
+
+button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.5s;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:hover i {
+    color: #636363;
+}
+
+i {
+    font-size: 50px;
+    color: gray;
+}
+
+// paper stack order
+#p1 {
+    z-index: 3;
+}
+#p2 {
+    z-index: 2;
+}
+#p3 {
+    z-index: 1;
+}
+
+.book-cover {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.cover-photo {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #f3f3f3;
+}
+
+.cover-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.rotingtxt {
+    -webkit-transform: rotate(331deg);
+    -moz-transform: rotate(331deg);
+    -o-transform: rotate(331deg);
+    transform: rotate(331deg);
+    font-size: 3em;
+    color: rgba(255, 5, 5, 0.17);
+    border: black;
+    border-radius: 3px;
+    position: absolute;
+    font-family: "Denk One", sans-serif;
+    text-transform: uppercase;
+    padding-left: 10%;
+}

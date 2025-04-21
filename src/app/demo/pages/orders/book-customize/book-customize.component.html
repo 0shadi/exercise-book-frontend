@@ -1,0 +1,102 @@
+<div class="book-customize-container">
+  <div class="inputs">
+    <h2>Book Designer</h2>
+    <form [formGroup]="bookForm">
+      <div class="form-group">
+        <label for="coverPhoto">Cover Photo</label>
+        <input type="file" id="coverPhoto" accept="image/*" (change)="onFileChange($event)" />
+      </div>
+
+      <div class="form-group">
+        <label for="material">Material</label>
+        <select id="material" formControlName="material" class="form-control">
+          <option value="">Select Material</option>
+          <option *ngFor="let material of materials" [value]="material">
+            {{ material }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="paperColor">Paper Color</label>
+        <select
+          [(ngModel)]="selectedColor"
+          id="paperColor"
+          formControlName="paperColor"
+          class="form-control"
+          (ngModelChange)="onColorChange()"
+        >
+          <option *ngFor="let color of colors" [value]="color.value">
+            {{ color.title }}
+          </option>
+        </select>
+      </div>
+    </form>
+  </div>
+  <div class="preview">
+    <div class="book-customize">
+      <!-- previous button -->
+      <button id="prev-btn" #prevBtn (click)="goPreviousPage()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <!-- book -->
+      <div id="book" #book class="book">
+        <!-- paper 1 flipped-->
+        <!-- [ngClass]="{ flipped: isPageOneFlipped }" [ngStyle]="page1Style" -->
+        <div id="p1" #p1 class="paper">
+          <div class="front">
+            <div id="f1" #f1 class="front-content cover-photo">
+              <img [src]="imageUrl" alt="Cover Photo" />
+              <!-- <h1>Front 1</h1> -->
+              <!-- <img alt="dog" /> -->
+
+              <!-- [src]="coverPhotoUrl || defaultBookImage"  -->
+            </div>
+          </div>
+          <div class="back">
+            <div id="b1" #b1 class="back-content">
+              <h1>Back 1</h1>
+            </div>
+          </div>
+        </div>
+
+        <!-- paper 2 -->
+        <!-- [ngClass]="{ flipped: isPageTwoFlipped }" [ngStyle]="page2Style" -->
+        <div id="p2" #p2 class="paper">
+          <div class="front" [style.backgroundColor]="selectedColor">
+            <div id="f2" #f2 class="front-content">
+              <p class="rotingtxt">original</p>
+              <h1>Front 2</h1>
+            </div>
+          </div>
+          <div class="back">
+            <div id="b2" #b2 class="back-content" [style.backgroundColor]="selectedColor">
+              <h1>Back 2</h1>
+            </div>
+          </div>
+        </div>
+
+        <!-- paper 3 -->
+        <!-- [ngClass]="{ flipped: isPageThreeFlipped }" [ngStyle]="page3Style" -->
+        <div id="p3" #p3 class="paper">
+          <div class="front">
+            <div id="f3" #f3 class="front-content">
+              <h1>Front 3</h1>
+            </div>
+          </div>
+          <div class="back">
+            <div id="b2" #b3 class="back-content">
+              <h1>Back 3</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- next button -->
+      <button id="next-btn" #nextBtn (click)="goNextPage()">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
