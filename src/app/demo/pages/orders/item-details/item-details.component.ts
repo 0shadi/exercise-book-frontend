@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
-import { OnlineOrderingComponent } from '../online-ordering/online-ordering.component';
 import { OnlineOrderingService } from 'src/app/services/online-ordering/online-ordering.service';
 
 @Component({
@@ -11,6 +10,7 @@ import { OnlineOrderingService } from 'src/app/services/online-ordering/online-o
 })
 export class ItemDetailsComponent implements OnInit  {
   itemDetails: any[] = [];
+  quantity = 1;
 
   constructor(
     private onlineOrderingService:  OnlineOrderingService,
@@ -38,6 +38,15 @@ export class ItemDetailsComponent implements OnInit  {
     }
     catch(error){
       this.messageService.showError('Action failed with error ' + error);
+    }
+  }
+
+  increase() {
+    this.quantity++;
+  }
+  decrease() {
+    if (this.quantity > 1) {
+      this.quantity--;
     }
   }
 }
