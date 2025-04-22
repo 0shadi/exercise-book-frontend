@@ -1,0 +1,20 @@
+
+<div *ngFor="let item of itemDetails" class="container">
+
+    <div class="left">
+        <h4>{{item.itemName}}</h4>
+        <img [src]="'data:image/jpeg;base64,' + item.imageBase64" alt="Item Image" />
+    </div>
+    <div class="right">
+        <h5>Price = {{item.itemPrice}} </h5>
+        <h6>Item Details</h6>
+        
+        <ul>
+            <li>{{item.itemType}}</li>
+            <li>{{item.pagesCount}}</li>
+            <li>{{item.itemPrice}}</li>
+        </ul>
+    </div>
+</div>
+
+

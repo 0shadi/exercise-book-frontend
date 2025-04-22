@@ -4,10 +4,12 @@ import { OnlineOrderingComponent } from './online-ordering/online-ordering.compo
 import { OrderRoutes } from './orders.routing.module';
 import { RouterModule } from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
+import { ItemDetailsComponent } from './item-details/item-details.component';
 
 @NgModule({
   declarations: [
-    OnlineOrderingComponent
+    OnlineOrderingComponent,
+    ItemDetailsComponent
   ],
   imports: [
     RouterModule.forChild(OrderRoutes),
