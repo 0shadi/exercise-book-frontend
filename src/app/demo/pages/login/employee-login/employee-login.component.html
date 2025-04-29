@@ -1,0 +1,20 @@
+<div class="form-section">
+    <form [formGroup] = "employeeLoginForm"  class="example-form" (ngSubmit) = "onSubmit()" >
+      <mat-form-field class="example-full-width">
+        <mat-label>Employee Name</mat-label>
+        <input matInput  formControlName = "employeeName">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+          <mat-label>Username</mat-label>
+          <input matInput  formControlName = "userName">
+        </mat-form-field>
+  
+        <mat-form-field class="example-full-width">
+          <mat-label>Password</mat-label>
+          <input matInput  formControlName = "password">
+        </mat-form-field>
+        
+        <button color="primary" type="submit" class="form-button">Submit</button>
+    </form>
+  </div>
