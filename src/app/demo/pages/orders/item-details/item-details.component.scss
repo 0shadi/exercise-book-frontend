@@ -14,10 +14,20 @@
 .right{
     flex:1;
     h5{
-        color:rgb(226, 84, 84);
+        color:maroon;
     }
     p{
         font-size: 120%;
+    }
+    button{
+        padding: 8px 16px;
+        margin: 5px;
+        border: none;
+        border-radius: 8px;
+        background-color: maroon;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s ease;
     }
 }
 
@@ -27,6 +37,6 @@
 
 .quantity-selector{
     input{
-        width:8%;
+        width: 10%;    
     }
 }
