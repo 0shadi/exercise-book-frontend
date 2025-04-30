@@ -6,6 +6,7 @@ import { LoginRoutes } from './login.routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     CommonModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatSelectModule
   ]
 })
 export class LoginModule { }
