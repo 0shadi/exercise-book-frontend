@@ -52,6 +52,16 @@ const NavigationItems = [
         classes: 'nav-item',
         auth: authenticationEnum.Home_Dashboard,
         isVisible: true
+      },
+      {
+        id: 'book-customization',
+        title: 'Customized Book Ordering',
+        type: 'item',
+        url: '/orders/book-customize',
+        icon: 'feather icon-home',
+        classes: 'nav-item',
+        auth: authenticationEnum.Home_Dashboard,
+        isVisible: true
       }
     ]
   },
@@ -220,7 +230,7 @@ const NavigationItems = [
             breadcrumbs: false,
             auth: authenticationEnum.Privilege_Groups,
             isVisible: false
-          },
+          }
         ]
       }
     ]
