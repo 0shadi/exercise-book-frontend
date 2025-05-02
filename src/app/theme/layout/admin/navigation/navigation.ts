@@ -96,6 +96,46 @@ const NavigationItems = [
     ]
   },
   {
+    id: 'login',
+    title: 'Login Section',
+    type: 'group',
+    icon: 'icon-navigation',
+    isVisible: false,
+    auth: authenticationEnum.Privileges,
+    children: [
+      {
+        id: 'loginDetails',
+        title: 'Login',
+        type: 'collapse',
+        icon: 'ti ti-key',
+        auth: authenticationEnum.Privileges,
+        isVisible: false,
+        children: [
+          {
+            id: 'employeeLogin',
+            title: 'Employee Login',
+            type: 'item',
+            url: '/login/employee-login',
+            icon: 'ti ti-dashboard',
+            breadcrumbs: false,
+            auth: authenticationEnum.System_Privileges,
+            isVisible: false
+          },
+          {
+            id: 'customerLogin',
+            title: 'Customer Login',
+            type: 'item',
+            url: '/login/customer-login',
+            icon: 'ti ti-dashboard',
+            breadcrumbs: false,
+            auth: authenticationEnum.Privilege_Groups,
+            isVisible: false
+          }
+        ]
+      }
+    ]
+  },
+  {
     id: 'FormDemo',
     title: 'Form Demo',
     type: 'group',

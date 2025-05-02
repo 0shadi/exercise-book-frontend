@@ -1,0 +1,37 @@
+
+<div *ngFor="let item of itemDetails" class="container">
+
+    <div class="left">
+        <h4>{{item.itemName}}</h4>
+        <img [src]="'data:image/jpeg;base64,' + item.imageBase64" alt="Item Image" />
+    </div>
+    <div class="right">
+        <h5>Price = Rs.{{item.itemPrice}} </h5>
+        <p>Item Details</p>
+        
+        <ul class="list">
+            <li>{{item.itemType}}</li>
+            <li>{{item.bookType}}</li>
+            <li>{{item.pagesCount}}</li>
+            <li>{{item.bookSize}}</li>
+            <li>{{item.itemBrand}}</li>
+            <li>{{item.itemQuantity}}</li>
+            <li>Paper type</li>
+            <li>Paper quality</li>
+        </ul>
+
+        <div class="quantity-selector">
+            <label>Quantity</label>
+            <br>
+            <button (click)="decrease()">−</button>
+            <input type="number" [value]="quantity" readonly>
+            <button (click)="increase()">+</button>
+        </div>
+        <br>
+
+        <button mat-raised-button>Add to cart</button>
+        <button mat-raised-button routerLink="/orders/checkout">Buy Now</button>
+    </div>
+</div>
+
+

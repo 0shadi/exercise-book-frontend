@@ -32,6 +32,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { RegistrationModule } from './demo/pages/registration/registration.module';
 import { MatSelectModule } from '@angular/material/select';
 import { OrdersModule } from './demo/pages/orders/orders.module';
+import { LoginModule } from './demo/pages/login/login.module';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { OrdersModule } from './demo/pages/orders/orders.module';
     ToastrModule.forRoot(),
     RegistrationModule,
     MatSelectModule,
-    OrdersModule
+    OrdersModule,
+    LoginModule
   ],
   providers: [
     NavigationItem,

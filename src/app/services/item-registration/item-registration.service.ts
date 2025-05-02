@@ -64,4 +64,17 @@ export class ItemRegistrationService {
 
     return this.http.delete(requestUrl,{headers:headers});
   }
+
+  getSuppliers(){
+    const requestUrl = environment.baseUrl + '/supplier-registration';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl, {headers:headers});
+  }
 }

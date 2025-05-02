@@ -7,9 +7,26 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { BookCustomizeComponent } from './book-customize/book-customize.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ItemDetailsComponent } from './item-details/item-details.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTableModule } from '@angular/material/table';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
-  declarations: [OnlineOrderingComponent, BookCustomizeComponent],
-  imports: [RouterModule.forChild(OrderRoutes), CommonModule, MatCardModule, MatIconModule, FormsModule, ReactiveFormsModule]
+  declarations: [OnlineOrderingComponent, ItemDetailsComponent, CheckoutComponent, BookCustomizeComponent],
+  imports: [
+    RouterModule.forChild(OrderRoutes),
+    CommonModule,
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatTableModule,
+    MatRadioModule,
+    MatIconModule,
+    ReactiveFormsModule
+  ]
 })
 export class OrdersModule {}

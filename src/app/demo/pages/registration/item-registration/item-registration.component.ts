@@ -23,6 +23,8 @@ export class ItemRegistrationComponent implements OnInit {
   isDisabled=false;
   submitted=false;
 
+  suppliers: any[] = [];
+
   displayedColumns: string[] = ['itemId', 'itemCode', 'itemName', 'itemType','elementType','itemBrand','description','supplier','actions'];
   dataSource : MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -129,6 +131,17 @@ export class ItemRegistrationComponent implements OnInit {
 
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+          },        
+          error: (error) => this.messageService.showError('Action failed with error ' + error)
+        });
+
+        this.itemService.getSuppliers().subscribe({
+          next: (datalist:any[]) => {
+            if(datalist.length<=0){
+              return;
+            }
+    
+            this.suppliers = datalist;
           },        
           error: (error) => this.messageService.showError('Action failed with error ' + error)
         });
