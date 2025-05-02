@@ -12,6 +12,7 @@ import { OnlineOrderingService } from 'src/app/services/online-ordering/online-o
 })
 export class NavRightComponent implements OnInit {
   numberOfItems = 0;
+  orderItems: any;
 
   constructor(
     private httpService: HttpService,
@@ -23,6 +24,7 @@ export class NavRightComponent implements OnInit {
   ngOnInit(): void {
     this.onlineOrderingService.cartItems.subscribe((items) => {
       this.numberOfItems = items.length;
+      this.orderItems = items;
     });
   }
 
@@ -30,5 +32,9 @@ export class NavRightComponent implements OnInit {
     this.cacheService.clear(this.httpService.getUserId()!);
     this.httpService.removeToken();
     this.router.navigate(['/auth/signin']);
+  }
+
+  public removeItemFromCart(itemToRemove: any) {
+    this.onlineOrderingService.removeItem(itemToRemove);
   }
 }

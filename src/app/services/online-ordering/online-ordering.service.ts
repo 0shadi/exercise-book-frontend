@@ -15,7 +15,7 @@ export class OnlineOrderingService {
     private http: HttpClient,
     private httpService: HttpService
   ) {
-    const ls = JSON.parse(localStorage.getItem('cart'));
+    const ls = this.getCartData();
 
     if (ls) this.cartItems.next(ls);
   }
@@ -47,7 +47,7 @@ export class OnlineOrderingService {
   }
 
   addItem(itemDetail: any) {
-    const ls = JSON.parse(localStorage.getItem('cart'));
+    const ls = this.getCartData();
 
     let exist: any;
 
@@ -58,17 +58,51 @@ export class OnlineOrderingService {
 
     if (exist) {
       exist.ordQty = itemDetail.ordQty;
-      localStorage.setItem('cart', JSON.stringify(ls));
+      this.setCartData(ls);
     } else {
       if (ls) {
         const newData = [...ls, itemDetail];
-        localStorage.setItem('cart', JSON.stringify(newData));
-        this.cartItems.next(JSON.parse(localStorage.getItem('cart')));
-      } else {
-        this.placeHolder.push(itemDetail);
-        localStorage.setItem('cart', JSON.stringify(this.placeHolder));
-        this.cartItems.next(this.placeHolder);
+        this.setCartData(newData);
+        this.cartItems.next(this.getCartData());
       }
+      this.placeHolder.push(itemDetail);
+      this.setCartData(this.placeHolder);
+      this.cartItems.next(this.getCartData());
+    }
+  }
+
+  removeItem(itemToRemove: any) {
+    const ls = this.getCartData();
+
+    let exist: any;
+
+    if (ls)
+      exist = ls.find((item) => {
+        return item.itemId === itemToRemove.itemId;
+      });
+
+    if (exist) {
+      this.removeCartData(exist);
+    }
+  }
+
+  setCartData(data: any) {
+    localStorage.setItem('cart', JSON.stringify(data));
+  }
+
+  getCartData() {
+    return JSON.parse(localStorage.getItem('cart'));
+  }
+
+  removeCartData(itemToRemove: any) {
+    const ls = this.getCartData();
+    const cartArray = ls;
+    const index: number = cartArray.findIndex((item: any) => item.itemId === itemToRemove.itemId);
+
+    if (index !== -1) {
+      cartArray.splice(index, 1);
+      this.setCartData(cartArray);
+      this.cartItems.next(this.getCartData());
     }
   }
 }
