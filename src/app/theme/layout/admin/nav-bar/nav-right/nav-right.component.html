@@ -1,5 +1,40 @@
 <ul class="navbar-nav">
   <li>
+    <div class="dropdown drp-user" ngbDropdown placement="auto">
+      <a href="javascript:" ngbDropdownToggle data-toggle="dropdown">
+        <mat-icon matBadge="{{ numberOfItems }}">shopping_cart</mat-icon>
+      </a>
+      <div class="dropdown-menu dropdown-menu-end profile-notification" ngbDropdownMenu>
+        <ul class="pro-body">
+          <li>
+            <a href="javascript:" class="dropdown-item">
+              <i class="feather icon-settings"></i>
+              Settings
+            </a>
+          </li>
+          <li>
+            <a href="javascript:" class="dropdown-item">
+              <i class="feather icon-user"></i>
+              Profile
+            </a>
+          </li>
+          <li>
+            <a href="javascript:" class="dropdown-item">
+              <i class="feather icon-mail"></i>
+              My Messages
+            </a>
+          </li>
+          <li>
+            <a href="javascript:" class="dropdown-item">
+              <i class="feather icon-lock"></i>
+              Lock Screen
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </li>
+  <li>
     <div class="dropdown" ngbDropdown placement="auto">
       <a ngbDropdownToggle href="javascript:" data-toggle="dropdown"><i class="icon feather icon-bell"></i></a>
       <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end notification">

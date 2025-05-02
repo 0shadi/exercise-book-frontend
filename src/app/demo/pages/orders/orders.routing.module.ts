@@ -5,24 +5,25 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { BookCustomizeComponent } from './book-customize/book-customize.component';
 
 export const OrderRoutes: Routes = [
-    {
-        path: '',
-        children: [
-            {
-            path: 'online-ordering',
-            component: OnlineOrderingComponent
-            },
-            {
-            path: 'item-details',
-            component: ItemDetailsComponent
-            },
-            {
-            path: 'checkout',
-            component: CheckoutComponent
-            },
-            {
-            path: 'book-customize',
-            component: BookCustomizeComponent
-           }
-]} 
+  {
+    path: '',
+    children: [
+      {
+        path: 'online-ordering',
+        component: OnlineOrderingComponent
+      },
+      {
+        path: 'item-details/:id',
+        component: ItemDetailsComponent
+      },
+      {
+        path: 'checkout',
+        component: CheckoutComponent
+      },
+      {
+        path: 'book-customize',
+        component: BookCustomizeComponent
+      }
+    ]
+  }
 ];
