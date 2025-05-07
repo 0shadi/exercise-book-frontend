@@ -45,7 +45,11 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.onlineOrderingService.cartItems.subscribe((items) => {
-      this.orderItems = items;
+      
+      this.orderItems = items.map((item: any) => ({
+        ...item,
+        subTotal: Number(item.itemPrice) * Number(item.ordQty)
+      }));
 
       console.log(items); // set these items in order details box
       this.dataSource = this.orderItems;
@@ -63,45 +67,72 @@ export class CheckoutComponent implements OnInit {
     
 
     this.checkoutService.saveBillingDetails(this.billingDetailsForm.value).subscribe({
-      next:(datalist:any[])=>{
+      next:(datalist:any)=>{
         if(datalist.length <= 0){
           return;
         }
-        // console.log("itemName",this.orderItems);
+        const savedOrderId = datalist.orderId; 
+        const customerId = datalist.customerId || '1';
+        
         console.log("Submitted values",datalist);
-      },
-      error:(error)=>{
-        this.messageService.showError('Action failed with error ' + error);
-      }
-      
-    });
 
-    this.orderItems.forEach((item: any) => {
+        this.orderItems.forEach((item: any) => {
+          const orderItemDetails = {
+            itemId: item.itemId,
+            itemName: item.itemName,
+            itemPrice : item.itemPrice,
+            ordQty: item.ordQty,
+            subTotal: item.subTotal,
+            orderId: savedOrderId
+          };
+    
+        this.checkoutService.saveOrderItemDetails(orderItemDetails).subscribe({
+          next:(datalist:any[])=>{
+            if(datalist.length <= 0){
+              return;
+            }
+            console.log("Submitted values",datalist);
+            
+          },
+          error:(error)=>{
+            this.messageService.showError('Action failed with error ' + error);
+          }
+          
+        });
+      });
+    
       const orderDetails = {
-        itemId: item.itemId,
-        itemName: item.itemName,
-        ordQty: item.ordQty,
+        orderId: savedOrderId,
+        date: new Date().toISOString(),
         totalCost: totalCost.toString(),
-        paymentMethod: paymentMethod,
-        
+        paymentMethod: paymentMethod
       };
-
-    this.checkoutService.saveOrderDetails(orderDetails).subscribe({
-      next:(datalist:any[])=>{
-        if(datalist.length <= 0){
-          return;
+    
+      this.checkoutService.saveOrderDetails(orderDetails).subscribe({
+        next:(datalist:any[])=>{
+          if(datalist.length <= 0){
+            return;
+          }
+    
+          console.log("Submitted values",datalist);
+        },
+        error:(error)=>{
+          this.messageService.showError('Action failed with error ' + error);
         }
-        console.log("Submitted values",datalist);
         
+      });
       },
       error:(error)=>{
         this.messageService.showError('Action failed with error ' + error);
       }
       
     });
-  });
+
+    
 
   this.messageService.showSuccess('Order Placed Successfully');
+
+  
   }
 }
 

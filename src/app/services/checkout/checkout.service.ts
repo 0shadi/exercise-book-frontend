@@ -38,4 +38,17 @@ export class CheckoutService {
   
       return this.http.post(requestUrl,form_details,{headers:headers});
     }
+
+    saveOrderItemDetails(form_details:any){
+      const requestUrl = environment.baseUrl + '/checkout-orderItemDetails';
+  
+      let headers = {};
+      if (this.httpService.getAuthToken() !== null) {
+        headers = {
+          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        };
+      }
+  
+      return this.http.post(requestUrl,form_details,{headers:headers});
+    }
 }
