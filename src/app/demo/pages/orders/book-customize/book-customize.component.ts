@@ -33,8 +33,46 @@ export class BookCustomizeComponent {
     { title: 'Green', value: 'green' },
     { title: 'Yellow', value: 'yellow' } /* Add more colors if want */
   ];
+
+  sizes = [
+    { title: 'A4', value: 'A4' },
+    { title: 'A5', value: 'A5' },
+    { title: 'B5', value: 'B5' }
+  ];
+
+  pagesCounts = [
+    { title: '40', value: '40' },
+    { title: '80', value: '80' },
+    { title: '120', value: '120' },
+    { title: '160', value: '160' },
+    { title: '200', value: '200' },
+  ];
+
+  paperTypes = [
+    { title: 'Single Ruled', value: 'Single Ruled' },
+    { title: 'Square Ruled', value: 'Square Ruled' },
+    { title: 'Double Ruled', value: 'Double Ruled' },
+    { title: 'Blank', value: 'Blank' }
+  ];
+
+  paperQualities = [
+    { title: '50 GSM', value: '50 GSM' },
+    { title: '70 GSM', value: '70 GSM' },
+    { title: '100 GSM', value: '100 GSM' }
+  ];
+
+  coverTexts = [
+    { title: 'Name', value: 'Name' },
+    { title: 'Subject', value: 'Subject' },
+    { title: 'Grade', value: 'Grade' }
+  ];
+
   selectedColor = 'white';
   selectedMaterial = 'paper';
+  selectedSize = 'A4';
+  selectedPagesCount = '120';
+  selectedPaperType = 'Single Ruled';
+  selectedPaperQuality ='50 GSM';
 
   @ViewChild('prevBtn') prevBtn!: ElementRef;
   @ViewChild('nextBtn') nextBtn!: ElementRef;
@@ -53,7 +91,11 @@ export class BookCustomizeComponent {
     this.bookForm = this.fb.group({
       coverPhoto: [''],
       material: [''],
-      paperColor: ['']
+      paperColor: [''],
+      size: [''],
+      pagesCount : [''],
+      paperType : [''],
+      paperQuality : ['']
     });
   }
 
@@ -169,4 +211,18 @@ export class BookCustomizeComponent {
   }
 
   public onColorChange(): void {}
+
+  getPaperRuleClass(): string {
+    switch (this.selectedPaperType) {
+      case 'Single Ruled':
+        return 'single-ruled';
+      case 'Double Ruled':
+        return 'double-ruled';
+      case 'Square Ruled':
+        return 'square-ruled';
+      case 'Blank':
+      default:
+        return 'blank-paper';
+    }
+  }
 }

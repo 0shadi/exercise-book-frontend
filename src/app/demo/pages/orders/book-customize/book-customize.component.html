@@ -31,6 +31,52 @@
           </option>
         </select>
       </div>
+
+      <div class="form-group">
+        <label for="paperType">Paper Type</label>
+        <select formControlName="paperType" class="form-control" [(ngModel)]="selectedPaperType">
+          <option *ngFor="let paperType of paperTypes" [value]="paperType.value">
+            {{ paperType.title }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="paperQuality">Paper Quality</label>
+        <select formControlName="paperQuality" class="form-control" [(ngModel)]="selectedPaperQuality">
+          <option *ngFor="let paperQuality of paperQualities" [value]="paperQuality.value">
+            {{ paperQuality.title }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="size">Size</label>
+        <select formControlName="size" class="form-control" [(ngModel)]="selectedSize">
+          <option *ngFor="let size of sizes" [value]="size.value">
+            {{ size.title }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="pagesCount">Number of Pages</label>
+        <select formControlName="pagesCount" class="form-control" [(ngModel)]="selectedPagesCount" >
+          <option *ngFor="let pagesCount of pagesCounts" [value]="pagesCount.value">
+            {{ pagesCount.title }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="coverText">Cover Text</label>
+        <select formControlName="coverText" class="form-control" >
+          <option *ngFor="let coverText of coverTexts" [value]="coverText.value">
+            {{ coverText.title }}
+          </option>
+        </select>
+      </div>
+
     </form>
   </div>
   <div class="preview">
@@ -64,14 +110,14 @@
         <!-- paper 2 -->
         <!-- [ngClass]="{ flipped: isPageTwoFlipped }" [ngStyle]="page2Style" -->
         <div id="p2" #p2 class="paper">
-          <div class="front" [style.backgroundColor]="selectedColor" [ngClass]="selectedMaterial">
+          <div class="front" [style.backgroundColor]="selectedColor" [ngClass]="[selectedMaterial, getPaperRuleClass()]">
             <div id="f2" #f2 class="front-content">
               <!-- <p class="rotingtxt">original</p> -->
               <h1>Front 2</h1>
             </div>
           </div>
           <div class="back">
-            <div id="b2" #b2 class="back-content" [style.backgroundColor]="selectedColor" [ngClass]="selectedMaterial">
+            <div id="b2" #b2 class="back-content" [style.backgroundColor]="selectedColor" [ngClass]="[selectedMaterial, getPaperRuleClass()]">
               <h1>Back 2</h1>
             </div>
           </div>
