@@ -100,12 +100,14 @@ export class CheckoutComponent implements OnInit {
           
         });
       });
-    
+      
+      const orderStatus = 'Pending';
       const orderDetails = {
         orderId: savedOrderId,
         date: new Date().toISOString(),
         totalCost: totalCost.toString(),
-        paymentMethod: paymentMethod
+        paymentMethod: paymentMethod,
+        orderStatus: orderStatus
       };
     
       this.checkoutService.saveOrderDetails(orderDetails).subscribe({
