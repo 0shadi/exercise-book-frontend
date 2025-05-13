@@ -3,6 +3,7 @@ import { OnlineOrderingComponent } from './online-ordering/online-ordering.compo
 import { ItemDetailsComponent } from './item-details/item-details.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { BookCustomizeComponent } from './book-customize/book-customize.component';
+import { OrderListComponent } from './order-list/order-list.component';
 
 export const OrderRoutes: Routes = [
   {
@@ -23,6 +24,10 @@ export const OrderRoutes: Routes = [
       {
         path: 'book-customize',
         component: BookCustomizeComponent
+      },
+      {
+        path: 'order-list',
+        component: OrderListComponent
       }
     ]
   }

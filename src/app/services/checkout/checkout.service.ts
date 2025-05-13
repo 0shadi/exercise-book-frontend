@@ -51,4 +51,30 @@ export class CheckoutService {
   
       return this.http.post(requestUrl,form_details,{headers:headers});
     }
+
+    getOrderDetails(){
+    const requestUrl = environment.baseUrl + '/order-list';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl, {headers:headers});
+  }
+
+  getOrderItemDetails(orderId){
+    const requestUrl = environment.baseUrl + '/get-order-items/' + orderId;
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
+      };
+    }
+
+    return this.http.get(requestUrl, { headers: headers });
+  }
 }
