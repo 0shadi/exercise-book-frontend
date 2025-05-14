@@ -16,6 +16,7 @@ export class OrderListComponent implements OnInit{
   dataSource:MatTableDataSource<any>;
 
   orderItemDetails: any;
+  isOrderSelected = false;
 
   constructor(
     private checkoutService  : CheckoutService,
@@ -47,6 +48,7 @@ export class OrderListComponent implements OnInit{
     }
 
   viewDetails(orderId){
+    this.isOrderSelected = true;
     try {
       this.checkoutService.getOrderItemDetails(orderId).subscribe({
         next: (data: any) => {
