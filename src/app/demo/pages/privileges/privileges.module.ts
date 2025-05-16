@@ -26,6 +26,8 @@ import { CdkContextMenuTrigger, CdkMenuItem, CdkMenu } from '@angular/cdk/menu';
 import { MatMenuModule } from '@angular/material/menu';
 import { AddRemoveTableComponent } from '../add-remove-table/add-remove-table.component';
 import { FormDemoComponent } from './form-demo/form-demo.component';
+import { SharedModule } from 'src/app/theme/shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { FormDemoComponent } from './form-demo/form-demo.component';
     FormDemoComponent
   ],
   imports: [
+    NgbModule,
     CommonModule,
     RouterModule.forChild(PrivilegesRoutes),
     MatCheckboxModule,
@@ -59,7 +62,8 @@ import { FormDemoComponent } from './form-demo/form-demo.component';
     CdkMenuItem,
     CdkMenu,
     MatMenuModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule,
   ]
 })
 export class PrivilegesModule {}

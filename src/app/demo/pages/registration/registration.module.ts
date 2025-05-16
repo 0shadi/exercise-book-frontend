@@ -19,6 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ItemRegistrationComponent } from './item-registration/item-registration.component';
 import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
 import { SellingItemRegistrationComponent } from './selling-item-registration/selling-item-registration.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { SellingItemRegistrationComponent } from './selling-item-registration/se
     RouterModule.forChild(RegistrationRoutes),
     CommonModule,
     ReactiveFormsModule,
+    NgbModule,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
@@ -46,8 +48,8 @@ import { SellingItemRegistrationComponent } from './selling-item-registration/se
     MatSelectModule,
     MatPaginatorModule,
     MatPaginator
-  
+
   ],
-  
+
 })
 export class RegistrationModule { }

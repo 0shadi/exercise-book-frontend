@@ -565,6 +565,8 @@
 
 .pcoded-header,
 .pcoded-main-container {
+ background-color: #F4D793;
+//  background-image: url('/assets/images/oshadibook1.jpg');
   &:before {
     content: '';
     transition: all 0.3s ease-in-out;
