@@ -1,32 +1,192 @@
+// .item-container {
+//     display: grid;
+//     grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+//     gap: 10px; /* Adds space between cards */
+//     padding: 16px;
+//   }
+
+// // .item-card {
+// //     display: flex;
+// //     flex-direction: column;
+// //     justify-content: space-between;
+// //     width: 300px; /* Adjust the width of the card */
+// //     height: 500px; /* Automatically adjust the height based on content */
+// //     margin: 10px; /* Add margin around the card */
+// //     padding: 10px; /* Reduce padding inside the card */
+// //   }
+
+
+
+//   mat-card-actions{
+//     justify-content: center;
+//   }
+
+//   .mat-mdc-card-avatar {
+//     width: 0px;
+// }
+
+
+// .example-card {
+//   max-width: 350px;
+//   margin: 20px;
+//   border-radius: 20px;
+//   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+//   transition: transform 0.3s ease, box-shadow 0.3s ease;
+//   overflow: hidden;
+// }
+
+// .example-card:hover {
+//   transform: translateY(-5px);
+//   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+// }
+
+// mat-card-header {
+//   background: #f5f5f5;
+//   padding-bottom: 10px;
+//   border-bottom: 1px solid #e0e0e0;
+// }
+
+// .header-image {
+//   background-image: url('/assets/avatar-placeholder.png');
+//   background-size: cover;
+//   background-position: center;
+//   border-radius: 50%;
+//   width: 40px;
+//   height: 40px;
+// }
+
+// mat-card-title {
+//   font-size: 1.25rem;
+//   font-weight: 600;
+//   color: #2c3e50;
+// }
+
+// mat-card-content mat-card-title {
+//   font-size: 1.1rem;
+//   color: #27ae60;
+//   margin-bottom: 8px;
+// }
+
+// mat-card-content mat-card-subtitle {
+//   font-size: 0.95rem;
+//   color: #7f8c8d;
+// }
+
+// mat-card img {
+//   width: 100%;
+//   height: auto;
+//   object-fit: cover;
+//   border-top: 1px solid #ddd;
+//   border-bottom: 1px solid #eee;
+// }
+
+// mat-card-actions {
+//   display: flex;
+//   justify-content: flex-end;
+//   padding: 16px;
+// }
+
+// a[mat-button] {
+//   color: #fff;
+//   background-color: #3f51b5;
+//   padding: 6px 16px;
+//   border-radius: 4px;
+//   text-decoration: none;
+//   transition: background-color 0.2s ease;
+// }
+
+// a[mat-button]:hover {
+//   background-color: #17205b;
+// }
+
+
 .item-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
-    gap: 10px; /* Adds space between cards */
-    padding: 16px;
-  }
-  
-.item-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 300px; /* Adjust the width of the card */
-    height: 500px; /* Automatically adjust the height based on content */
-    margin: 10px; /* Add margin around the card */
-    padding: 10px; /* Reduce padding inside the card */
-    button{
-      
-    }
-  }
-
-  mat-card-title {
-    font-weight: 500;
-  }
-
-  mat-card-actions{
-    justify-content: center;
-  }
-
-  .mat-mdc-card-avatar {
-    width: 0px; 
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px;
 }
-  
+
+.item-card {
+  flex: 1 1 280px;
+  max-width: 320px;
+}
+
+.example-card {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fdfdfd;
+}
+
+.example-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+mat-card-header {
+  background-color: #f5f5f5;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.header-image {
+  background-color: #ccc;
+  background-image: url('/assets/avatar-placeholder.png'); /* Replace if needed */
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+mat-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2e2e2e;
+}
+
+mat-card-content {
+  padding: 12px 16px;
+}
+
+mat-card-content mat-card-title {
+  font-size: 1rem;
+  color: #388e3c;
+  margin-bottom: 4px;
+}
+
+mat-card-subtitle {
+  font-size: 0.95rem;
+  color: #757575;
+}
+
+mat-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 16px 16px;
+}
+
+a[mat-button] {
+  background-color: #8e4302;
+  color: white;
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 6px 18px;
+  transition: background-color 0.2s ease;
+}
+
+a[mat-button]:hover {
+  background-color: #683e08;
+}
+

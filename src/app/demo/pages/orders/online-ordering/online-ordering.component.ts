@@ -30,9 +30,9 @@ export class OnlineOrderingComponent implements OnInit {
 
           this.items = datalist;
 
-          // datalist.forEach((data) => {
-          //   console.log(data);
-          // });
+          datalist.forEach((data) => {
+            console.log(data);
+          });
         },
         error: (error) => this.messageService.showError('Action failed with error' + error)
       });
