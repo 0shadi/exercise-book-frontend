@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
@@ -15,8 +13,15 @@ export class OrderListComponent implements OnInit{
   displayedColumns: string[] = ['orderId','date','totalCost','orderStatus','details'];
   dataSource:MatTableDataSource<any>;
 
-  orderItemDetails: any;
   isOrderSelected = false;
+  selectedOrder;
+  selectedStatus: string = '';  
+  selectedData;
+
+  orderItemDisplayedColumns: any[] = ['orderId', 'itemId', 'itemName', 'ordQty','itemPrice','subTotal'];
+  orderItemDataSource: MatTableDataSource<any>;
+
+  orderStatusOptions: string[] = ['Pending', 'Processing', 'Delivered', 'Cancelled'];
 
   constructor(
     private checkoutService  : CheckoutService,
@@ -56,9 +61,9 @@ export class OrderListComponent implements OnInit{
             return;
           }
 
-          this.orderItemDetails = [];
-
-          this.orderItemDetails = data.map(item => {
+          this.selectedOrder = this.dataSource.data.find(order => order.orderId === orderId);
+          this.selectedStatus = this.selectedOrder?.orderStatus;
+          const orderItemDetails = data.map(item => {
           return {
             orderId:item.orderId,
             itemId:item.itemId,
@@ -69,6 +74,8 @@ export class OrderListComponent implements OnInit{
         
           };
         });
+
+        this.orderItemDataSource = new MatTableDataSource(orderItemDetails); 
         },
         error: (error) => this.messageService.showError('Action failed with error' + error)
       });
@@ -76,4 +83,31 @@ export class OrderListComponent implements OnInit{
       this.messageService.showError('Action failed with error ' + error);
     }
   }
+
+  updateOrderStatus(order){
+    
+    console.log('Updating status to:', order.orderStatus ,'Id: ',order.orderId);
+
+    this.checkoutService.editStatus(order.orderId, this.selectedStatus).subscribe({
+      next: (datalist:any[]) => {
+        if(datalist.length<=0){
+          return;
+        }
+          
+        let elementIndex = this.dataSource.data.findIndex((element) => element.orderId === order?.orderId);
+        this.dataSource.data[elementIndex] = datalist;          
+        this.dataSource = new MatTableDataSource(this.dataSource.data);
+
+        this.selectedOrder.orderStatus = this.selectedStatus;
+
+        this.messageService.showSuccess('Status Updated Successfully');
+      },
+      error: (error) => this.messageService.showError('Action failed with error'+ error)
+    });
+  }
+
+  getTotalCost(): number {
+    return this.selectedOrder?.totalCost || 0;
+}
+
 }
