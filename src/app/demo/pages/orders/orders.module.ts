@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 import { OrderListComponent } from './order-list/order-list.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [OnlineOrderingComponent, ItemDetailsComponent, CheckoutComponent, BookCustomizeComponent,OrderListComponent],
@@ -27,7 +28,8 @@ import { OrderListComponent } from './order-list/order-list.component';
     MatTableModule,
     MatRadioModule,
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelectModule
   ]
 })
 export class OrdersModule {}

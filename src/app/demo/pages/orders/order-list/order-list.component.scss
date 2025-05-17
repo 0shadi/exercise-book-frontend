@@ -1,20 +1,10 @@
-.order-item-table {
-  width: 100%;
-  border-collapse: collapse;
-
-  th, td {
-    padding: 8px;
-    border: 1px solid #ccc;
-    text-align: left;
-  }
-
-  th {
-    background-color: #f5f5f5;
-  }
+.container{
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
 }
 
 mat-card {
-  margin-top: 20px;
   padding: 16px;
   background: #fafafa;
   border-radius: 10px;
@@ -22,7 +12,34 @@ mat-card {
 }
 
 .table-container {
-  padding: 16px;
-  border-radius: 12px;
+  flex:1;
   background-color: #fefefe;
+}
+
+.order-item-container{
+  flex:2;
+}
+
+.card{
+  display: flex;
+  flex-direction: column;
+}
+
+.status-section{
+  strong{
+    font-weight: 500;
+    font-size: large;
+    padding: 10px;
+  }
+  button{
+    background: maroon;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 12px auto;  
+    }
 }

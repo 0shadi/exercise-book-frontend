@@ -62,6 +62,16 @@ const NavigationItems = [
         classes: 'nav-item',
         auth: authenticationEnum.Home_Dashboard,
         isVisible: true
+      },
+      {
+        id: 'order-list',
+        title: 'All orders',
+        type: 'item',
+        url: '/orders/order-list',
+        icon: 'feather icon-home',
+        classes: 'nav-item',
+        auth: authenticationEnum.Home_Dashboard,
+        isVisible: true
       }
     ]
   },

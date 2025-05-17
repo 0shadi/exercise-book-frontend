@@ -77,4 +77,20 @@ export class CheckoutService {
 
     return this.http.get(requestUrl, { headers: headers });
   }
+
+  editStatus(orderId:number,newStatus:any){
+    const requestUrl = environment.baseUrl+'/update-status/'+orderId.toString();
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.put(requestUrl,{ orderStatus: newStatus },{headers:headers});
+  }
+
 }
+
+
