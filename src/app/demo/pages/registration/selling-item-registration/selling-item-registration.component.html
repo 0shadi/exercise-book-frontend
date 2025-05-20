@@ -85,8 +85,8 @@
       </div>
       <img *ngIf="photoPreview" [src]="photoPreview" alt="Preview" width="100">
   
-      <button type="submit" color="primary" mat-raised-button [disabled]="isDisabled" >{{saveButtonLabel}}</button>
-      <button type="reset" color="secondary" (click) = "resetItem()" mat-raised-button>Reset</button>
+      <button type="submit" class="btn-primary submit-btn" [disabled]="isDisabled" >{{saveButtonLabel}}</button>
+      <button type="reset" class="btn-secondary reset-btn" (click) = "resetItem()">Reset</button>
   
   </form>
   </div>

@@ -40,8 +40,8 @@
                 <span class="text-danger" *ngIf="(customerForm.get('address').touched || submitted) && customerForm.get('address').errors && customerForm.get('address').errors['pattern']">Enter a valid address</span>
             </mat-form-field>
 
-            <button class="btn btn-primary" type="submit" [disabled]="isDisabled">{{saveButtonLabel}}</button>
-            <button type="reset" (click) = "resetCustomer()">Reset</button>
+            <button class="btn-primary submit-btn" type="submit" [disabled]="isDisabled">{{saveButtonLabel}}</button>
+            <button class="btn-secondary reset-btn" type="reset" (click) = "resetCustomer()">Reset</button>
         </form>
     </div>
 

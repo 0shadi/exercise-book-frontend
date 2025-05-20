@@ -30,8 +30,8 @@
           <input matInput placeholder="Address" formControlName = "address">
       </mat-form-field>
   
-      <button mat-raised-button class="submit-btn" type="submit" color="primary" [disabled]="isDisabled">{{saveButtonLabel}}</button>
-      <button mat-raised-buttonclass="reset-btn" type="reset" color="secondary" (click)="resetSupplier()">Reset</button>
+      <button  class="submit-btn btn-primary" type="submit" [disabled]="isDisabled">{{saveButtonLabel}}</button>
+      <button  class="reset-btn btn-secondary" type="reset"  (click)="resetSupplier()">Reset</button>
       
     </form>
   </div>
