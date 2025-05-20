@@ -73,6 +73,7 @@ export class BookCustomizeComponent {
   selectedPagesCount = '120';
   selectedPaperType = 'Single Ruled';
   selectedPaperQuality ='50 GSM';
+  quantity = 1;
 
   @ViewChild('prevBtn') prevBtn!: ElementRef;
   @ViewChild('nextBtn') nextBtn!: ElementRef;
@@ -95,7 +96,8 @@ export class BookCustomizeComponent {
       size: [''],
       pagesCount : [''],
       paperType : [''],
-      paperQuality : ['']
+      paperQuality : [''],
+      quantity : ['']
     });
   }
 
@@ -223,6 +225,19 @@ export class BookCustomizeComponent {
       case 'Blank':
       default:
         return 'blank-paper';
+    }
+  }
+
+  onSubmit(){
+    console.log("Order Placed Successfully");
+  }
+
+  increase() {
+    this.quantity++;
+  }
+  decrease() {
+    if (this.quantity > 1) {
+      this.quantity--;
     }
   }
 }

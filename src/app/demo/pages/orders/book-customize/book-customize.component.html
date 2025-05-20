@@ -1,7 +1,7 @@
 <div class="book-customize-container">
   <div class="inputs">
     <h2>Book Designer</h2>
-    <form [formGroup]="bookForm">
+    <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="coverPhoto">Cover Photo</label>
         <input type="file" id="coverPhoto" accept="image/*" (change)="onFileChange($event)" />
@@ -76,6 +76,16 @@
           </option>
         </select>
       </div>
+
+      <div class="quantity-selector">
+        <label>Quantity</label>
+        <br />
+        <button (click)="decrease()">−</button>
+        <input type="number" [value]="quantity" readonly />
+        <button (click)="increase()">+</button>
+      </div>
+
+      <button class="btn btn-primary" type="submit">Place Order</button>
 
     </form>
   </div>

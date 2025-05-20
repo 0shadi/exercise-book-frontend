@@ -93,11 +93,14 @@
 // controllable buttons
 
 button {
+    padding: 8px 16px;
+    margin: 5px;
     border: none;
-    background-color: transparent;
+    border-radius: 8px;
+    background-color: maroon;
+    color: white;
     cursor: pointer;
-    margin: 10px;
-    transition: transform 0.5s;
+    transition: 0.3s ease;
 }
 
 button:focus {
@@ -254,4 +257,3 @@ i {
     pointer-events: none;
     z-index: 2;
   }
-  
