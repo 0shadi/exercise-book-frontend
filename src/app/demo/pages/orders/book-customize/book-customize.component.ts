@@ -240,6 +240,7 @@ export class BookCustomizeComponent {
   }
 
   onSubmit(){
+    
     const orderStatus = 'Pending';
     const paymentMethod = 'undefined';
     const cost = 'undefined';
@@ -253,11 +254,51 @@ export class BookCustomizeComponent {
     };
 
     this.bookCustomizeService.saveOrderDetails(orderDetails).subscribe({
-          next:(datalist:any[])=>{
-            if(datalist.length <= 0){
+          next:(datalist:any)=>{
+            if(!datalist || !datalist.orderId){
               return;
             }
+            const savedOrderId = datalist.orderId; 
             console.log("Submitted Order Details",datalist);
+
+            const formData = new FormData();
+            const bookFormValue = { ...this.bookForm.value, orderId: savedOrderId };
+            const bookFormBlob = new Blob([JSON.stringify(bookFormValue)], {type: 'application/json'});
+            formData.append('bookForm', bookFormBlob);
+            if (this.selectedFile) {
+              formData.append('coverPhoto', this.selectedFile, this.selectedFile.name);
+            }
+              
+            this.bookCustomizeService.saveBookDetails(formData).subscribe({
+              next:(datalist:any[])=>{
+                if(datalist.length <= 0){
+                  return;
+                }
+                console.log("Submitted Customization Details",datalist);
+                
+              },
+              error:(error)=>{
+                this.messageService.showError('Action failed with error ' + error);
+              }
+            
+            });
+
+            const billingDataWithOrderId = { ...this.billingDetails, orderId: savedOrderId };
+
+            this.bookCustomizeService.saveBillingDetails(billingDataWithOrderId).subscribe({
+              next:(datalist:any[])=>{
+                if(datalist.length <= 0){
+                  return;
+                }
+                
+                console.log('Submitted billing details:', datalist);
+                
+              },
+              error:(error)=>{
+                this.messageService.showError('Action failed with error ' + error);
+              }
+            
+            });
             
           },
           error:(error)=>{
@@ -265,35 +306,6 @@ export class BookCustomizeComponent {
           }
         
         });
-      
-    this.bookCustomizeService.saveBookDetails(this.bookForm.value).subscribe({
-      next:(datalist:any[])=>{
-        if(datalist.length <= 0){
-          return;
-        }
-        console.log("Submitted Customization Details",datalist);
-        
-      },
-      error:(error)=>{
-        this.messageService.showError('Action failed with error ' + error);
-      }
-    
-    });
-
-      this.bookCustomizeService.saveBillingDetails(this.billingDetails).subscribe({
-        next:(datalist:any[])=>{
-          if(datalist.length <= 0){
-            return;
-          }
-          
-          console.log('Submitted billing details:', this.billingDetails);
-          
-        },
-        error:(error)=>{
-          this.messageService.showError('Action failed with error ' + error);
-        }
-      
-      });
 
       this.messageService.showSuccess('Order Placed Successfully');
 
