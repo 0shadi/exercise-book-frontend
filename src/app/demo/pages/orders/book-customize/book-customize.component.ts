@@ -1,5 +1,9 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { BillingDetailsDialogComponent } from '../billing-details-dialog/billing-details-dialog.component';
+import { BookCustomizeService } from 'src/app/services/book-customize/book-customize.service';
+import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 
 @Component({
   selector: 'app-book-customize',
@@ -74,6 +78,7 @@ export class BookCustomizeComponent {
   selectedPaperType = 'Single Ruled';
   selectedPaperQuality ='50 GSM';
   quantity = 1;
+  selectedFile: File | null = null;
 
   @ViewChild('prevBtn') prevBtn!: ElementRef;
   @ViewChild('nextBtn') nextBtn!: ElementRef;
@@ -84,10 +89,15 @@ export class BookCustomizeComponent {
   @ViewChild('p3') paper3!: ElementRef;
 
   @ViewChild('f1') f1!: ElementRef;
+  billingDetails: any;
+  billingDetailsSubmitted = false;
 
   constructor(
     private renderer: Renderer2,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dialog: MatDialog,
+    private bookCustomizeService: BookCustomizeService,
+    private messageService:MessageServiceService
   ) {
     this.bookForm = this.fb.group({
       coverPhoto: [''],
@@ -191,6 +201,7 @@ export class BookCustomizeComponent {
   onFileChange(event: any) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
+      this.selectedFile = file;
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imageUrl = e.target?.result;
@@ -229,15 +240,87 @@ export class BookCustomizeComponent {
   }
 
   onSubmit(){
-    console.log("Order Placed Successfully");
+    const orderStatus = 'Pending';
+    const paymentMethod = 'undefined';
+    const cost = 'undefined';
+    const customerId = 'undefined';
+    const orderDetails = {
+      date: new Date().toISOString(),
+      cost: cost.toString(),
+      paymentMethod: paymentMethod,
+      orderStatus: orderStatus,
+      customerId: customerId
+    };
+
+    this.bookCustomizeService.saveOrderDetails(orderDetails).subscribe({
+          next:(datalist:any[])=>{
+            if(datalist.length <= 0){
+              return;
+            }
+            console.log("Submitted Order Details",datalist);
+            
+          },
+          error:(error)=>{
+            this.messageService.showError('Action failed with error ' + error);
+          }
+        
+        });
+      
+    this.bookCustomizeService.saveBookDetails(this.bookForm.value).subscribe({
+      next:(datalist:any[])=>{
+        if(datalist.length <= 0){
+          return;
+        }
+        console.log("Submitted Customization Details",datalist);
+        
+      },
+      error:(error)=>{
+        this.messageService.showError('Action failed with error ' + error);
+      }
+    
+    });
+
+      this.bookCustomizeService.saveBillingDetails(this.billingDetails).subscribe({
+        next:(datalist:any[])=>{
+          if(datalist.length <= 0){
+            return;
+          }
+          
+          console.log('Submitted billing details:', this.billingDetails);
+          
+        },
+        error:(error)=>{
+          this.messageService.showError('Action failed with error ' + error);
+        }
+      
+      });
+
+      this.messageService.showSuccess('Order Placed Successfully');
+
   }
 
   increase() {
-    this.quantity++;
+    const current = this.bookForm.get('quantity')?.value || 0;
+    this.bookForm.get('quantity')?.setValue(current + 1);
   }
   decrease() {
-    if (this.quantity > 1) {
-      this.quantity--;
+    const current = this.bookForm.get('quantity')?.value || 0;
+    if (current > 1) {
+      this.bookForm.get('quantity')?.setValue(current - 1);
     }
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(BillingDetailsDialogComponent, {
+      width: '600px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Billing details received:', result);
+        this.billingDetails = result;
+        this.billingDetailsSubmitted = true;
+      }
+    });
   }
 }

@@ -257,3 +257,8 @@ i {
     pointer-events: none;
     z-index: 2;
   }
+
+  button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

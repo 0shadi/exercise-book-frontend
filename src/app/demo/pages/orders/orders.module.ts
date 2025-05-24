@@ -15,9 +15,18 @@ import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 import { OrderListComponent } from './order-list/order-list.component';
 import { MatSelectModule } from '@angular/material/select';
+import { BillingDetailsDialogComponent } from './billing-details-dialog/billing-details-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [OnlineOrderingComponent, ItemDetailsComponent, CheckoutComponent, BookCustomizeComponent,OrderListComponent],
+  declarations: [
+    OnlineOrderingComponent, 
+    ItemDetailsComponent, 
+    CheckoutComponent, 
+    BookCustomizeComponent,
+    OrderListComponent,
+    BillingDetailsDialogComponent
+  ],
   imports: [
     RouterModule.forChild(OrderRoutes),
     CommonModule,
@@ -29,7 +38,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatRadioModule,
     MatIconModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
   ]
 })
 export class OrdersModule {}

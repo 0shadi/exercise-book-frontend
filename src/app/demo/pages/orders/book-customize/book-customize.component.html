@@ -80,14 +80,17 @@
       <div class="quantity-selector">
         <label>Quantity</label>
         <br />
-        <button class="btn-primary" (click)="decrease()">−</button>
-        <input type="number" [value]="quantity" readonly />
-        <button class="btn-primary" (click)="increase()">+</button>
+        <button class="btn-primary" type="button"(click)="decrease()">−</button>
+        <input type="number" formControlName="quantity" readonly />
+        <button class="btn-primary" type="button"(click)="increase()">+</button>
       </div>
 
-      <button class="btn btn-primary" type="submit">Place Order</button>
+      <button type="button" class="btn-primary submit-btn" (click)="openDialog()">Billing Details</button>
+
+      <button class="btn btn-primary" [disabled]="!billingDetailsSubmitted" type="submit">Place Order</button>
 
     </form>
+    
   </div>
   <div class="preview">
     <div class="book-customize">

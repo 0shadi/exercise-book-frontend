@@ -1,0 +1,59 @@
+<div class="billing-details">
+        <mat-dialog-content class="dialog-content">
+          <form class="example-form" [formGroup] = "billingDetailsForm" (ngSubmit)="onSubmit()">
+            <h5>Billing Details</h5>
+            
+            <mat-form-field class="example-full-width">
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName = "firstName">
+            </mat-form-field>
+
+          
+            <mat-form-field class="example-full-width">
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName = "lastName" >
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>Address</mat-label>
+              <input matInput formControlName = "address" >
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>District</mat-label>
+              <input matInput formControlName = "district" >
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>Nearest city/Town</mat-label>
+              <input matInput formControlName = "nearestCity" >
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>Postal Code</mat-label>
+              <input matInput formControlName = "postalCode" >
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>Phone number</mat-label>
+              <input matInput formControlName = "contactNo" >
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>Email Address</mat-label>
+              <input matInput formControlName = "email" >
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>Order Notes(Optional)</mat-label>
+              <input matInput formControlName = "notes" >
+            </mat-form-field>
+
+        <mat-dialog-actions>
+          <button class="btn btn-primary submit-btn" type="submit">Submit</button>
+          <button class="btn btn-primary submit-btn" (click)="onCancel()">Cancel</button>
+        </mat-dialog-actions>
+
+        </form>
+        </mat-dialog-content>
+    </div>
