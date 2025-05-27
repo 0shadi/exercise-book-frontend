@@ -17,6 +17,7 @@ export interface PeriodicElement {
 })
 export class CheckoutComponent implements OnInit {
   billingDetailsForm : FormGroup;
+  paymentForm: FormGroup;
 
   displayedColumns: string[] = ['product', 'quantity','subTotal'];
   dataSource:any[] = [];
@@ -42,6 +43,13 @@ export class CheckoutComponent implements OnInit {
       email: new FormControl('',[Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
       notes: new FormControl('',[Validators.maxLength(500)])
     });
+
+    this.paymentForm= this.fb.group({
+      name: new FormControl('',[Validators.required,Validators.pattern(/^[a-zA-Z ]+$/)]),
+      number: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{13,19}$/)]),
+      expDate: new FormControl('',[Validators.required]),
+      cvv: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{3,4}$/)])
+    });
   }
 
   ngOnInit(): void {
@@ -64,7 +72,9 @@ export class CheckoutComponent implements OnInit {
 
   placeOrder(){
     this.submitted=true;
-    if(this.billingDetailsForm.invalid || !this.selectedPaymentMethod){
+    if(this.billingDetailsForm.invalid || 
+      !this.selectedPaymentMethod || 
+      (this.selectedPaymentMethod === '2' && this.paymentForm.invalid)){
         return;
       }
     const totalCost = this.getTotalCost();

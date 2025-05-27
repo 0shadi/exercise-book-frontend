@@ -17,6 +17,7 @@ import { OrderListComponent } from './order-list/order-list.component';
 import { MatSelectModule } from '@angular/material/select';
 import { BillingDetailsDialogComponent } from './billing-details-dialog/billing-details-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     ReactiveFormsModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDatepicker,
+    MatDatepickerModule
   ]
 })
 export class OrdersModule {}
