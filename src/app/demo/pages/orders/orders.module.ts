@@ -18,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { BillingDetailsDialogComponent } from './billing-details-dialog/billing-details-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { CustomizedOrderListComponent } from './customized-order-list/customized-order-list.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker
     CheckoutComponent, 
     BookCustomizeComponent,
     OrderListComponent,
-    BillingDetailsDialogComponent
+    BillingDetailsDialogComponent,
+    CustomizedOrderListComponent
   ],
   imports: [
     RouterModule.forChild(OrderRoutes),

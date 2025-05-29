@@ -4,7 +4,7 @@ import { ItemDetailsComponent } from './item-details/item-details.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { BookCustomizeComponent } from './book-customize/book-customize.component';
 import { OrderListComponent } from './order-list/order-list.component';
-import { BillingDetailsDialogComponent } from './billing-details-dialog/billing-details-dialog.component';
+import { CustomizedOrderListComponent } from './customized-order-list/customized-order-list.component';
 
 export const OrderRoutes: Routes = [
   {
@@ -29,6 +29,10 @@ export const OrderRoutes: Routes = [
       {
         path: 'order-list',
         component: OrderListComponent
+      },
+      {
+        path: 'customized-order-list',
+        component: CustomizedOrderListComponent
       }
     ]
   }

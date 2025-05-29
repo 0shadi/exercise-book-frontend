@@ -51,4 +51,30 @@ export class BookCustomizeService {
 
     return this.http.post(requestUrl,form_details,{headers:headers});
   }
+
+  getCustomizedOrderDetails(){
+    const requestUrl = environment.baseUrl + '/get-customized-order-details';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl, {headers:headers});
+  }
+
+  getCustomizedBookDetails(orderId){
+    const requestUrl = environment.baseUrl + '/get-customized-book-details/' + orderId;
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
+      };
+    }
+
+    return this.http.get(requestUrl, { headers: headers });
+  }
 }
