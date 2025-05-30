@@ -77,4 +77,18 @@ export class BookCustomizeService {
 
     return this.http.get(requestUrl, { headers: headers });
   }
+
+  editStatus(orderId: any, selectedStatus: any) {
+    const requestUrl = environment.baseUrl+'/update-order-status/'+orderId.toString();
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.put(requestUrl,{ orderStatus: selectedStatus },{headers:headers});
+  
+  }
 }

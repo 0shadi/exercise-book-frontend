@@ -16,6 +16,10 @@ export class CustomizedOrderListComponent implements OnInit {
   bookDetailsDisplayedColumns: any[] = ['orderId', 'material', 'paperColor', 'size','pagesCount','paperType','paperQuality','quantity'];
   bookDetailsDataSource: MatTableDataSource<any>;
 
+  orderStatusOptions: string[] = ['Pending', 'Processing', 'Delivered', 'Cancelled'];
+  selectedOrder;
+  selectedStatus;
+
   constructor(
     private bookCustomizeService  : BookCustomizeService,
     private messageService : MessageServiceService
@@ -58,8 +62,9 @@ export class CustomizedOrderListComponent implements OnInit {
 
           console.log('get data response: ',datalist);
           this.bookDetailsDataSource = new MatTableDataSource(datalist);
+          this.selectedOrder = this.dataSource.data.find(order => order.orderId === orderId);
+          this.selectedStatus = this.selectedOrder?.orderStatus;
 
-        this.bookDetailsDataSource = new MatTableDataSource(datalist); 
         },
         error: (error) => this.messageService.showError('Action failed with error' + error)
       });
@@ -67,5 +72,27 @@ export class CustomizedOrderListComponent implements OnInit {
       this.messageService.showError('Action failed with error ' + error);
     }
       }
+
+    updateOrderStatus(selectedOrder){
+      console.log('Updating status to:', this.selectedStatus ,'Id: ',selectedOrder.orderId);
+
+      this.bookCustomizeService.editStatus(selectedOrder.orderId, this.selectedStatus).subscribe({
+      next: (datalist:any[]) => {
+        if(datalist.length<=0){
+          return;
+        }
+          
+        let elementIndex = this.dataSource.data.findIndex((element) => element.orderId === selectedOrder?.orderId);
+        this.dataSource.data[elementIndex] = datalist;          
+        this.dataSource = new MatTableDataSource(this.dataSource.data);
+
+        this.selectedOrder.orderStatus = this.selectedStatus;
+
+        this.messageService.showSuccess('Status Updated Successfully');
+      },
+      error: (error) => this.messageService.showError('Action failed with error'+ error)
+    });
+
+    }
     }
 
