@@ -1,7 +1,7 @@
 <div class="book-customize-container">
   <div class="inputs">
     <h2>Book Designer</h2>
-    <form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="bookForm" >
       <div class="form-group">
         <label for="coverPhoto">Cover Photo</label>
         <input type="file" id="coverPhoto" accept="image/*" (change)="onFileChange($event)" />
@@ -84,12 +84,51 @@
         <input type="number" formControlName="quantity" readonly />
         <button class="btn-primary" type="button"(click)="increase()">+</button>
       </div>
+      </form>
+
+      <mat-radio-group class="payment method" aria-label="Select payment method" [(ngModel)]="selectedPaymentMethod">
+        <mat-label>Select payment method</mat-label>
+        <br>
+        <mat-radio-button value="1">Cash on Delivary</mat-radio-button><br>
+        <mat-radio-button value="2">Credit or Debit card</mat-radio-button>
+      </mat-radio-group>
+
+      <div class="payment-gateway" *ngIf="selectedPaymentMethod == '2'">
+        <form [formGroup] = "paymentForm">
+          <mat-form-field class="example-full-width">
+            <mat-label>Card holder Name</mat-label>
+            <input matInput formControlName = "name" >
+            <span class="text-danger" *ngIf="(paymentForm.get('name').touched||submitted) && paymentForm.get('name').errors && paymentForm.get('name').errors['required']">Card holder name is required</span>
+            <span class="text-danger" *ngIf="(paymentForm.get('name').touched||submitted) && paymentForm.get('name').errors && paymentForm.get('name').errors['pattern']">Enter a valid Name</span>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+            <mat-label>Card number</mat-label>
+            <input matInput formControlName = "number" >
+            <span class="text-danger" *ngIf="(paymentForm.get('number').touched||submitted) && paymentForm.get('number').errors && paymentForm.get('number').errors['required']">Card number is required</span>
+            <span class="text-danger" *ngIf="(paymentForm.get('number').touched||submitted) && paymentForm.get('number').errors && paymentForm.get('number').errors['pattern']">Enter a valid Number</span>
+          </mat-form-field>
+
+          <mat-form-field class="example-half-width">
+            <mat-label>Expiration date</mat-label>
+            <input matInput placeholder="MM/YY" type="month" formControlName = "expDate" >
+            <span class="text-danger" *ngIf="(paymentForm.get('expDate').touched||submitted) && paymentForm.get('expDate').errors && paymentForm.get('expDate').errors['required']">Expiration data is required</span>
+          </mat-form-field>
+
+          <mat-form-field class="example-half-width">
+            <mat-label>CVV</mat-label>
+            <input matInput formControlName = "cvv" >
+            <span class="text-danger" *ngIf="(paymentForm.get('cvv').touched||submitted) && paymentForm.get('cvv').errors && paymentForm.get('cvv').errors['required']">CVV is required</span>
+            <span class="text-danger" *ngIf="(paymentForm.get('cvv').touched||submitted) && paymentForm.get('cvv').errors && paymentForm.get('cvv').errors['pattern']">Enter a valid cvv number</span>
+          </mat-form-field>
+        </form>
+      </div>
 
       <button type="button" class="btn-primary submit-btn" (click)="openDialog()">Billing Details</button>
 
-      <button class="btn btn-primary" [disabled]="!billingDetailsSubmitted" type="submit">Place Order</button>
+      <button class="btn btn-primary" [disabled]="!billingDetailsSubmitted" (click)="placeOrder()">Place Order</button>
 
-    </form>
+    
     
   </div>
   <div class="preview">

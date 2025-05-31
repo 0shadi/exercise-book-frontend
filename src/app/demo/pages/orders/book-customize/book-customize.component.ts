@@ -1,5 +1,5 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BillingDetailsDialogComponent } from '../billing-details-dialog/billing-details-dialog.component';
 import { BookCustomizeService } from 'src/app/services/book-customize/book-customize.service';
@@ -79,6 +79,7 @@ export class BookCustomizeComponent {
   selectedPaperQuality ='50 GSM';
   quantity = 1;
   selectedFile: File | null = null;
+  selectedPaymentMethod: string ;
 
   @ViewChild('prevBtn') prevBtn!: ElementRef;
   @ViewChild('nextBtn') nextBtn!: ElementRef;
@@ -91,6 +92,8 @@ export class BookCustomizeComponent {
   @ViewChild('f1') f1!: ElementRef;
   billingDetails: any;
   billingDetailsSubmitted = false;
+  paymentForm: FormGroup;
+  submitted=false;
 
   constructor(
     private renderer: Renderer2,
@@ -108,6 +111,13 @@ export class BookCustomizeComponent {
       paperType : [''],
       paperQuality : [''],
       quantity : ['']
+    });
+
+    this.paymentForm= this.fb.group({
+      name: new FormControl('',[Validators.required,Validators.pattern(/^[a-zA-Z ]+$/)]),
+      number: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{13,19}$/)]),
+      expDate: new FormControl('',[Validators.required]),
+      cvv: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{3,4}$/)])
     });
   }
 
@@ -239,10 +249,11 @@ export class BookCustomizeComponent {
     }
   }
 
-  onSubmit(){
+  placeOrder(){
+    this.submitted=true;
     
     const orderStatus = 'Pending';
-    const paymentMethod = 'undefined';
+    const paymentMethod = this.selectedPaymentMethod;
     const cost = 'undefined';
     const customerId = 'undefined';
     const orderDetails = {

@@ -10,7 +10,7 @@ import { MessageServiceService } from 'src/app/services/message-service/message-
   styleUrl: './customized-order-list.component.scss'
 })
 export class CustomizedOrderListComponent implements OnInit {
-  displayedColumns: string[] = ['orderId','date','cost','orderStatus','details'];
+  displayedColumns: string[] = ['orderId','date','cost','orderStatus','paymentMethod','details'];
   dataSource:MatTableDataSource<any>;
 
   bookDetailsDisplayedColumns: any[] = ['orderId', 'material', 'paperColor', 'size','pagesCount','paperType','paperQuality','quantity'];
