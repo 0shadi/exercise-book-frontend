@@ -1,0 +1,138 @@
+<div class="container">
+    <div class="billing-details">
+    <form class="example-form" [formGroup] = "billingDetailsForm">
+    <h5>Billing Details</h5>
+
+    <mat-form-field class="example-full-width">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName = "firstName">
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('firstName').touched||submitted) && billingDetailsForm.get('firstName').errors && billingDetailsForm.get('firstName').errors['required']">First name is required</span>
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('firstName').touched||submitted) && billingDetailsForm.get('firstName').errors && billingDetailsForm.get('firstName').errors['minlength']">Enter atleast 3 characters</span>
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('firstName').touched||submitted) && billingDetailsForm.get('firstName').errors && billingDetailsForm.get('firstName').errors['maxlength']">Enter maximum 15 characters</span>
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('firstName').touched||submitted) && billingDetailsForm.get('firstName').errors && billingDetailsForm.get('firstName').errors['pattern']">Enter a valid name</span>
+    </mat-form-field>
+
+
+    <mat-form-field class="example-full-width">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName = "lastName" >
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('lastName').touched||submitted) && billingDetailsForm.get('lastName').errors && billingDetailsForm.get('lastName').errors['minlength']">Enter atleast 3 characters</span>
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('lastName').touched||submitted) && billingDetailsForm.get('lastName').errors && billingDetailsForm.get('lastName').errors['maxlength']">Enter maximum 15 characters</span>
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('lastName').touched||submitted) && billingDetailsForm.get('lastName').errors && billingDetailsForm.get('lastName').errors['pattern']">Enter a valid name</span>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName = "address" >
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('address').touched||submitted) && billingDetailsForm.get('address').errors && billingDetailsForm.get('address').errors['required']">Address is required</span>
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('address').touched||submitted) && billingDetailsForm.get('address').errors && billingDetailsForm.get('address').errors['minlength']">Enter atleast 5 characters</span>
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('address').touched||submitted) && billingDetailsForm.get('address').errors && billingDetailsForm.get('address').errors['maxlength']">Enter maximum 100 characters</span>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <mat-label>District</mat-label>
+        <input matInput formControlName = "district" >
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('district').touched||submitted) && billingDetailsForm.get('district').errors && billingDetailsForm.get('district').errors['required']">District is required</span>
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('district').touched||submitted) && billingDetailsForm.get('district').errors && billingDetailsForm.get('district').errors['pattern']">Enter a valid district</span>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <mat-label>Nearest city/Town</mat-label>
+        <input matInput formControlName = "nearestCity" >
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('nearestCity').touched||submitted) && billingDetailsForm.get('nearestCity').errors && billingDetailsForm.get('nearestCity').errors['pattern']">Enter a valid city</span>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <mat-label>Postal Code</mat-label>
+        <input matInput formControlName = "postalCode" >
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('postalCode').touched||submitted) && billingDetailsForm.get('postalCode').errors && billingDetailsForm.get('postalCode').errors['required']">Postal code is required</span>
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('postalCode').touched||submitted) && billingDetailsForm.get('postalCode').errors && billingDetailsForm.get('postalCode').errors['pattern']">Enter a valid postal code</span>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <mat-label>Phone number</mat-label>
+        <input matInput formControlName = "contactNo" >
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('contactNo').touched||submitted) && billingDetailsForm.get('contactNo').errors && billingDetailsForm.get('contactNo').errors['required']">Contact number is required</span>
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('contactNo').touched||submitted) && billingDetailsForm.get('contactNo').errors && billingDetailsForm.get('contactNo').errors['pattern']">Enter a valid Contact Number</span>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <mat-label>Email Address</mat-label>
+        <input matInput formControlName = "email" >
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('email').touched||submitted) && billingDetailsForm.get('email').errors && billingDetailsForm.get('email').errors['pattern']">Enter a valid email</span>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <mat-label>Order Notes(Optional)</mat-label>
+        <input matInput formControlName = "notes" >
+        <span class="text-danger" *ngIf="(billingDetailsForm.get('notes').touched||submitted) && billingDetailsForm.get('notes').errors && billingDetailsForm.get('notes').errors['maxlength']">Enter maximum 500 characters</span>
+    </mat-form-field>
+
+    </form>
+    </div>
+
+    <div class="order-details">
+      <h5>Order Details</h5>
+        <mat-card appearance="outlined">
+            <mat-card-header>
+              <mat-card-title> Your Order</mat-card-title>
+            </mat-card-header>
+            <mat-card-actions class="card">
+                <table>
+                    <tr><td><strong>Material:</strong></td><td>{{ bookDetails?.material }}</td></tr>
+                    <tr><td><strong>Paper Color:</strong></td><td>{{ bookDetails?.paperColor }}</td></tr>
+                    <tr><td><strong>Size:</strong></td><td>{{ bookDetails?.size }}</td></tr>
+                    <tr><td><strong>Pages Count:</strong></td><td>{{ bookDetails?.pagesCount }}</td></tr>
+                    <tr><td><strong>Paper Type:</strong></td><td>{{ bookDetails?.paperType }}</td></tr>
+                    <tr><td><strong>Paper Quality:</strong></td><td>{{ bookDetails?.paperQuality }}</td></tr>
+                    <tr><td><strong>Quantity:</strong></td><td>{{ bookDetails?.quantity }}</td></tr>
+                </table>
+
+                <br><br>
+
+              <mat-radio-group class="payment method" aria-label="Select payment method" [(ngModel)]="selectedPaymentMethod">
+                <mat-label>Select payment method</mat-label>
+                <br>
+                <mat-radio-button value="1">Cash on Delivary</mat-radio-button><br>
+                <mat-radio-button value="2">Credit or Debit card</mat-radio-button>
+              </mat-radio-group>
+
+              <div class="payment-gateway" *ngIf="selectedPaymentMethod == '2'">
+                <form [formGroup] = "paymentForm">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Card holder Name</mat-label>
+                    <input matInput formControlName = "name" >
+                    <span class="text-danger" *ngIf="(paymentForm.get('name').touched||submitted) && paymentForm.get('name').errors && paymentForm.get('name').errors['required']">Card holder name is required</span>
+                    <span class="text-danger" *ngIf="(paymentForm.get('name').touched||submitted) && paymentForm.get('name').errors && paymentForm.get('name').errors['pattern']">Enter a valid Name</span>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Card number</mat-label>
+                    <input matInput formControlName = "number" >
+                    <span class="text-danger" *ngIf="(paymentForm.get('number').touched||submitted) && paymentForm.get('number').errors && paymentForm.get('number').errors['required']">Card number is required</span>
+                    <span class="text-danger" *ngIf="(paymentForm.get('number').touched||submitted) && paymentForm.get('number').errors && paymentForm.get('number').errors['pattern']">Enter a valid Number</span>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-half-width">
+                    <mat-label>Expiration date</mat-label>
+                    <input matInput placeholder="MM/YY" type="month" formControlName = "expDate" >
+                    <span class="text-danger" *ngIf="(paymentForm.get('expDate').touched||submitted) && paymentForm.get('expDate').errors && paymentForm.get('expDate').errors['required']">Expiration data is required</span>
+                  </mat-form-field>
+
+                  <mat-form-field class="example-half-width">
+                    <mat-label>CVV</mat-label>
+                    <input matInput formControlName = "cvv" >
+                    <span class="text-danger" *ngIf="(paymentForm.get('cvv').touched||submitted) && paymentForm.get('cvv').errors && paymentForm.get('cvv').errors['required']">CVV is required</span>
+                    <span class="text-danger" *ngIf="(paymentForm.get('cvv').touched||submitted) && paymentForm.get('cvv').errors && paymentForm.get('cvv').errors['pattern']">Enter a valid cvv number</span>
+                  </mat-form-field>
+                </form>
+              </div>
+
+            </mat-card-actions>
+          </mat-card>
+
+          <button mat-flat-button class="place-order-btn" (click)="placeOrder()">Place Order</button>
+   
+</div>
+
+</div>

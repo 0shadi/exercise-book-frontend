@@ -3,6 +3,7 @@ import { OnlineOrderingService } from 'src/app/services/online-ordering/online-o
 import { FormBuilder,FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
+import { HttpService } from 'src/app/services/http.service';
 
 export interface PeriodicElement {
   product: string;
@@ -24,12 +25,14 @@ export class CheckoutComponent implements OnInit {
   orderItems: any;
   selectedPaymentMethod:string;
   submitted = false;
+  userId = null;
 
   constructor(
     private onlineOrderingService: OnlineOrderingService,
     private fb : FormBuilder,
     private messageService : MessageServiceService,
-    private checkoutService : CheckoutService
+    private checkoutService : CheckoutService,
+    private httpService: HttpService
   ) {
     this.billingDetailsForm= this.fb.group({
       orderId: new FormControl(''),
@@ -63,6 +66,13 @@ export class CheckoutComponent implements OnInit {
       console.log(items); // set these items in order details box
       this.dataSource = this.orderItems;
     });
+
+    this.setUserId();
+  }
+
+  public setUserId(): void {
+    this.userId = this.httpService.getUserId();
+    console.log('user id' ,this.userId);
   }
 
   getTotalCost() {
@@ -122,7 +132,8 @@ export class CheckoutComponent implements OnInit {
         date: new Date().toISOString(),
         totalCost: totalCost.toString(),
         paymentMethod: paymentMethod,
-        orderStatus: orderStatus
+        orderStatus: orderStatus,
+        customerId: this.userId
       };
     
       this.checkoutService.saveOrderDetails(orderDetails).subscribe({

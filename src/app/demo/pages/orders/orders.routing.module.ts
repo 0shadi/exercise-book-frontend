@@ -5,6 +5,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { BookCustomizeComponent } from './book-customize/book-customize.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { CustomizedOrderListComponent } from './customized-order-list/customized-order-list.component';
+import { CustomizedOrderCheckoutComponent } from './customized-order-checkout/customized-order-checkout.component';
 
 export const OrderRoutes: Routes = [
   {
@@ -33,6 +34,10 @@ export const OrderRoutes: Routes = [
       {
         path: 'customized-order-list',
         component: CustomizedOrderListComponent
+      },
+      {
+        path: 'customized-order-checkout',
+        component: CustomizedOrderCheckoutComponent
       }
     ]
   }

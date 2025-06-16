@@ -19,6 +19,8 @@ import { BillingDetailsDialogComponent } from './billing-details-dialog/billing-
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { CustomizedOrderListComponent } from './customized-order-list/customized-order-list.component';
+import { CustomizedOrderCheckoutComponent } from './customized-order-checkout/customized-order-checkout.component';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { CustomizedOrderListComponent } from './customized-order-list/customized
     BookCustomizeComponent,
     OrderListComponent,
     BillingDetailsDialogComponent,
-    CustomizedOrderListComponent
+    CustomizedOrderListComponent,
+    CustomizedOrderCheckoutComponent
   ],
   imports: [
     RouterModule.forChild(OrderRoutes),
@@ -44,7 +47,8 @@ import { CustomizedOrderListComponent } from './customized-order-list/customized
     MatSelectModule,
     MatDialogModule,
     MatDatepicker,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatGridListModule
   ]
 })
 export class OrdersModule {}

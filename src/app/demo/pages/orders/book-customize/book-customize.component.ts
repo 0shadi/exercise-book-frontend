@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { BillingDetailsDialogComponent } from '../billing-details-dialog/billing-details-dialog.component';
 import { BookCustomizeService } from 'src/app/services/book-customize/book-customize.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
+import { HttpService } from 'src/app/services/http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-customize',
@@ -80,6 +82,7 @@ export class BookCustomizeComponent {
   quantity = 1;
   selectedFile: File | null = null;
   selectedPaymentMethod: string ;
+  userId = null; // user id changes
 
   @ViewChild('prevBtn') prevBtn!: ElementRef;
   @ViewChild('nextBtn') nextBtn!: ElementRef;
@@ -100,7 +103,9 @@ export class BookCustomizeComponent {
     private fb: FormBuilder,
     private dialog: MatDialog,
     private bookCustomizeService: BookCustomizeService,
-    private messageService:MessageServiceService
+    private messageService:MessageServiceService,
+    private httpService: HttpService,
+    private router: Router
   ) {
     this.bookForm = this.fb.group({
       coverPhoto: [''],
@@ -119,7 +124,21 @@ export class BookCustomizeComponent {
       expDate: new FormControl('',[Validators.required]),
       cvv: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{3,4}$/)])
     });
+
+    this.setUserId(); // user id changes
   }
+
+  public setUserId(): void {
+    this.userId = this.httpService.getUserId();
+    console.log('user id' ,this.userId);
+  }
+
+  goToCheckout() {
+  const bookDetails = this.bookForm.value;
+
+  this.router.navigate(['/customized-order-checkout'], { state: { book: bookDetails } });
+  console.log("book details", bookDetails);
+}
 
   public openBook(): void {
     const bookElement = this.book.nativeElement;
@@ -261,7 +280,7 @@ export class BookCustomizeComponent {
       cost: cost.toString(),
       paymentMethod: paymentMethod,
       orderStatus: orderStatus,
-      customerId: customerId
+      customerId: this.userId
     };
 
     this.bookCustomizeService.saveOrderDetails(orderDetails).subscribe({
