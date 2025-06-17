@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BookCustomizeService } from 'src/app/services/book-customize/book-customize.service';
+import { HttpService } from 'src/app/services/http.service';
+import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 
 @Component({
   selector: 'app-customized-order-checkout',
@@ -14,10 +17,15 @@ export class CustomizedOrderCheckoutComponent {
   submitted = false;
   bookDetails: any;
   selectedPaymentMethod:string;
+  userId = null;
+  coverPhotoFile;
 
   constructor(
     private fb : FormBuilder,
-    private router: Router
+    private router: Router,
+    private httpService: HttpService,
+    private bookCustomizeService: BookCustomizeService,
+    private messageService:MessageServiceService,
   ){
     this.billingDetailsForm= this.fb.group({
       orderId: new FormControl(''),
@@ -41,9 +49,85 @@ export class CustomizedOrderCheckoutComponent {
 
     const navigation = this.router.getCurrentNavigation();
     this.bookDetails = navigation?.extras?.state?.['book'];
+    this.coverPhotoFile = navigation?.extras?.state?.['coverPhotoFile']; 
+    this.setUserId();
+  }
+
+  public setUserId(): void {
+    this.userId = this.httpService.getUserId();
+    console.log('user id' ,this.userId);
   }
 
   placeOrder(){
+    this.submitted=true;
+    if(this.billingDetailsForm.invalid || 
+      !this.selectedPaymentMethod || 
+      (this.selectedPaymentMethod === '2' && this.paymentForm.invalid)){
+        return;
+      }
+    
+    const cost = 'Rs. ';
+    const orderDetails = {
+      date: new Date().toISOString(),
+      cost: cost.toString(),
+      paymentMethod: this.selectedPaymentMethod,
+      orderStatus: 'Pending',
+      customerId: this.userId
+    };
 
+    this.bookCustomizeService.saveOrderDetails(orderDetails).subscribe({
+          next:(datalist:any)=>{
+            if(!datalist || !datalist.orderId){
+              return;
+            }
+            const savedOrderId = datalist.orderId; 
+            console.log("Submitted Order Details",datalist);
+
+            const formData = new FormData();
+            formData.append('coverPhoto', this.coverPhotoFile); // File from file input
+
+            // Append the book details object as a JSON blob
+            const bookDetailsWithOrderId = { ...this.bookDetails, orderId: savedOrderId };
+            formData.append('bookForm', new Blob([JSON.stringify(bookDetailsWithOrderId)], { type: 'application/json' }));
+              
+            this.bookCustomizeService.saveBookDetails(formData).subscribe({
+              next:(datalist:any[])=>{
+                if(datalist.length <= 0){
+                  return;
+                }
+                console.log("Submitted Customization Details",datalist);
+                
+              },
+              error:(error)=>{
+                this.messageService.showError('Action failed with error ' + error);
+              }
+            
+            });
+
+            const billingDataWithOrderId = { ...this.billingDetailsForm.value, orderId: savedOrderId };
+
+            this.bookCustomizeService.saveBillingDetails(billingDataWithOrderId).subscribe({
+              next:(datalist:any[])=>{
+                if(datalist.length <= 0){
+                  return;
+                }
+                
+                console.log('Submitted billing details:', datalist);
+                
+              },
+              error:(error)=>{
+                this.messageService.showError('Action failed with error ' + error);
+              }
+            
+            });
+            
+          },
+          error:(error)=>{
+            this.messageService.showError('Action failed with error ' + error);
+          }
+        
+        });
+
+      this.messageService.showSuccess('Order Placed Successfully');
   }
 }

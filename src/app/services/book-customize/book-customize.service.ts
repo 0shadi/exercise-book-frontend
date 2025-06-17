@@ -26,7 +26,7 @@ export class BookCustomizeService {
     return this.http.post(requestUrl,form_details,{headers:headers});
   }
 
-  saveBookDetails(form_details:any){
+  saveBookDetails(form_details:FormData){
     const requestUrl = environment.baseUrl + '/customization-bookDetails';
 
     let headers = {};

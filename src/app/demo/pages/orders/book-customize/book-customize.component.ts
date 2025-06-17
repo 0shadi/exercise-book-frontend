@@ -101,10 +101,6 @@ export class BookCustomizeComponent {
   constructor(
     private renderer: Renderer2,
     private fb: FormBuilder,
-    private dialog: MatDialog,
-    private bookCustomizeService: BookCustomizeService,
-    private messageService:MessageServiceService,
-    private httpService: HttpService,
     private router: Router
   ) {
     this.bookForm = this.fb.group({
@@ -118,25 +114,12 @@ export class BookCustomizeComponent {
       quantity : ['']
     });
 
-    this.paymentForm= this.fb.group({
-      name: new FormControl('',[Validators.required,Validators.pattern(/^[a-zA-Z ]+$/)]),
-      number: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{13,19}$/)]),
-      expDate: new FormControl('',[Validators.required]),
-      cvv: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{3,4}$/)])
-    });
-
-    this.setUserId(); // user id changes
-  }
-
-  public setUserId(): void {
-    this.userId = this.httpService.getUserId();
-    console.log('user id' ,this.userId);
   }
 
   goToCheckout() {
   const bookDetails = this.bookForm.value;
 
-  this.router.navigate(['/customized-order-checkout'], { state: { book: bookDetails } });
+  this.router.navigate(['/customized-order-checkout'], { state: { book: bookDetails,coverPhotoFile: this.selectedFile } });
   console.log("book details", bookDetails);
 }
 
@@ -228,21 +211,22 @@ export class BookCustomizeComponent {
   }
 
   onFileChange(event: any) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.selectedFile = file;
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.imageUrl = e.target?.result;
-        // this.coverPhotoUrl = '/assets/images/dog.jpg';
-        this.bookForm.patchValue({ coverPhoto: this.coverPhotoUrl });
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    this.selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const base64Image = e.target?.result;
+      this.imageUrl = base64Image;
+      this.bookForm.patchValue({ coverPhoto: base64Image });
 
-        const f1Element = this.f1.nativeElement;
-        this.renderer.setStyle(f1Element, 'background-image', `url(${this.coverPhotoUrl})`);
-      };
-      reader.readAsDataURL(file);
-    }
+      const f1Element = this.f1.nativeElement;
+      this.renderer.setStyle(f1Element, 'background-image', `url(${base64Image})`);
+    };
+    reader.readAsDataURL(file);
   }
+}
+
 
   updateBookPreview(values: any) {
     // This method can be expanded based on how you want to handle the updates
@@ -268,79 +252,6 @@ export class BookCustomizeComponent {
     }
   }
 
-  placeOrder(){
-    this.submitted=true;
-    
-    const orderStatus = 'Pending';
-    const paymentMethod = this.selectedPaymentMethod;
-    const cost = 'undefined';
-    const customerId = 'undefined';
-    const orderDetails = {
-      date: new Date().toISOString(),
-      cost: cost.toString(),
-      paymentMethod: paymentMethod,
-      orderStatus: orderStatus,
-      customerId: this.userId
-    };
-
-    this.bookCustomizeService.saveOrderDetails(orderDetails).subscribe({
-          next:(datalist:any)=>{
-            if(!datalist || !datalist.orderId){
-              return;
-            }
-            const savedOrderId = datalist.orderId; 
-            console.log("Submitted Order Details",datalist);
-
-            const formData = new FormData();
-            const bookFormValue = { ...this.bookForm.value, orderId: savedOrderId };
-            const bookFormBlob = new Blob([JSON.stringify(bookFormValue)], {type: 'application/json'});
-            formData.append('bookForm', bookFormBlob);
-            if (this.selectedFile) {
-              formData.append('coverPhoto', this.selectedFile, this.selectedFile.name);
-            }
-              
-            this.bookCustomizeService.saveBookDetails(formData).subscribe({
-              next:(datalist:any[])=>{
-                if(datalist.length <= 0){
-                  return;
-                }
-                console.log("Submitted Customization Details",datalist);
-                
-              },
-              error:(error)=>{
-                this.messageService.showError('Action failed with error ' + error);
-              }
-            
-            });
-
-            const billingDataWithOrderId = { ...this.billingDetails, orderId: savedOrderId };
-
-            this.bookCustomizeService.saveBillingDetails(billingDataWithOrderId).subscribe({
-              next:(datalist:any[])=>{
-                if(datalist.length <= 0){
-                  return;
-                }
-                
-                console.log('Submitted billing details:', datalist);
-                
-              },
-              error:(error)=>{
-                this.messageService.showError('Action failed with error ' + error);
-              }
-            
-            });
-            
-          },
-          error:(error)=>{
-            this.messageService.showError('Action failed with error ' + error);
-          }
-        
-        });
-
-      this.messageService.showSuccess('Order Placed Successfully');
-
-  }
-
   increase() {
     const current = this.bookForm.get('quantity')?.value || 0;
     this.bookForm.get('quantity')?.setValue(current + 1);
@@ -350,19 +261,5 @@ export class BookCustomizeComponent {
     if (current > 1) {
       this.bookForm.get('quantity')?.setValue(current - 1);
     }
-  }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(BillingDetailsDialogComponent, {
-      width: '600px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Billing details received:', result);
-        this.billingDetails = result;
-        this.billingDetailsSubmitted = true;
-      }
-    });
   }
 }

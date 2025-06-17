@@ -78,6 +78,7 @@
               <mat-card-title> Your Order</mat-card-title>
             </mat-card-header>
             <mat-card-actions class="card">
+              <img *ngIf="bookDetails?.coverPhoto" [src]="bookDetails.coverPhoto" alt="Cover Photo" width="150">
                 <table>
                     <tr><td><strong>Material:</strong></td><td>{{ bookDetails?.material }}</td></tr>
                     <tr><td><strong>Paper Color:</strong></td><td>{{ bookDetails?.paperColor }}</td></tr>
@@ -96,6 +97,7 @@
                 <mat-radio-button value="1">Cash on Delivary</mat-radio-button><br>
                 <mat-radio-button value="2">Credit or Debit card</mat-radio-button>
               </mat-radio-group>
+              <span class="text-danger" *ngIf="submitted && !selectedPaymentMethod" >Please select a payment method.</span>
 
               <div class="payment-gateway" *ngIf="selectedPaymentMethod == '2'">
                 <form [formGroup] = "paymentForm">
