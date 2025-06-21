@@ -7,11 +7,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { CustomerLoginComponent } from './customer-login/customer-login.component';
 
 
 @NgModule({
   declarations: [
-    EmployeeLoginComponent
+    EmployeeLoginComponent,
+    CustomerLoginComponent
   ],
   imports: [
     RouterModule.forChild(LoginRoutes),

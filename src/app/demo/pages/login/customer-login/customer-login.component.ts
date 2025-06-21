@@ -1,25 +1,23 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { EmployeeLoginService } from 'src/app/services/employee-login-service/employee-login.service';
+import { CustomerLoginService } from 'src/app/services/customer-login-service/customer-login.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 
-
 @Component({
-  selector: 'app-employee-login',
+  selector: 'app-customer-login',
   standalone: false,
-  templateUrl: './employee-login.component.html',
-  styleUrl: './employee-login.component.scss'
+  templateUrl: './customer-login.component.html',
+  styleUrl: './customer-login.component.scss'
 })
-
-export class EmployeeLoginComponent {
-  employeeLoginForm : FormGroup;
+export class CustomerLoginComponent {
+  customerLoginForm : FormGroup;
 
   constructor(
     private fb : FormBuilder,
-    private employeeLoginService: EmployeeLoginService,
+    private customerLoginService: CustomerLoginService,
     private messageService: MessageServiceService
   ){
-    this.employeeLoginForm= this.fb.group({
+    this.customerLoginForm= this.fb.group({
       userName: new FormControl(''),
       password: new FormControl('')
     });
@@ -27,7 +25,7 @@ export class EmployeeLoginComponent {
   }
 
   onSubmit(){
-    this.employeeLoginService.serviceCall(this.employeeLoginForm.value).subscribe({
+    this.customerLoginService.serviceCall(this.customerLoginForm.value).subscribe({
       next: (datalist:any[]) => {
         if(datalist.length<=0){
           return;
@@ -38,6 +36,5 @@ export class EmployeeLoginComponent {
     },
       error: (error) => this.messageService.showError('Action failed with error ' + error)
     });
-  }
-
+}
 }
