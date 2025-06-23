@@ -25,4 +25,17 @@ export class CustomerLoginService {
 
     return this.http.post(requestUrl,form_details,{headers:headers});
   }
+
+  getCustomerLogin(){
+    const requestUrl = environment.baseUrl + '/customer-login';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl,{headers:headers});
+  }
 }

@@ -25,4 +25,17 @@ export class EmployeeLoginService {
 
     return this.http.post(requestUrl,form_details,{headers:headers});
   }
+
+  getEmployeeLogin(){
+    const requestUrl = environment.baseUrl + '/employee-login';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl,{headers:headers});
+  }
 }

@@ -5,7 +5,43 @@
   background-color: #f9f9f9;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  flex: 1;
+    input {
+      font-size: 100%;
+    }
+    mat-radio-button {
+      font-size: 100%;
+    }
+
+    mat-label{
+      margin-bottom: 50%;
+    }
+    
 }
+
+.container{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+  }
+
+  .table-section{
+    flex: 2;
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-height: 600px; /* Limit height */
+    overflow-y: auto;
+    overflow-x: auto;
+    width: 100%;
+    td{
+      font-size: 90%;
+      border-right: 1px solid #ccc; /* Light gray column separator */
+      padding: 3px;
+      border-bottom: 0px;
+    }
+  }
 
 .example-form {
   display: flex;
@@ -33,3 +69,25 @@
 .form-button:hover {
   background-color: #115293;
 }
+
+.filter-section{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+
+  }
+
+  .refresh{
+    margin-right: 16px;
+    padding: 5px 10px;
+
+  }
+
+  .filter{
+    flex: 1;
+    width: 100%;
+    mat-form-field{
+      width: 100%;
+    }
+  }

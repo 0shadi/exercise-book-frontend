@@ -1,16 +1,79 @@
-<div class="form-section">
+<div class="container">
+  <div class="form-section">
     <form [formGroup] = "employeeLoginForm"  class="example-form" (ngSubmit) = "onSubmit()" >
+      <mat-form-field class="example-full-width">
+        <mat-label>First Name</mat-label>
+        <input matInput  formControlName = "firstName">
+        <span class="text-danger" *ngIf="(employeeLoginForm.get('firstName').touched || submitted) && employeeLoginForm.get('firstName').errors && employeeLoginForm.get('firstName').errors['required']">First Name is required</span>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Last Name</mat-label>
+        <input matInput  formControlName = "lastName">
+        <span class="text-danger" *ngIf="(employeeLoginForm.get('lastName').touched || submitted) && employeeLoginForm.get('lastName').errors && employeeLoginForm.get('lastName').errors['required']">Last Name is required</span>
+      </mat-form-field>
 
       <mat-form-field class="example-full-width">
           <mat-label>Username</mat-label>
           <input matInput  formControlName = "userName">
+          <span class="text-danger" *ngIf="(employeeLoginForm.get('userName').touched || submitted) && employeeLoginForm.get('userName').errors && employeeLoginForm.get('userName').errors['required']">Username is required</span>
         </mat-form-field>
   
         <mat-form-field class="example-full-width">
           <mat-label>Password</mat-label>
           <input matInput  formControlName = "password">
+          <span class="text-danger" *ngIf="(employeeLoginForm.get('password').touched || submitted) && employeeLoginForm.get('password').errors && employeeLoginForm.get('password').errors['required']">Password is required</span>
         </mat-form-field>
         
         <button color="primary" type="submit" class="form-button">Login</button>
     </form>
   </div>
+  
+   <div class="table-section">
+    <div class="filter-section">
+      <div class="refresh">
+        <button mat-icon-button color="primary" (click)="refreshData()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+
+      <div class="filter">
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef> First Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef> Last Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef> User Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="password">
+        <th mat-header-cell *matHeaderCellDef> Password </th>
+        <td mat-cell *matCellDef="let element"> {{element.password}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+  </div>
+</div>
