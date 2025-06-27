@@ -4,33 +4,37 @@ import { CustomerRegistrationComponent } from './customer-registration/customer-
 import { ItemRegistrationComponent } from './item-registration/item-registration.component';
 import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
 import { SellingItemRegistrationComponent } from './selling-item-registration/selling-item-registration.component';
-
+import { GrnComponent } from './grn/grn.component';
 
 export const RegistrationRoutes: Routes = [
-    {
-        path: '',
-        children: [
-            {
-                path: 'employee-registration',
-                component: EmployeeRegistrationComponent
-              },
+  {
+    path: '',
+    children: [
+      {
+        path: 'employee-registration',
+        component: EmployeeRegistrationComponent
+      },
 
-              {
-                path: 'customer-registration',
-                component: CustomerRegistrationComponent
-              },
-              {
-                path: 'item-registration',
-                component: ItemRegistrationComponent
-              },
-              {
-                path: 'supplier-registration',
-                component: SupplierRegistrationComponent
-              },
-              {
-                path: 'selling-item-registration',
-                component: SellingItemRegistrationComponent
-              },
-]}
-   
+      {
+        path: 'customer-registration',
+        component: CustomerRegistrationComponent
+      },
+      {
+        path: 'item-registration',
+        component: ItemRegistrationComponent
+      },
+      {
+        path: 'supplier-registration',
+        component: SupplierRegistrationComponent
+      },
+      {
+        path: 'selling-item-registration',
+        component: SellingItemRegistrationComponent
+      },
+      {
+        path: 'grn',
+        component: GrnComponent
+      }
+    ]
+  }
 ];

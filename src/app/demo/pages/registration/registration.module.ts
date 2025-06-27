@@ -4,13 +4,13 @@ import { RegistrationRoutes } from './registration.routing.module';
 import { RouterModule } from '@angular/router';
 import { EmployeeRegistrationComponent } from './employee-registration/employee-registration.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormsModule} from '@angular/forms';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -19,7 +19,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ItemRegistrationComponent } from './item-registration/item-registration.component';
 import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
 import { SellingItemRegistrationComponent } from './selling-item-registration/selling-item-registration.component';
-
+import { GrnComponent } from './grn/grn.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +28,7 @@ import { SellingItemRegistrationComponent } from './selling-item-registration/se
     ItemRegistrationComponent,
     SupplierRegistrationComponent,
     SellingItemRegistrationComponent,
+    GrnComponent
   ],
   imports: [
     RouterModule.forChild(RegistrationRoutes),
@@ -46,8 +47,6 @@ import { SellingItemRegistrationComponent } from './selling-item-registration/se
     MatSelectModule,
     MatPaginatorModule,
     MatPaginator
-  
-  ],
-  
+  ]
 })
-export class RegistrationModule { }
+export class RegistrationModule {}
