@@ -47,6 +47,13 @@
                   <mat-option value="Brand B">Brand B</mat-option>
                 </mat-select>
             </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Item Category</mat-label>
+                <mat-select formControlName="itemCategory">
+                  <mat-option *ngFor="let category of itemCategories" [value]="category.name">{{ category.name }}</mat-option>
+                </mat-select>
+            </mat-form-field>
     
               <mat-form-field class="example-full-width" >
                 <mat-label>Description</mat-label>
@@ -54,12 +61,12 @@
                 <span class="text-danger" *ngIf="(itemForm.get('description').touched || submitted) && itemForm.get('description').errors && itemForm.get('description').errors['pattern']">Enter a valid description between 5 to 200 characters</span>
               </mat-form-field>
     
-              <mat-form-field class="example-full-width">
+              <!-- <mat-form-field class="example-full-width">
                 <mat-label>Supplier</mat-label>
                 <mat-select formControlName="supplier">
                   <mat-option *ngFor="let supplier of suppliers" [value]="supplier.supplierName">{{ supplier.supplierName }}</mat-option>
                 </mat-select>
-              </mat-form-field>
+              </mat-form-field> -->
               
               <button type="submit" class="btn-primary submit-btn" mat-raised-button [disabled]="isDisabled">{{saveButtonLabel}}</button>
               <button type="reset" class="btn-secondary reset-btn" mat-raised-button (click) = "resetItem()">Reset</button>
