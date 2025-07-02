@@ -5,7 +5,7 @@
   align-items: center;
 
   .b-bg {
-    background: $theme-color;
+    background: $theme-color3;
     border-radius: 10px;
     width: 35px;
     height: 35px;
@@ -14,7 +14,7 @@
     justify-content: center;
 
     i {
-      color: $white;
+      color: white;
     }
   }
 
@@ -77,7 +77,7 @@
       &:after,
       &:before {
         content: '';
-        background: $theme-color;
+        background: $theme-color3;
         position: absolute;
         top: 0;
         left: 0;
@@ -167,7 +167,7 @@
     color: $header-light-text-color;
 
     &:hover {
-      color: $primary-color;
+      color: white;
     }
   }
 
@@ -339,7 +339,7 @@
         &:focus,
         &:hover {
           a {
-            color: $theme-font-color;
+            color: white;
           }
         }
       }
@@ -565,6 +565,8 @@
 
 .pcoded-header,
 .pcoded-main-container {
+ background-color: #F4D793;
+//  background-image: url('/assets/images/oshadibook1.jpg');
   &:before {
     content: '';
     transition: all 0.3s ease-in-out;
@@ -813,8 +815,10 @@
       }
     }
     .nav-link:hover,
+
+    //focus nav link
     .nav-link:focus {
-      color: $primary-color;
+      color: rgb(255, 149, 0);
     }
   }
   // for navbar
@@ -1069,7 +1073,7 @@
       &:focus,
       &:hover {
         > a {
-          color: #1dc4e9;
+          color: #0ba500;
         }
       }
 
@@ -1079,7 +1083,8 @@
         &:hover {
           > a {
             &:before {
-              background: #1dc4e9;
+              background: #ffcc00;
+
             }
           }
         }
@@ -1091,7 +1096,7 @@
       &.pcoded-trigger {
         &:after {
           content: '';
-          background-color: #1dc4e9;
+          background-color: #ff0000;
           z-index: 1027;
           position: absolute;
           left: 0;
@@ -1101,7 +1106,7 @@
         }
 
         > a {
-          background: darken($menu-dark-background, 6%);
+          background:  black;
           color: $white;
         }
       }
@@ -1171,7 +1176,7 @@
       color: $header-dark-text-color;
 
       &:hover {
-        color: $primary-color;
+        color:white;
       }
     }
 

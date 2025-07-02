@@ -30,6 +30,12 @@ export class ItemRegistrationComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  itemCategories = [
+    { id: 1, name: 'Kg' },
+    { id: 2, name: 'Liter' },
+    { id: 3, name: 'Pcs' }
+  ];
+
   constructor(
     private fb: FormBuilder,
     private itemService : ItemRegistrationService,
@@ -44,6 +50,7 @@ export class ItemRegistrationComponent implements OnInit {
       elementType: new FormControl(''),
       itemBrand: new FormControl(''),
       description: new FormControl('',[Validators.pattern(/^[A-Za-z0-9.,()'"\s-]{5,200}$/)]),
+      itemCategory: new FormControl(''),
       supplier: new FormControl('')
     });
   }

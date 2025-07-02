@@ -15,9 +15,24 @@ import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 import { OrderListComponent } from './order-list/order-list.component';
 import { MatSelectModule } from '@angular/material/select';
+import { BillingDetailsDialogComponent } from './billing-details-dialog/billing-details-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { CustomizedOrderListComponent } from './customized-order-list/customized-order-list.component';
+import { CustomizedOrderCheckoutComponent } from './customized-order-checkout/customized-order-checkout.component';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
-  declarations: [OnlineOrderingComponent, ItemDetailsComponent, CheckoutComponent, BookCustomizeComponent,OrderListComponent],
+  declarations: [
+    OnlineOrderingComponent, 
+    ItemDetailsComponent, 
+    CheckoutComponent, 
+    BookCustomizeComponent,
+    OrderListComponent,
+    BillingDetailsDialogComponent,
+    CustomizedOrderListComponent,
+    CustomizedOrderCheckoutComponent
+  ],
   imports: [
     RouterModule.forChild(OrderRoutes),
     CommonModule,
@@ -29,7 +44,11 @@ import { MatSelectModule } from '@angular/material/select';
     MatRadioModule,
     MatIconModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule,
+    MatDatepicker,
+    MatDatepickerModule,
+    MatGridListModule
   ]
 })
 export class OrdersModule {}

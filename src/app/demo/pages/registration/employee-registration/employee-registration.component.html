@@ -8,15 +8,15 @@
           <span class="text-danger" *ngIf="(employeeForm.get('fullName').touched || submitted) && employeeForm.get('fullName').errors && employeeForm.get('fullName').errors['required']">First name is required</span>
           <span class="text-danger" *ngIf="(employeeForm.get('fullName').touched || submitted) && employeeForm.get('fullName').errors && employeeForm.get('fullName').errors['pattern']">Please enter a valid name</span>
         </mat-form-field>
-  
+
         <mat-form-field class="example-full-width">
           <mat-label>Calling Name</mat-label>
           <input matInput placeholder="Calling Name" formControlName = "callingName">
           <span class="text-danger" *ngIf="(employeeForm.get('callingName').touched||submitted) && employeeForm.get('callingName').errors && employeeForm.get('callingName').errors['minlength']">Enter atleast 3 characters</span>
           <span class="text-danger" *ngIf="(employeeForm.get('callingName').touched||submitted) && employeeForm.get('callingName').errors && employeeForm.get('callingName').errors['maxlength']">Enter maximum 15 characters</span>
           <span class="text-danger" *ngIf="(employeeForm.get('callingName').touched||submitted) && employeeForm.get('callingName').errors && employeeForm.get('callingName').errors['pattern']">Enter a valid name</span>
-        </mat-form-field> 
-  
+        </mat-form-field>
+
         <mat-form-field class="example-full-width">
           <mat-label>NIC Number</mat-label>
           <input matInput placeholder="NIC Number" formControlName = "nic">
@@ -29,7 +29,7 @@
           <span class="text-danger" *ngIf="(employeeForm.get('contactNo').touched||submitted) && employeeForm.get('contactNo').errors && employeeForm.get('contactNo').errors['required']">Contact number is required</span>
           <span class="text-danger" *ngIf="(employeeForm.get('contactNo').touched||submitted) && employeeForm.get('contactNo').errors && employeeForm.get('contactNo').errors['pattern']">Enter a valid contact number</span>
         </mat-form-field>
-  
+
         <mat-form-field class="example-full-width">
           <mat-label>Choose your date of Birth</mat-label>
           <input matInput [matDatepicker]="picker" formControlName = "bDay">
@@ -37,26 +37,26 @@
           <mat-datepicker #picker></mat-datepicker>
           <span class="text-danger" *ngIf="(employeeForm.get('bDay').touched||submitted) && employeeForm.get('bDay').errors">Enter a valid date of birth</span>
         </mat-form-field>
-  
+
         <div class="radio-button mb-4">
           <mat-label >Choose your gender</mat-label><br>
-          <mat-radio-group aria-label="Select an option" formControlName = "gender">          
+          <mat-radio-group aria-label="Select an option" formControlName = "gender">
             <mat-radio-button value="Male">Male</mat-radio-button>
             <mat-radio-button value="Female">Female</mat-radio-button>
           </mat-radio-group>
         </div>
-        
+
         <mat-form-field class="example-full-width">
           <mat-label>Address</mat-label>
           <input matInput placeholder="Address" formControlName = "address">
         </mat-form-field>
-  
+
         <mat-form-field class="example-full-width">
           <mat-label>Emergency contact Number</mat-label>
           <input matInput placeholder="Emergency contact Number" formControlName = "emergencyContactNumber">
           <span class="text-danger" *ngIf="(employeeForm.get('emergencyContactNumber').touched||submitted) && employeeForm.get('emergencyContactNumber').errors && employeeForm.get('emergencyContactNumber').errors['pattern']">Enter a valid phone number</span>
         </mat-form-field>
-  
+
         <mat-form-field class="example-full-width">
           <mat-label>Email</mat-label>
           <input matInput placeholder="Email" formControlName = "email">
@@ -70,9 +70,9 @@
             <mat-option value="Cashier">Cashier</mat-option>
           </mat-select>
         </mat-form-field>
-  
-        <button mat-raised-button class="submit-btn" type="submit" color="primary" [disabled]="isDisabled">{{saveButtonLabel}}</button>
-        <button class="reset-btn" type="reset" color="secondary" mat-raised-button (click) = "resetEmployee()">Reset</button>
+
+        <button type="button" class="btn btn-primary submit-btn" type="submit" [disabled]="isDisabled">{{saveButtonLabel}}</button>
+        <button  type="button" class="btn btn-secondary reset-btn" type="reset"  mat-raised-button (click) = "resetEmployee()">Reset</button>
     </form>
   </div>
 
@@ -83,7 +83,7 @@
           <mat-icon>refresh</mat-icon>
         </button>
       </div>
-  
+
       <div class="filter">
         <mat-form-field>
           <mat-label>Filter</mat-label>
@@ -98,17 +98,17 @@
         <th mat-header-cell *matHeaderCellDef> Employee Number </th>
         <td mat-cell *matCellDef="let element"> {{element.employeeNumber}} </td>
       </ng-container>
-    
+
       <ng-container matColumnDef="fullName">
         <th mat-header-cell *matHeaderCellDef> Full Name </th>
         <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
       </ng-container>
-    
+
       <ng-container matColumnDef="callingName">
         <th mat-header-cell *matHeaderCellDef> Calling Name </th>
         <td mat-cell *matCellDef="let element"> {{element.callingName}} </td>
       </ng-container>
-    
+
       <ng-container matColumnDef="nic">
         <th mat-header-cell *matHeaderCellDef> NIC number </th>
         <td mat-cell *matCellDef="let element"> {{element.nic}} </td>
@@ -151,7 +151,7 @@
 
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element"> 
+        <td mat-cell *matCellDef="let element">
           <button mat icon-button color="warm" (click)="editEmployee(element)" matTooltip="edit">
               <mat-icon>edit</mat-icon>
           </button>
@@ -161,14 +161,14 @@
           </button>
         </td>
       </ng-container>
-    
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-    
+
   </div>
 </div>
 

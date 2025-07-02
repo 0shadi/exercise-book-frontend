@@ -1,5 +1,11 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { BillingDetailsDialogComponent } from '../billing-details-dialog/billing-details-dialog.component';
+import { BookCustomizeService } from 'src/app/services/book-customize/book-customize.service';
+import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
+import { HttpService } from 'src/app/services/http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-customize',
@@ -73,6 +79,10 @@ export class BookCustomizeComponent {
   selectedPagesCount = '120';
   selectedPaperType = 'Single Ruled';
   selectedPaperQuality ='50 GSM';
+  quantity = 1;
+  selectedFile: File | null = null;
+  selectedPaymentMethod: string ;
+  userId = null; // user id changes
 
   @ViewChild('prevBtn') prevBtn!: ElementRef;
   @ViewChild('nextBtn') nextBtn!: ElementRef;
@@ -83,10 +93,15 @@ export class BookCustomizeComponent {
   @ViewChild('p3') paper3!: ElementRef;
 
   @ViewChild('f1') f1!: ElementRef;
+  billingDetails: any;
+  billingDetailsSubmitted = false;
+  paymentForm: FormGroup;
+  submitted=false;
 
   constructor(
     private renderer: Renderer2,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.bookForm = this.fb.group({
       coverPhoto: [''],
@@ -95,9 +110,18 @@ export class BookCustomizeComponent {
       size: [''],
       pagesCount : [''],
       paperType : [''],
-      paperQuality : ['']
+      paperQuality : [''],
+      quantity : ['']
     });
+
   }
+
+  goToCheckout() {
+  const bookDetails = this.bookForm.value;
+
+  this.router.navigate(['/customized-order-checkout'], { state: { book: bookDetails,coverPhotoFile: this.selectedFile } });
+  console.log("book details", bookDetails);
+}
 
   public openBook(): void {
     const bookElement = this.book.nativeElement;
@@ -187,20 +211,22 @@ export class BookCustomizeComponent {
   }
 
   onFileChange(event: any) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.imageUrl = e.target?.result;
-        // this.coverPhotoUrl = '/assets/images/dog.jpg';
-        this.bookForm.patchValue({ coverPhoto: this.coverPhotoUrl });
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    this.selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const base64Image = e.target?.result;
+      this.imageUrl = base64Image;
+      this.bookForm.patchValue({ coverPhoto: base64Image });
 
-        const f1Element = this.f1.nativeElement;
-        this.renderer.setStyle(f1Element, 'background-image', `url(${this.coverPhotoUrl})`);
-      };
-      reader.readAsDataURL(file);
-    }
+      const f1Element = this.f1.nativeElement;
+      this.renderer.setStyle(f1Element, 'background-image', `url(${base64Image})`);
+    };
+    reader.readAsDataURL(file);
   }
+}
+
 
   updateBookPreview(values: any) {
     // This method can be expanded based on how you want to handle the updates
@@ -223,6 +249,17 @@ export class BookCustomizeComponent {
       case 'Blank':
       default:
         return 'blank-paper';
+    }
+  }
+
+  increase() {
+    const current = this.bookForm.get('quantity')?.value || 0;
+    this.bookForm.get('quantity')?.setValue(current + 1);
+  }
+  decrease() {
+    const current = this.bookForm.get('quantity')?.value || 0;
+    if (current > 1) {
+      this.bookForm.get('quantity')?.setValue(current - 1);
     }
   }
 }
