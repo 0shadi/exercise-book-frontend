@@ -266,6 +266,26 @@ const NavigationItems = [
     ]
   },
   {
+    id: 'Reports',
+    title: 'Reports',
+    type: 'group',
+    icon: 'icon-navigation',
+    auth: authenticationEnum.Home,
+    isVisible: false,
+    children: [
+      {
+        id: 'EmployeeList',
+        title: 'Employee List',
+        type: 'item',
+        url: '/reports/employee-list',
+        icon: 'feather icon-home',
+        classes: 'nav-item',
+        auth: authenticationEnum.Home_Dashboard,
+        isVisible: false
+      }
+    ]
+  },
+  {
     id: 'ui-element',
     title: 'UI ELEMENT',
     type: 'group',
