@@ -1,0 +1,45 @@
+.container{
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+}
+
+mat-card {
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.table-container {
+  flex:1;
+  background-color: #fefefe;
+}
+
+.order-item-container{
+  flex:2;
+}
+
+.card{
+  display: flex;
+  flex-direction: column;
+}
+
+.status-section{
+  strong{
+    font-weight: 500;
+    font-size: large;
+    padding: 10px;
+  }
+  button{
+    background: maroon;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 12px auto;  
+    }
+}

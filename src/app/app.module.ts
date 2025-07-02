@@ -33,6 +33,7 @@ import { RegistrationModule } from './demo/pages/registration/registration.modul
 import { MatSelectModule } from '@angular/material/select';
 import { OrdersModule } from './demo/pages/orders/orders.module';
 import { LoginModule } from './demo/pages/login/login.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,10 @@ import { LoginModule } from './demo/pages/login/login.module';
     RegistrationModule,
     MatSelectModule,
     OrdersModule,
-    LoginModule
+    LoginModule,
+    NgbModule,
+    SharedModule,
+
   ],
   providers: [
     NavigationItem,

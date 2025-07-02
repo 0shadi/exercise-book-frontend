@@ -1,7 +1,7 @@
 <div class="book-customize-container">
   <div class="inputs">
     <h2>Book Designer</h2>
-    <form [formGroup]="bookForm">
+    <form [formGroup]="bookForm" >
       <div class="form-group">
         <label for="coverPhoto">Cover Photo</label>
         <input type="file" id="coverPhoto" accept="image/*" (change)="onFileChange($event)" />
@@ -77,7 +77,19 @@
         </select>
       </div>
 
-    </form>
+      <div class="quantity-selector">
+        <label>Quantity</label>
+        <br />
+        <button class="btn-primary" type="button"(click)="decrease()">−</button>
+        <input type="number" formControlName="quantity" readonly />
+        <button class="btn-primary" type="button"(click)="increase()">+</button>
+      </div>
+      </form>
+
+      <button class="btn btn-primary" (click)="goToCheckout()">Checkout</button>
+
+    
+    
   </div>
   <div class="preview">
     <div class="book-customize">

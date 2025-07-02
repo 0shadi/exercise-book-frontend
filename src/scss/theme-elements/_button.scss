@@ -5,17 +5,17 @@
 
 .btn-theme,
 a.btn-theme {
-  background: $theme-color;
+  background: $theme-color3;
   color: $white;
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.2);
-  border-color: #1de1c2;
+  border-color: #ffbf00;
   border-radius: 0.25rem;
   padding: 11px 25px;
 
   &:active,
   &:focus,
   &:not(:disabled):not(.disabled):active {
-    background-image: $theme-color;
+    background-image: $theme-color3;
     color: $white;
     box-shadow: none;
   }
@@ -43,7 +43,7 @@ a.btn-theme {
   }
 
   &.active {
-    background: $theme-color !important;
+    background: $theme-color3 !important;
     color: $white;
     box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.2);
     border: 1px solid transparent;
@@ -97,7 +97,7 @@ a.btn-theme {
 }
 
 .btn {
-  padding: 10px 20px;
+  // padding: 10px 20px;
   border-radius: 0.25rem;
   font-size: 14px;
   margin-bottom: 5px;

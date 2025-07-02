@@ -8,8 +8,9 @@ $Menu-collapsed-width: 80px;
 
 // color list for build layouts
 // temp variables
-$theme-color: linear-gradient(-135deg, #1de9b6 0%, #1dc4e9 100%);
-$theme-color2: linear-gradient(-135deg, #899fd4 0%, #a389d4 100%);
+$theme-color: linear-gradient(-135deg, #492f01 0%, #b26615 100%);
+$theme-color2: linear-gradient(-135deg, #492f01 0%, #b26615 100%);
+$theme-color3: linear-gradient(-135deg, #492f01 0%, #b26615 100%);
 $primary-color: #04a9f5;
 $warning-color: #f4c22b;
 $danger-color: #f44236;
@@ -25,22 +26,29 @@ $theme-border: #eaeaea;
 $white: #fff;
 
 // header
-$brand-background: #3f4d67;
-$header-dark-background: #3f4d67;
+$brand-background: #673f3f;
+
+
+
 $header-dark-text-color: #fff;
 $header-light-background: #fff;
-$header-light-text-color: #3f4d67;
-
+$header-light-text-color: #63673f;
 // Menu
 $menu-caption-color: #14171d;
-$menu-dark-background: #3f4d67;
-$menu-dark-text-color: #a9b7d0;
+
+// menu background color
+$menu-dark-background: #241501;
+//menu text color
+$menu-dark-text-color: #ffb300;
+// menu items inside color
+$header-dark-background: #241501;
+
 $menu-light-background: #fff;
-$menu-light-text-color: #3f4d67;
-$menu-active-color: #04a9f5;
+$menu-light-text-color: #673f57;
+$menu-active-color: #adf504;
 
 // dark layout colors
-$dark-layout: #212224;
+$dark-layout: #242121;
 $dark-layout-font: #adb7be;
 
 // Menu icon

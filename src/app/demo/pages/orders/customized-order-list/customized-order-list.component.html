@@ -1,0 +1,133 @@
+<h3>All Orders</h3>
+
+<div class="container">
+  <div class="table-container">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="orderId">
+    <th mat-header-cell *matHeaderCellDef> Order Id </th>
+    <td mat-cell *matCellDef="let element"> {{element.orderId}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef> Date </th>
+    <td mat-cell *matCellDef="let element"> {{element.date | date: 'dd/MM/yyyy'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="cost">
+    <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+    <td mat-cell *matCellDef="let element">Rs. {{element.cost}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="orderStatus">
+    <th mat-header-cell *matHeaderCellDef> Order Status </th>
+    <td mat-cell *matCellDef="let element"> {{element.orderStatus}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="paymentMethod">
+    <th mat-header-cell *matHeaderCellDef> Payment Method </th>
+    <td mat-cell *matCellDef="let element"> {{element.paymentMethod}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="details">
+    <th mat-header-cell *matHeaderCellDef> More details </th>
+    <td mat-cell *matCellDef="let element"> 
+
+      <button mat icon-button color="warm" (click)="viewDetails(element.orderId)" matTooltip="Details">
+          <mat-icon> visibility</mat-icon>
+      </button>
+
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+</div>
+
+<div class="order-item-container">
+
+<mat-card appearance="outlined" *ngIf="isOrderSelected">
+  <mat-card-header>
+    <mat-card-title> Book Details</mat-card-title>
+  </mat-card-header>
+  <mat-card-actions class="card">
+    <table mat-table [dataSource]="bookDetailsDataSource" class="order-item-table">
+      
+      <ng-container matColumnDef="orderId">
+        <th mat-header-cell *matHeaderCellDef> orderId </th>
+        <td mat-cell *matCellDef="let item"> {{ item.orderId }} </td>
+        <td mat-footer-cell *matFooterCellDef> Total </td>
+      </ng-container>
+
+      <ng-container matColumnDef="material">
+        <th mat-header-cell *matHeaderCellDef> material </th>
+        <td mat-cell *matCellDef="let item"> {{item.material}} </td>
+        <td mat-footer-cell *matFooterCellDef> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="paperColor">
+        <th mat-header-cell *matHeaderCellDef> paperColor </th>
+        <td mat-cell *matCellDef="let item"> {{item.paperColor}} </td>
+        <td mat-footer-cell *matFooterCellDef> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="size">
+        <th mat-header-cell *matHeaderCellDef> size </th>
+        <td mat-cell *matCellDef="let item"> {{item.size}} </td>
+        <td mat-footer-cell *matFooterCellDef> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="pagesCount">
+        <th mat-header-cell *matHeaderCellDef> pagesCount </th>
+        <td mat-cell *matCellDef="let item">{{item.pagesCount}} </td>
+        <td mat-footer-cell *matFooterCellDef> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="paperType">
+        <th mat-header-cell *matHeaderCellDef> paperType </th>
+        <td mat-cell *matCellDef="let item">{{item.paperType}} </td>
+        <td mat-footer-cell *matFooterCellDef> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="paperQuality">
+        <th mat-header-cell *matHeaderCellDef> paperQuality </th>
+        <td mat-cell *matCellDef="let item">{{item.paperQuality}} </td>
+        <td mat-footer-cell *matFooterCellDef> </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> quantity </th>
+        <td mat-cell *matCellDef="let item">{{ item.quantity }}</td>
+
+        <td mat-footer-cell *matFooterCellDef>Rs.</td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="bookDetailsDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: bookDetailsDisplayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="bookDetailsDisplayedColumns"></tr>
+      
+    </table>
+    <br><br>
+
+    <div class="status-section" *ngIf="selectedOrder" style="margin-top: 10px;">
+      <strong>Current Order Status:</strong> {{ selectedOrder.orderStatus }}
+      <br>
+          <strong>Change Order Status:</strong>
+          <mat-form-field>
+            <mat-label>Select the Order Status</mat-label>
+            <mat-select [(ngModel)]="selectedStatus">
+                <mat-option *ngFor="let status of orderStatusOptions" [value]="status">{{status}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br><br>
+
+          <button class="btn-primary" (click)="updateOrderStatus(selectedOrder)">Update Status</button>
+    </div>
+
+  </mat-card-actions>
+</mat-card>
+
+
+</div>
+</div>

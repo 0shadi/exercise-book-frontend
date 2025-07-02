@@ -3,12 +3,11 @@ import { FormBuilder,FormGroup,FormControl, Validators, AbstractControl } from '
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { findIndex } from 'rxjs';
 import { FormDemoServiceService } from 'src/app/services/form-demo/form-demo-service.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 
 const ELEMENT_DATA: any[] = [
-  {firstName: 1, lastName: 'Hydrogen', age: 1.0079, email: 'H'},
+  {firstName: 1, lastName: 'Hyd  rogen', age: 1.0079, email: 'H'},
 ];
 
 @Component({
@@ -70,13 +69,13 @@ export class FormDemoComponent implements OnInit{
       return null;
     }
 
-    
+
     // public populateData() : void{
     //     try{
     //       this.demoService.getData().subscribe(
     //         (response : any[])=>{
     //         console.log('get data response: ', response);
-  
+
     //         this.dataSource = new MatTableDataSource(response);
     //         this.dataSource.paginator = this.paginator;
     //         this.dataSource.sort = this.sort;
@@ -130,23 +129,23 @@ export class FormDemoComponent implements OnInit{
 
       if(this.mode === 'add'){
         // this.demoService.serviceCall(this.demoForm.value).subscribe((response)=>{
-          
+
         //   if(this.dataSource && this.dataSource.data && this.dataSource.data.length >0){
         //     this.dataSource= new MatTableDataSource([response,...this.dataSource.data]);
         //   }
-          
+
         //   else{
         //     this.dataSource= new MatTableDataSource([response]);
         //   }
         //   this.messageService.showSuccess("Data saved successfully");
-        // }); 
+        // });
 
         this.demoService.serviceCall(this.demoForm.value).subscribe({
           next:(response:any) =>{
             if(this.dataSource && this.dataSource.data && this.dataSource.data.length >0){
                   this.dataSource= new MatTableDataSource([response,...this.dataSource.data]);
                 }
-                
+
                 else{
                   this.dataSource= new MatTableDataSource([response]);
                 }
@@ -155,16 +154,16 @@ export class FormDemoComponent implements OnInit{
           error:(error) => {
             this.messageService.showError("Action failed with error" + error);
           }
-        }); 
+        });
       }
 
       //If the mode is edit
       else if(this.mode === 'edit'){
-        
+
         // this.demoService.editData(this.selectedData?.id, this.demoForm.value).subscribe((response)=>{
         //   let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
         //   this.dataSource.data[elementIndex] = response;
-          
+
         //   this.dataSource = new MatTableDataSource(this.dataSource.data); //Update the table in UI
         //   this.messageService.showSuccess("Data edited successfully");
         // });
@@ -173,7 +172,7 @@ export class FormDemoComponent implements OnInit{
           next : (response :any) => {
             let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
             this.dataSource.data[elementIndex] = response;
-            
+
             this.dataSource = new MatTableDataSource(this.dataSource.data); //Update the table in UI
             this.messageService.showSuccess("Data edited successfully");
           },
@@ -182,7 +181,7 @@ export class FormDemoComponent implements OnInit{
           }
         });
       }
-      
+
       this.mode = 'add';  //Changing the mode back to 'add' after editing something
       this.demoForm.disable(); //Disable the form after submit
       this.isButtonDisabled = true; //Disable the button after submit
@@ -245,7 +244,7 @@ export class FormDemoComponent implements OnInit{
     public refreshData(): void{
       this.populateData();
     }
-    
+
 }
 
 

@@ -7,17 +7,17 @@
         <span class="text-danger" *ngIf="(demoForm.get('firstName').touched || submitted) && demoForm.get('firstName').errors && demoForm.get('firstName').errors['required']">First name is required</span>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field  class="example-full-width">
           <mat-label>Last Name</mat-label>
           <input matInput placeholder="Last Name"  formControlName = "lastName">
-          <!--To check errors
+          <!--To check err
             <span class="text-danger" *ngIf="(demoForm.get('lastName').touched || submitted) && demoForm.get('lastName').errors">
               {{demoForm.get('lastName').errors | json}}
             </span> -->
           <span class="text-danger" *ngIf="(demoForm.get('lastName').touched || submitted) && demoForm.get('lastName').errors && demoForm.get('lastName').errors['minlength']">Enter minimum three characters</span>
           <span class="text-danger" *ngIf="(demoForm.get('lastName').touched || submitted) && demoForm.get('lastName').errors && demoForm.get('lastName').errors['maxlength']">Enter maximum 8 characters</span>
         </mat-form-field>
-  
+
         <mat-form-field class="example-full-width">
           <mat-label>Age</mat-label>
           <input matInput placeholder="Age"  formControlName = "age">
@@ -27,7 +27,7 @@
             <span *ngIf = "demoForm.get('age').errors['customAgeValidator']"> Insert a valid age </span>
           </span>
         </mat-form-field>
-  
+
         <mat-form-field class="example-full-width">
           <mat-label>Email</mat-label>
           <input matInput placeholder="Email"  formControlName = "email">
@@ -38,17 +38,17 @@
           <mat-label>Salary</mat-label>
           <input matInput placeholder="Email"  formControlName = "salary">
         </mat-form-field>
-        
-        <button color="primary" type="submit" class="form-button" [disabled]="isButtonDisabled">{{saveButtonLabel}}</button>
-        <button color="secondary" type="reset" class="form-button" (click)="resetData()">Reset</button>
-  
+
+       <button type="button" class="btn btn-primary form-button"  type="submit" [disabled]="isButtonDisabled">{{saveButtonLabel}}</button>
+        <button type="button" class="btn btn-info form-button" type="reset" (click)="resetData()">Re set</button>
+
     </form>
   </div>
   <div  class="table-section">
     <div class="refresh-filter-section">
       <div class="refreshButton">
         <button mat-icon-button color="primary" (click) = "refreshData()">
-          <mat-icon>refresh</mat-icon>  
+          <mat-icon>refresh</mat-icon>
         </button>
     </div>
     <mat-form-field class="filter">
@@ -63,19 +63,19 @@
         <th mat-header-cell *matHeaderCellDef> First Name </th>
         <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
       </ng-container>
-    
+
       <!-- Name Column -->
       <ng-container matColumnDef="lastName">
         <th mat-header-cell *matHeaderCellDef> Last Name </th>
         <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
       </ng-container>
-    
+
       <!-- Weight Column -->
       <ng-container matColumnDef="age">
         <th mat-header-cell *matHeaderCellDef> Age </th>
         <td mat-cell *matCellDef="let element"> {{element.age}} </td>
       </ng-container>
-    
+
       <!-- Symbol Column -->
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef> Email </th>
@@ -89,7 +89,7 @@
 
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element"> 
+        <td mat-cell *matCellDef="let element">
             <button mat icon-button color="warm" (click)="editData(element)" matTooltip="edit">
                 <mat-icon>edit</mat-icon>
             </button>
@@ -98,12 +98,11 @@
           </button>
         </td>
       </ng-container>
-    
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-    
+
   </div>
 </div>
-  
