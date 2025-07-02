@@ -150,8 +150,8 @@ export class GrnComponent implements OnInit {
     if (selectedItem) {
       // Patch the itemName to the form control
       this.innerForm.patchValue({ item: newItem?.itemName });
-      this.innerForm.patchValue({ itemCategory: newItem.category });
-      console.log(newItem?.name);
+      this.innerForm.patchValue({ itemCategory: newItem.itemCategory });
+      console.log(newItem);
     }
 
     if (selectedItem) {
@@ -201,6 +201,7 @@ export class GrnComponent implements OnInit {
   }
 
   editDataOuter(data: any) {
+    console.log(data);
     this.demoForm.patchValue(data);
     this.demoForm.patchValue({ addedDate: new Date(data.addedDate) });
     this.originalData = this.demoForm.value;

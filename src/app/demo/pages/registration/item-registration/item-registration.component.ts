@@ -1,11 +1,10 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
-import { FormBuilder,FormGroup,FormControl,Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ItemRegistrationService } from 'src/app/services/item-registration/item-registration.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
-import {MatPaginator} from '@angular/material/paginator';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-
 
 @Component({
   selector: 'app-item-registration',
@@ -17,16 +16,27 @@ export class ItemRegistrationComponent implements OnInit {
   itemForm: FormGroup;
   showElementType: boolean = false;
 
-  saveButtonLabel='Save';
+  saveButtonLabel = 'Save';
   mode = 'save';
   selectedData;
-  isDisabled=false;
-  submitted=false;
+  isDisabled = false;
+  submitted = false;
+  lastAddedRow: any = null;
 
   suppliers: any[] = [];
 
-  displayedColumns: string[] = ['itemId', 'itemCode', 'itemName', 'itemType','elementType','itemBrand','description','supplier','actions'];
-  dataSource : MatTableDataSource<any>;
+  displayedColumns: string[] = [
+    'itemId',
+    'itemCode',
+    'itemName',
+    'itemType',
+    'elementType',
+    'itemBrand',
+    'description',
+    'supplier',
+    'actions'
+  ];
+  dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -38,68 +48,80 @@ export class ItemRegistrationComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private itemService : ItemRegistrationService,
+    private itemService: ItemRegistrationService,
     private messageService: MessageServiceService
-
-  ){
-    this.itemForm=this.fb.group({
+  ) {
+    this.itemForm = this.fb.group({
       itemId: new FormControl(''),
-      itemCode: new FormControl('',[Validators.required,Validators.pattern(/^[A-Za-z]{3}(-?\d{1,4})$/)]),
-      itemName: new FormControl('',[Validators.required,Validators.pattern(/^[A-Za-z0-9\s(),&-]{1,100}$/)]),
+      itemCode: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z]{3}(-?\d{1,4})$/)]),
+      itemName: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z0-9\s(),&-]{1,100}$/)]),
       itemType: new FormControl(''),
       elementType: new FormControl(''),
       itemBrand: new FormControl(''),
-      description: new FormControl('',[Validators.pattern(/^[A-Za-z0-9.,()'"\s-]{5,200}$/)]),
+      description: new FormControl('', [Validators.pattern(/^[A-Za-z0-9.,()'"\s-]{5,200}$/)]),
       itemCategory: new FormControl(''),
       supplier: new FormControl('')
     });
   }
 
-  onSubmit(){
-    this.submitted=true;
+  onSubmit() {
+    this.submitted = true;
     try {
-      if(this.itemForm.invalid){
+      if (this.itemForm.invalid) {
         return;
       }
 
-      if(this.mode === 'save'){
+      if (this.mode === 'save') {
         console.log('Form Submitted!', this.itemForm.value);
-  
+
         this.itemService.serviceCall(this.itemForm.value).subscribe({
-          next:(datalist:any[])=>{
-            if(datalist.length <= 0){
+          next: (datalist: any) => {
+            if (datalist.length <= 0) {
               return;
             }
-  
-            if(this.dataSource && this.dataSource.data && this.dataSource.data.length >0){
-              this.dataSource= new MatTableDataSource([datalist,...this.dataSource.data]);
-            }         
-            else{
-              this.dataSource= new MatTableDataSource([datalist]);
+
+            if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0) {
+              this.dataSource = new MatTableDataSource([datalist, ...this.dataSource.data]);
+            } else {
+              this.dataSource = new MatTableDataSource([datalist]);
             }
-            
+            this.lastAddedRow = datalist; // Track the last added row
             this.messageService.showSuccess('Data Saved Successfully');
+            const addedID = (datalist as { itemId: number }).itemId;
+
+            setTimeout(() => {
+              this.lastAddedRow = null;
+              const dataObj = { stockItemID: addedID, qty: 0, stockItemName: this.itemForm.value.itemName };
+              console.log(dataObj);
+
+              this.itemService.createStock(dataObj).subscribe({
+                next: (response: any) => {
+                  console.log('stock data Server Response', response);
+                },
+                error: (error) => {
+                  console.log(error);
+                }
+              });
+            }, 3000);
           },
-          error:(error)=>{
+          error: (error) => {
             this.messageService.showError('Action failed with error ' + error);
           }
-          
         });
-      }
-      else if( this.mode === 'edit'){
+      } else if (this.mode === 'edit') {
         this.itemService.editItem(this.selectedData?.itemId, this.itemForm.value).subscribe({
-          next: (datalist:any[]) => {
-            if(datalist.length<=0){
+          next: (datalist: any[]) => {
+            if (datalist.length <= 0) {
               return;
             }
-  
+
             let elementIndex = this.dataSource.data.findIndex((element) => element.itemId === this.selectedData?.itemId);
-            this.dataSource.data[elementIndex] = datalist;          
+            this.dataSource.data[elementIndex] = datalist;
             this.dataSource = new MatTableDataSource(this.dataSource.data);
-  
+
             this.messageService.showSuccess('Data Edited Successfully');
           },
-          error: (error) => this.messageService.showError('Action failed with error'+ error)
+          error: (error) => this.messageService.showError('Action failed with error' + error)
         });
       }
     } catch (error) {
@@ -108,8 +130,8 @@ export class ItemRegistrationComponent implements OnInit {
 
     this.mode = 'save';
     this.itemForm.disable();
-    this.isDisabled=true;
-}
+    this.isDisabled = true;
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -125,105 +147,101 @@ export class ItemRegistrationComponent implements OnInit {
     this.showElement();
   }
 
-  populateData(){
-      try {
-        this.itemService.getItem().subscribe({
-          next: (datalist:any[]) => {
-            if(datalist.length<=0){
-              return;
-            }
-    
-            console.log('get data response: ',datalist);
-            this.dataSource = new MatTableDataSource(datalist);
+  populateData() {
+    try {
+      this.itemService.getItem().subscribe({
+        next: (datalist: any[]) => {
+          if (datalist.length <= 0) {
+            return;
+          }
 
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          },        
-          error: (error) => this.messageService.showError('Action failed with error ' + error)
-        });
+          console.log('get data response: ', datalist);
+          this.dataSource = new MatTableDataSource(datalist);
 
-        this.itemService.getSuppliers().subscribe({
-          next: (datalist:any[]) => {
-            if(datalist.length<=0){
-              return;
-            }
-    
-            this.suppliers = datalist;
-          },        
-          error: (error) => this.messageService.showError('Action failed with error ' + error)
-        });
-      } catch (error) {
-        this.messageService.showError('Action failed with error ' + error);
-      }
-      
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: (error) => this.messageService.showError('Action failed with error ' + error)
+      });
+
+      this.itemService.getSuppliers().subscribe({
+        next: (datalist: any[]) => {
+          if (datalist.length <= 0) {
+            return;
+          }
+
+          this.suppliers = datalist;
+        },
+        error: (error) => this.messageService.showError('Action failed with error ' + error)
+      });
+    } catch (error) {
+      this.messageService.showError('Action failed with error ' + error);
     }
-
-    editItem(data:any){
-      this.itemForm.patchValue(data);
-      this.saveButtonLabel='Edit';
-      this.mode = 'edit';
-      this.selectedData = data;
-    }
-
-    deleteItem(data:any){
-      this.selectedData = data;
-      const id = data.itemId;
-
-      try {
-        this.itemService.deleteItem(id).subscribe({
-          next: (datalist:any[]) => {
-            if(datalist.length<=0){
-              return;
-            }
-    
-            const index = this.dataSource.data.findIndex((element) => element.itemId === id);
-    
-            if(index !== -1){//If the index is available
-              this.dataSource.data.splice(index,1); //Remove the item from the data source
-            }
-    
-            this.dataSource = new MatTableDataSource(this.dataSource.data);
-    
-            this.messageService.showSuccess('Data Deleted Successfully');
-          },
-          error: (error) => this.messageService.showError('Action failed with error'+ error)
-        });
-      } catch (error) {
-        this.messageService.showError('Action failed with error'+ error);
-      }
-    
-    }
-
-    showElement(){
-      this.itemForm.get('itemType')?.valueChanges.subscribe((value ) => {
-        if (value === 'binding material') {
-          this.showElementType = true;
-          this.itemForm.get('elementType')?.enable(); // Enable the field
-        } else {
-          this.showElementType = false;
-          this.itemForm.get('elementType')?.setValue(''); // Reset value
-          this.itemForm.get('elementType')?.disable(); // Disable the field
-        }
-        });
-    
-        // Initially disable elementType
-        this.itemForm.get('elementType')?.disable();
-    }
-    
-
-    resetItem(){
-      this.saveButtonLabel='Save';
-      this.itemForm.enable();
-      this.isDisabled=false;
-
-      this.itemForm.setErrors =null;
-      this.itemForm.updateValueAndValidity();
-      this.submitted=false;
-    }
-
-    refreshData(){
-      this.populateData();
-    }
-    
   }
 
+  editItem(data: any) {
+    this.itemForm.patchValue(data);
+    this.saveButtonLabel = 'Edit';
+    this.mode = 'edit';
+    this.selectedData = data;
+  }
+
+  deleteItem(data: any) {
+    this.selectedData = data;
+    const id = data.itemId;
+
+    try {
+      this.itemService.deleteItem(id).subscribe({
+        next: (datalist: any[]) => {
+          if (datalist.length <= 0) {
+            return;
+          }
+
+          const index = this.dataSource.data.findIndex((element) => element.itemId === id);
+
+          if (index !== -1) {
+            //If the index is available
+            this.dataSource.data.splice(index, 1); //Remove the item from the data source
+          }
+
+          this.dataSource = new MatTableDataSource(this.dataSource.data);
+
+          this.messageService.showSuccess('Data Deleted Successfully');
+        },
+        error: (error) => this.messageService.showError('Action failed with error' + error)
+      });
+    } catch (error) {
+      this.messageService.showError('Action failed with error' + error);
+    }
+  }
+
+  showElement() {
+    this.itemForm.get('itemType')?.valueChanges.subscribe((value) => {
+      if (value === 'binding material') {
+        this.showElementType = true;
+        this.itemForm.get('elementType')?.enable(); // Enable the field
+      } else {
+        this.showElementType = false;
+        this.itemForm.get('elementType')?.setValue(''); // Reset value
+        this.itemForm.get('elementType')?.disable(); // Disable the field
+      }
+    });
+
+    // Initially disable elementType
+    this.itemForm.get('elementType')?.disable();
+  }
+
+  resetItem() {
+    this.saveButtonLabel = 'Save';
+    this.itemForm.enable();
+    this.isDisabled = false;
+
+    this.itemForm.setErrors = null;
+    this.itemForm.updateValueAndValidity();
+    this.submitted = false;
+  }
+
+  refreshData() {
+    this.populateData();
+  }
+}

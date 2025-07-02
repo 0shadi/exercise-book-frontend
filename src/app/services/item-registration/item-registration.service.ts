@@ -7,74 +7,88 @@ import { environment } from 'src/app/environments/environment';
   providedIn: 'root'
 })
 export class ItemRegistrationService {
-
   constructor(
-    private http:HttpClient,
-    private httpService:HttpService
-  ) { }
+    private http: HttpClient,
+    private httpService: HttpService
+  ) {}
 
-  serviceCall(form_details:any){
+  serviceCall(form_details: any) {
     const requestUrl = environment.baseUrl + '/item-registration';
 
     let headers = {};
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
-    return this.http.post(requestUrl,form_details,{headers:headers});
+    return this.http.post(requestUrl, form_details, { headers: headers });
   }
 
-  getItem(){
+  getItem() {
     const requestUrl = environment.baseUrl + '/item-registration';
 
     let headers = {};
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
-    return this.http.get(requestUrl, {headers:headers});
+    return this.http.get(requestUrl, { headers: headers });
   }
 
-  editItem(itemId:number, value:any){
-    const requestUrl = environment.baseUrl + '/item-registration/'+itemId.toString();
+  editItem(itemId: number, value: any) {
+    const requestUrl = environment.baseUrl + '/item-registration/' + itemId.toString();
 
     let headers = {};
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
-    return this.http.put(requestUrl,value,{headers:headers});
+    return this.http.put(requestUrl, value, { headers: headers });
   }
 
-  deleteItem(id:any){
-    const requestUrl = environment.baseUrl + '/item-registration/'+ id.toString();
+  deleteItem(id: any) {
+    const requestUrl = environment.baseUrl + '/item-registration/' + id.toString();
 
     let headers = {};
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
-    return this.http.delete(requestUrl,{headers:headers});
+    return this.http.delete(requestUrl, { headers: headers });
   }
 
-  getSuppliers(){
+  getSuppliers() {
     const requestUrl = environment.baseUrl + '/supplier-registration';
 
     let headers = {};
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
-    return this.http.get(requestUrl, {headers:headers});
+    return this.http.get(requestUrl, { headers: headers });
+  }
+
+  createStock(dataObj: any) {
+    const requestUrl = environment.baseUrl + '/stock'; //'http://localhost:8080/inner'
+
+    //get authtoken and set it to header
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
+      };
+    }
+
+    return this.http.post(requestUrl, dataObj, { headers: headers });
   }
 }

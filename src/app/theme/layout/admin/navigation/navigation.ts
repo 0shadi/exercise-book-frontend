@@ -243,7 +243,7 @@ const NavigationItems = [
           },
           {
             id: 'sellingItemRegistration',
-            title: 'Selling Item Registration',
+            title: 'Selling Items',
             type: 'item',
             url: '/registration/selling-item-registration',
             icon: 'ti ti-dashboard',
@@ -287,7 +287,7 @@ const NavigationItems = [
             type: 'item',
             url: '/basic/button',
             isVisible: false,
-            auth: authenticationEnum.Privileges,
+            auth: authenticationEnum.Privileges
           },
           {
             id: 'badges',
@@ -295,7 +295,7 @@ const NavigationItems = [
             type: 'item',
             url: '/basic/badges',
             isVisible: false,
-            auth: authenticationEnum.Privileges,
+            auth: authenticationEnum.Privileges
           },
           {
             id: 'breadcrumb-pagination',
@@ -303,7 +303,7 @@ const NavigationItems = [
             type: 'item',
             url: '/basic/breadcrumb-paging',
             isVisible: false,
-    auth: authenticationEnum.Privileges,
+            auth: authenticationEnum.Privileges
           },
           {
             id: 'collapse',
@@ -311,7 +311,7 @@ const NavigationItems = [
             type: 'item',
             url: '/basic/collapse',
             isVisible: false,
-    auth: authenticationEnum.Privileges,
+            auth: authenticationEnum.Privileges
           },
           {
             id: 'tabs-pills',
@@ -319,7 +319,7 @@ const NavigationItems = [
             type: 'item',
             url: '/basic/tabs-pills',
             isVisible: false,
-    auth: authenticationEnum.Privileges,
+            auth: authenticationEnum.Privileges
           },
           {
             id: 'typography',
@@ -327,7 +327,7 @@ const NavigationItems = [
             type: 'item',
             url: '/basic/typography',
             isVisible: false,
-    auth: authenticationEnum.Privileges,
+            auth: authenticationEnum.Privileges
           }
         ]
       }
@@ -349,7 +349,7 @@ const NavigationItems = [
         classes: 'nav-item',
         icon: 'feather icon-file-text',
         isVisible: false,
-    auth: authenticationEnum.Privileges,
+        auth: authenticationEnum.Privileges
       },
       {
         id: 'tables',
@@ -359,7 +359,7 @@ const NavigationItems = [
         classes: 'nav-item',
         icon: 'feather icon-server',
         isVisible: false,
-    auth: authenticationEnum.Privileges,
+        auth: authenticationEnum.Privileges
       }
     ]
   },
@@ -379,7 +379,7 @@ const NavigationItems = [
         classes: 'nav-item',
         icon: 'feather icon-pie-chart',
         isVisible: false,
-    auth: authenticationEnum.Privileges,
+        auth: authenticationEnum.Privileges
       }
     ]
   },
