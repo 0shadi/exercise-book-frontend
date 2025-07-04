@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BillingDetailsDialogComponent } from '../billing-details-dialog/billing-details-dialog.component';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './book-customize.component.html',
   styleUrl: './book-customize.component.scss'
 })
-export class BookCustomizeComponent {
+export class BookCustomizeComponent implements OnInit {
   public currentLocation = 1;
   public noOfPages = 3;
   public maxLocatin = this.noOfPages + 1;
@@ -27,6 +27,7 @@ export class BookCustomizeComponent {
   coverPhotoUrl: string = '';
   imageUrl: string | ArrayBuffer | null = '/assets/images/dog.jpg';
   defaultBookImage = ''; // 'assets/plain-book.png';
+  itemPriceMap: any[];
   materials = [
     { title: 'Paper', value: 'paper' },
     { title: 'Pulp', value: 'pulp' },
@@ -51,7 +52,7 @@ export class BookCustomizeComponent {
     { title: '80', value: '80' },
     { title: '120', value: '120' },
     { title: '160', value: '160' },
-    { title: '200', value: '200' },
+    { title: '200', value: '200' }
   ];
 
   paperTypes = [
@@ -78,11 +79,14 @@ export class BookCustomizeComponent {
   selectedSize = 'A4';
   selectedPagesCount = '120';
   selectedPaperType = 'Single Ruled';
-  selectedPaperQuality ='50 GSM';
+  selectedPaperQuality = '50 GSM';
   quantity = 1;
   selectedFile: File | null = null;
-  selectedPaymentMethod: string ;
+  selectedPaymentMethod: string;
   userId = null; // user id changes
+  bookPrice: number = 0;
+  pageCount: number = 1;
+  totalCostPerBook: number = 0;
 
   @ViewChild('prevBtn') prevBtn!: ElementRef;
   @ViewChild('nextBtn') nextBtn!: ElementRef;
@@ -96,32 +100,91 @@ export class BookCustomizeComponent {
   billingDetails: any;
   billingDetailsSubmitted = false;
   paymentForm: FormGroup;
-  submitted=false;
+  submitted = false;
 
   constructor(
     private renderer: Renderer2,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private bookCustomizeService: BookCustomizeService,
+    private messageService: MessageServiceService
   ) {
     this.bookForm = this.fb.group({
       coverPhoto: [''],
       material: [''],
       paperColor: [''],
       size: [''],
-      pagesCount : [''],
-      paperType : [''],
-      paperQuality : [''],
-      quantity : ['']
+      pagesCount: [''],
+      paperType: [''],
+      paperQuality: [''],
+      quantity: ['']
+    });
+  }
+  ngOnInit(): void {
+    this.getItemPriceMapDetails();
+  }
+
+  public setDefaultValues(): void {
+    this.bookForm.patchValue({
+      material: 'paper',
+      paperColor: 'white',
+      size: 'A4',
+      pagesCount: '40',
+      paperType: 'Single Ruled',
+      paperQuality: '50 GSM',
+      quantit: 1
     });
 
+    this.calculateInitialPrice(this.bookForm.value);
+  }
+
+  public calculateInitialPrice(bookFormValues: any): void {
+    console.log(bookFormValues);
+    Object.keys(bookFormValues).forEach((key) => {
+      const value = bookFormValues[key];
+      const typeObject = this.itemPriceMap.find((mapItem) => mapItem.item == value && mapItem.type == key);
+
+      if (typeObject && typeObject.price) {
+        const price = typeObject?.price ? typeObject.price : 0;
+        console.log(price);
+
+        if (key !== 'pagesCount') {
+          if (this.bookPrice && this.bookPrice !== 0) {
+            this.bookPrice = this.bookPrice / this.pageCount;
+          }
+
+          this.bookPrice = this.bookPrice + price;
+        }
+
+        if (key === 'pagesCount') {
+          this.pageCount = value;
+        }
+
+        console.log(this.bookPrice, ' -  ', this.pageCount);
+        this.totalCostPerBook = +this.bookPrice * +this.pageCount;
+        console.log('Total Cost', this.totalCostPerBook); // initial cost
+      }
+    });
+  }
+
+  public getItemPriceMapDetails(): void {
+    this.bookCustomizeService.getItemPriceMapDetails().subscribe({
+      next: (dataList: any[]) => {
+        this.itemPriceMap = dataList;
+        this.setDefaultValues();
+      },
+      error: (error) => {
+        this.messageService.showError('Action failed with error ' + error);
+      }
+    });
   }
 
   goToCheckout() {
-  const bookDetails = this.bookForm.value;
+    const bookDetails = this.bookForm.value;
 
-  this.router.navigate(['/customized-order-checkout'], { state: { book: bookDetails,coverPhotoFile: this.selectedFile } });
-  console.log("book details", bookDetails);
-}
+    this.router.navigate(['/customized-order-checkout'], { state: { book: bookDetails, coverPhotoFile: this.selectedFile } });
+    console.log('book details', bookDetails);
+  }
 
   public openBook(): void {
     const bookElement = this.book.nativeElement;
@@ -211,22 +274,21 @@ export class BookCustomizeComponent {
   }
 
   onFileChange(event: any) {
-  const file = (event.target as HTMLInputElement).files?.[0];
-  if (file) {
-    this.selectedFile = file;
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const base64Image = e.target?.result;
-      this.imageUrl = base64Image;
-      this.bookForm.patchValue({ coverPhoto: base64Image });
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const base64Image = e.target?.result;
+        this.imageUrl = base64Image;
+        this.bookForm.patchValue({ coverPhoto: base64Image });
 
-      const f1Element = this.f1.nativeElement;
-      this.renderer.setStyle(f1Element, 'background-image', `url(${base64Image})`);
-    };
-    reader.readAsDataURL(file);
+        const f1Element = this.f1.nativeElement;
+        this.renderer.setStyle(f1Element, 'background-image', `url(${base64Image})`);
+      };
+      reader.readAsDataURL(file);
+    }
   }
-}
-
 
   updateBookPreview(values: any) {
     // This method can be expanded based on how you want to handle the updates
@@ -261,5 +323,29 @@ export class BookCustomizeComponent {
     if (current > 1) {
       this.bookForm.get('quantity')?.setValue(current - 1);
     }
+  }
+
+  public onItemChange(type: any, event: any): void {
+    const item = event.target.value;
+    const typeObject = this.itemPriceMap.find((mapItem) => mapItem.item == item && mapItem.type == type);
+    const price = typeObject?.price ? typeObject.price : 0;
+
+    console.log(this.bookPrice);
+    console.log(price);
+
+    if (type !== 'pagesCount') {
+      if (this.bookPrice && this.bookPrice !== 0) {
+        this.bookPrice = this.bookPrice / this.pageCount;
+      }
+
+      this.bookPrice = this.bookPrice + price;
+    }
+
+    if (type === 'pagesCount') {
+      this.pageCount = item;
+    }
+
+    this.totalCostPerBook = +this.bookPrice * +this.pageCount;
+    console.log('Total Cost', this.totalCostPerBook); // can get the total cost here (Multiply by quantity to get the amount to pay)
   }
 }

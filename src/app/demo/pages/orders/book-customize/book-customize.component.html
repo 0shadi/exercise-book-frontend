@@ -1,7 +1,7 @@
 <div class="book-customize-container">
   <div class="inputs">
     <h2>Book Designer</h2>
-    <form [formGroup]="bookForm" >
+    <form [formGroup]="bookForm">
       <div class="form-group">
         <label for="coverPhoto">Cover Photo</label>
         <input type="file" id="coverPhoto" accept="image/*" (change)="onFileChange($event)" />
@@ -9,8 +9,14 @@
 
       <div class="form-group">
         <label for="material">Material</label>
-        <select id="material" formControlName="material" class="form-control" [(ngModel)]="selectedMaterial">
-          <option value="">Select Material</option>
+        <select
+          id="material"
+          formControlName="material"
+          class="form-control"
+          [(ngModel)]="selectedMaterial"
+          (change)="onItemChange('material', $event)"
+        >
+          <!-- <option value="">Select Material</option> -->
           <option *ngFor="let material of materials" [value]="material.value">
             {{ material.title }}
           </option>
@@ -25,6 +31,7 @@
           formControlName="paperColor"
           class="form-control"
           (ngModelChange)="onColorChange()"
+          (change)="onItemChange('paperColor', $event)"
         >
           <option *ngFor="let color of colors" [value]="color.value">
             {{ color.title }}
@@ -34,7 +41,12 @@
 
       <div class="form-group">
         <label for="paperType">Paper Type</label>
-        <select formControlName="paperType" class="form-control" [(ngModel)]="selectedPaperType">
+        <select
+          formControlName="paperType"
+          class="form-control"
+          [(ngModel)]="selectedPaperType"
+          (change)="onItemChange('paperType', $event)"
+        >
           <option *ngFor="let paperType of paperTypes" [value]="paperType.value">
             {{ paperType.title }}
           </option>
@@ -43,7 +55,12 @@
 
       <div class="form-group">
         <label for="paperQuality">Paper Quality</label>
-        <select formControlName="paperQuality" class="form-control" [(ngModel)]="selectedPaperQuality">
+        <select
+          formControlName="paperQuality"
+          class="form-control"
+          [(ngModel)]="selectedPaperQuality"
+          (change)="onItemChange('paperQuality', $event)"
+        >
           <option *ngFor="let paperQuality of paperQualities" [value]="paperQuality.value">
             {{ paperQuality.title }}
           </option>
@@ -52,7 +69,7 @@
 
       <div class="form-group">
         <label for="size">Size</label>
-        <select formControlName="size" class="form-control" [(ngModel)]="selectedSize">
+        <select formControlName="size" class="form-control" [(ngModel)]="selectedSize" (change)="onItemChange('size', $event)">
           <option *ngFor="let size of sizes" [value]="size.value">
             {{ size.title }}
           </option>
@@ -61,7 +78,12 @@
 
       <div class="form-group">
         <label for="pagesCount">Number of Pages</label>
-        <select formControlName="pagesCount" class="form-control" [(ngModel)]="selectedPagesCount" >
+        <select
+          formControlName="pagesCount"
+          class="form-control"
+          [(ngModel)]="selectedPagesCount"
+          (change)="onItemChange('pagesCount', $event)"
+        >
           <option *ngFor="let pagesCount of pagesCounts" [value]="pagesCount.value">
             {{ pagesCount.title }}
           </option>
@@ -70,7 +92,7 @@
 
       <div class="form-group">
         <label for="coverText">Cover Text</label>
-        <select formControlName="coverText" class="form-control" >
+        <select formControlName="coverText" class="form-control">
           <option *ngFor="let coverText of coverTexts" [value]="coverText.value">
             {{ coverText.title }}
           </option>
@@ -80,16 +102,13 @@
       <div class="quantity-selector">
         <label>Quantity</label>
         <br />
-        <button class="btn-primary" type="button"(click)="decrease()">−</button>
+        <button class="btn-primary" type="button" (click)="decrease()">−</button>
         <input type="number" formControlName="quantity" readonly />
-        <button class="btn-primary" type="button"(click)="increase()">+</button>
+        <button class="btn-primary" type="button" (click)="increase()">+</button>
       </div>
-      </form>
+    </form>
 
-      <button class="btn btn-primary" (click)="goToCheckout()">Checkout</button>
-
-    
-    
+    <button class="btn btn-primary" (click)="goToCheckout()">Checkout</button>
   </div>
   <div class="preview">
     <div class="book-customize">
@@ -129,7 +148,13 @@
             </div>
           </div>
           <div class="back">
-            <div id="b2" #b2 class="back-content" [style.backgroundColor]="selectedColor" [ngClass]="[selectedMaterial, getPaperRuleClass()]">
+            <div
+              id="b2"
+              #b2
+              class="back-content"
+              [style.backgroundColor]="selectedColor"
+              [ngClass]="[selectedMaterial, getPaperRuleClass()]"
+            >
               <h1>Back 2</h1>
             </div>
           </div>

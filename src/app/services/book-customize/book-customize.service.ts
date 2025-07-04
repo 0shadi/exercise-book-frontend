@@ -7,65 +7,64 @@ import { HttpService } from '../http.service';
   providedIn: 'root'
 })
 export class BookCustomizeService {
-
   constructor(
-    private http:HttpClient,
-    private httpService:HttpService
-  ) { }
+    private http: HttpClient,
+    private httpService: HttpService
+  ) {}
 
-  saveOrderDetails(form_details:any){
+  saveOrderDetails(form_details: any) {
     const requestUrl = environment.baseUrl + '/customization-orderDetails';
 
     let headers = {};
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
-    return this.http.post(requestUrl,form_details,{headers:headers});
+    return this.http.post(requestUrl, form_details, { headers: headers });
   }
 
-  saveBookDetails(form_details:FormData){
+  saveBookDetails(form_details: FormData) {
     const requestUrl = environment.baseUrl + '/customization-bookDetails';
 
     let headers = {};
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
-    return this.http.post(requestUrl,form_details,{headers:headers});
+    return this.http.post(requestUrl, form_details, { headers: headers });
   }
 
-  saveBillingDetails(form_details:any){
+  saveBillingDetails(form_details: any) {
     const requestUrl = environment.baseUrl + '/customization-billingDetails';
 
     let headers = {};
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
-    return this.http.post(requestUrl,form_details,{headers:headers});
+    return this.http.post(requestUrl, form_details, { headers: headers });
   }
 
-  getCustomizedOrderDetails(){
+  getCustomizedOrderDetails() {
     const requestUrl = environment.baseUrl + '/get-customized-order-details';
 
     let headers = {};
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
-    return this.http.get(requestUrl, {headers:headers});
+    return this.http.get(requestUrl, { headers: headers });
   }
 
-  getCustomizedBookDetails(orderId){
+  getCustomizedBookDetails(orderId) {
     const requestUrl = environment.baseUrl + '/get-customized-book-details/' + orderId;
 
     let headers = {};
@@ -79,16 +78,28 @@ export class BookCustomizeService {
   }
 
   editStatus(orderId: any, selectedStatus: any) {
-    const requestUrl = environment.baseUrl+'/update-order-status/'+orderId.toString();
+    const requestUrl = environment.baseUrl + '/update-order-status/' + orderId.toString();
 
     let headers = {};
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
-    return this.http.put(requestUrl,{ orderStatus: selectedStatus },{headers:headers});
-  
+    return this.http.put(requestUrl, { orderStatus: selectedStatus }, { headers: headers });
+  }
+
+  getItemPriceMapDetails() {
+    const requestUrl = environment.baseUrl + '/customize-book-item-price-map';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
+      };
+    }
+
+    return this.http.get(requestUrl, { headers: headers });
   }
 }
