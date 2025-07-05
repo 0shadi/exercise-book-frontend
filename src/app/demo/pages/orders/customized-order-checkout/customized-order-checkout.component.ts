@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BookCustomizeService } from 'src/app/services/book-customize/book-customize.service';
 import { HttpService } from 'src/app/services/http.service';
@@ -45,7 +45,7 @@ export class CustomizedOrderCheckoutComponent {
     this.paymentForm= this.fb.group({
       name: new FormControl('',[Validators.required,Validators.pattern(/^[a-zA-Z ]+$/)]),
       number: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{13,19}$/)]),
-      expDate: new FormControl('',[Validators.required]),
+      expDate: new FormControl('',[Validators.required,this.validateDate]),
       cvv: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{3,4}$/)])
     });
 
@@ -124,6 +124,21 @@ export class CustomizedOrderCheckoutComponent {
               }
             
             });
+
+            const paymentDetails = {...this.paymentForm.value, orderId: savedOrderId};
+            this.bookCustomizeService.saveCardDetails(paymentDetails).subscribe({
+              next:(datalist:any[])=>{
+                if(datalist.length <= 0){
+                  return;
+                }
+
+                console.log("Submitted payment values",datalist);
+              },
+              error:(error)=>{
+                this.messageService.showError('Action failed with error ' + error);
+              }
+        
+      });
             
           },
           error:(error)=>{
@@ -134,4 +149,18 @@ export class CustomizedOrderCheckoutComponent {
 
       this.messageService.showSuccess('Order Placed Successfully');
   }
+
+  validateDate(control: AbstractControl) {
+        if(!control){
+          return null;
+        }
+
+        const inputDate = new Date(control.value);
+        const today = new Date();
+
+        if (inputDate < today) {
+          return { expired: true };
+        }
+        return null;
+      }
 }

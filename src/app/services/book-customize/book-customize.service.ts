@@ -102,4 +102,17 @@ export class BookCustomizeService {
 
     return this.http.get(requestUrl, { headers: headers });
   }
+
+  saveCardDetails(form_details){
+    const requestUrl = environment.baseUrl + '/customization-cardDetails';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
+      };
+    }
+
+    return this.http.post(requestUrl, form_details, { headers: headers });
+  }
 }

@@ -21,6 +21,7 @@ import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker
 import { CustomizedOrderListComponent } from './customized-order-list/customized-order-list.component';
 import { CustomizedOrderCheckoutComponent } from './customized-order-checkout/customized-order-checkout.component';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatDialogModule,
     MatDatepicker,
     MatDatepickerModule,
-    MatGridListModule
+    MatGridListModule,
+    MatNativeDateModule,
   ]
 })
 export class OrdersModule {}

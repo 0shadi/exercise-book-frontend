@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OnlineOrderingService } from 'src/app/services/online-ordering/online-ordering.service';
-import { FormBuilder,FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder,FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 import { HttpService } from 'src/app/services/http.service';
@@ -50,7 +50,7 @@ export class CheckoutComponent implements OnInit {
     this.paymentForm= this.fb.group({
       name: new FormControl('',[Validators.required,Validators.pattern(/^[a-zA-Z ]+$/)]),
       number: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{13,19}$/)]),
-      expDate: new FormControl('',[Validators.required]),
+      expDate: new FormControl('',[Validators.required,this.validateDate]),
       cvv: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{3,4}$/)])
     });
   }
@@ -87,10 +87,11 @@ export class CheckoutComponent implements OnInit {
       (this.selectedPaymentMethod === '2' && this.paymentForm.invalid)){
         return;
       }
+
     const totalCost = this.getTotalCost();
     const paymentMethod = this.selectedPaymentMethod;
-    
 
+    //Saving billing details
     this.checkoutService.saveBillingDetails(this.billingDetailsForm.value).subscribe({
       next:(datalist:any)=>{
         if(datalist.length <= 0){
@@ -99,8 +100,9 @@ export class CheckoutComponent implements OnInit {
         const savedOrderId = datalist.orderId; 
         const customerId = datalist.customerId || '1';
         
-        console.log("Submitted values",datalist);
+        console.log("Submitted billing details",datalist);
 
+        //Saving order item details
         this.orderItems.forEach((item: any) => {
           const orderItemDetails = {
             itemId: item.itemId,
@@ -110,7 +112,6 @@ export class CheckoutComponent implements OnInit {
             subTotal: item.subTotal,
             orderId: savedOrderId
           };
-    
         this.checkoutService.saveOrderItemDetails(orderItemDetails).subscribe({
           next:(datalist:any[])=>{
             if(datalist.length <= 0){
@@ -126,6 +127,7 @@ export class CheckoutComponent implements OnInit {
         });
       });
       
+      //Saving order details
       const orderStatus = 'Pending';
       const orderDetails = {
         orderId: savedOrderId,
@@ -135,7 +137,6 @@ export class CheckoutComponent implements OnInit {
         orderStatus: orderStatus,
         customerId: this.userId
       };
-    
       this.checkoutService.saveOrderDetails(orderDetails).subscribe({
         next:(datalist:any[])=>{
           if(datalist.length <= 0){
@@ -143,6 +144,22 @@ export class CheckoutComponent implements OnInit {
           }
     
           console.log("Submitted values",datalist);
+        },
+        error:(error)=>{
+          this.messageService.showError('Action failed with error ' + error);
+        }
+        
+      });
+
+      //Saving card details
+      const paymentDetails = {...this.paymentForm.value, orderId: savedOrderId};
+      this.checkoutService.saveCardDetails(paymentDetails).subscribe({
+        next:(datalist:any[])=>{
+          if(datalist.length <= 0){
+            return;
+          }
+    
+          console.log("Submitted payment values",datalist);
         },
         error:(error)=>{
           this.messageService.showError('Action failed with error ' + error);
@@ -162,6 +179,20 @@ export class CheckoutComponent implements OnInit {
 
   
   }
+
+  validateDate(control: AbstractControl) {
+      if(!control){
+          return null;
+        }
+
+        const inputDate = new Date(control.value);
+        const today = new Date();
+
+        if (inputDate < today) {
+          return { expired: true };
+        }
+        return null;
+    }
 }
 
 

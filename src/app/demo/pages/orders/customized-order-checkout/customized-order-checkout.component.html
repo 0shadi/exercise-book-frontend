@@ -118,8 +118,11 @@
                   </mat-form-field>
 
                   <mat-form-field class="example-half-width">
-                    <mat-label>Expiration date</mat-label>
-                    <input matInput placeholder="MM/YY" type="month" formControlName = "expDate" >
+                    <mat-label>Choose the date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName = "expDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <span class="text-danger" *ngIf="(paymentForm.get('expDate').touched||submitted) && paymentForm.get('expDate').errors">Enter a valid expiray date</span>
                     <span class="text-danger" *ngIf="(paymentForm.get('expDate').touched||submitted) && paymentForm.get('expDate').errors && paymentForm.get('expDate').errors['required']">Expiration data is required</span>
                   </mat-form-field>
 

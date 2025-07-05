@@ -91,6 +91,18 @@ export class CheckoutService {
     return this.http.put(requestUrl,{ orderStatus: newStatus },{headers:headers});
   }
 
-}
+  saveCardDetails(form_details){
+    const requestUrl = environment.baseUrl + '/checkout-cardDetails';
+  
+      let headers = {};
+      if (this.httpService.getAuthToken() !== null) {
+        headers = {
+          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        };
+      }
+  
+      return this.http.post(requestUrl,form_details,{headers:headers});
+    }
+  }
 
 
