@@ -19,6 +19,8 @@ export class CustomizedOrderCheckoutComponent {
   selectedPaymentMethod:string;
   userId = null;
   coverPhotoFile;
+  totalCost;
+  totalCostPerBook;
 
   constructor(
     private fb : FormBuilder,
@@ -49,7 +51,9 @@ export class CustomizedOrderCheckoutComponent {
 
     const navigation = this.router.getCurrentNavigation();
     this.bookDetails = navigation?.extras?.state?.['book'];
-    this.coverPhotoFile = navigation?.extras?.state?.['coverPhotoFile']; 
+    this.coverPhotoFile = navigation?.extras?.state?.['coverPhotoFile'];
+    this.totalCost = navigation?.extras?.state?.['totalCost'];
+    this.totalCostPerBook = navigation?.extras?.state?.['totalCostPerBook'];
     this.setUserId();
   }
 
@@ -69,7 +73,7 @@ export class CustomizedOrderCheckoutComponent {
     const cost = 'Rs. ';
     const orderDetails = {
       date: new Date().toISOString(),
-      cost: cost.toString(),
+      cost: this.totalCost,
       paymentMethod: this.selectedPaymentMethod,
       orderStatus: 'Pending',
       customerId: this.userId

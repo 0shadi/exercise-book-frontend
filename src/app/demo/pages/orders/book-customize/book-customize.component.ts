@@ -87,6 +87,7 @@ export class BookCustomizeComponent implements OnInit {
   bookPrice: number = 0;
   pageCount: number = 1;
   totalCostPerBook: number = 0;
+  totalCost: number = 0;
 
   @ViewChild('prevBtn') prevBtn!: ElementRef;
   @ViewChild('nextBtn') nextBtn!: ElementRef;
@@ -132,7 +133,7 @@ export class BookCustomizeComponent implements OnInit {
       pagesCount: '40',
       paperType: 'Single Ruled',
       paperQuality: '50 GSM',
-      quantit: 1
+      quantity: 1
     });
 
     this.calculateInitialPrice(this.bookForm.value);
@@ -182,7 +183,7 @@ export class BookCustomizeComponent implements OnInit {
   goToCheckout() {
     const bookDetails = this.bookForm.value;
 
-    this.router.navigate(['/customized-order-checkout'], { state: { book: bookDetails, coverPhotoFile: this.selectedFile } });
+    this.router.navigate(['/customized-order-checkout'], { state: { book: bookDetails, coverPhotoFile: this.selectedFile,totalCost:this.totalCost, totalCostPerBook: this.totalCostPerBook } });
     console.log('book details', bookDetails);
   }
 
@@ -317,11 +318,13 @@ export class BookCustomizeComponent implements OnInit {
   increase() {
     const current = this.bookForm.get('quantity')?.value || 0;
     this.bookForm.get('quantity')?.setValue(current + 1);
+    this.onItemChange('quantity', { target: { value: current + 1 } });
   }
   decrease() {
     const current = this.bookForm.get('quantity')?.value || 0;
     if (current > 1) {
       this.bookForm.get('quantity')?.setValue(current - 1);
+      this.onItemChange('quantity', { target: { value: current - 1 } });
     }
   }
 
@@ -346,6 +349,16 @@ export class BookCustomizeComponent implements OnInit {
     }
 
     this.totalCostPerBook = +this.bookPrice * +this.pageCount;
-    console.log('Total Cost', this.totalCostPerBook); // can get the total cost here (Multiply by quantity to get the amount to pay)
+    console.log('Total Cost Per Book', this.totalCostPerBook); // can get the total cost here (Multiply by quantity to get the amount to pay)
+    
+    if (type === 'quantity') {
+    this.quantity = +item;
+    this.totalCost = this.totalCostPerBook * this.quantity;
+    return;
+  }
+
+    this.totalCost = this.totalCostPerBook * this.quantity;
+    console.log('Quantity', this.quantity);
+    console.log('Total Cost', this.totalCost);
   }
 }
