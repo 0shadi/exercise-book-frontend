@@ -38,4 +38,31 @@ export class CustomerLoginService {
 
     return this.http.get(requestUrl,{headers:headers});
   }
+
+  editData(id: number, value: any) {
+    const requestUrl = environment.baseUrl + '/customer-login/'+ id.toString();
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.put(requestUrl,value,{headers:headers});
+  }
+
+
+  deleteData(id: number) {
+    const requestUrl = environment.baseUrl + '/customer-login/'+ id.toString();
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.delete(requestUrl,{headers:headers});
+  }
 }

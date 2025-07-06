@@ -1,15 +1,18 @@
 <div class="container">
   <div class="form-section">
+    <p>Customer Form<p>
     <form [formGroup] = "customerLoginForm"  class="example-form" (ngSubmit) = "onSubmit()" >
       <mat-form-field class="example-full-width">
         <mat-label>First Name</mat-label>
         <input matInput  formControlName = "firstName">
         <span class="text-danger" *ngIf="(customerLoginForm.get('firstName').touched || submitted) && customerLoginForm.get('firstName').errors && customerLoginForm.get('firstName').errors['required']">First Name is required</span>
+        <span class="text-danger" *ngIf="(customerLoginForm.get('firstName').touched || submitted) && customerLoginForm.get('firstName').errors && customerLoginForm.get('firstName').errors['pattern']">Enter a valid name</span>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <mat-label>Last Name</mat-label>
         <input matInput  formControlName = "lastName">
+        <span class="text-danger" *ngIf="(customerLoginForm.get('lastName').touched || submitted) && customerLoginForm.get('lastName').errors && customerLoginForm.get('lastName').errors['pattern']">Enter a valid name</span>
         <span class="text-danger" *ngIf="(customerLoginForm.get('lastName').touched || submitted) && customerLoginForm.get('lastName').errors && customerLoginForm.get('lastName').errors['required']">Last Name is required</span>
       </mat-form-field>
 
@@ -17,21 +20,24 @@
           <mat-label>Username</mat-label>
           <input matInput  formControlName = "userName">
           <span class="text-danger" *ngIf="(customerLoginForm.get('userName').touched || submitted) && customerLoginForm.get('userName').errors && customerLoginForm.get('userName').errors['required']">Username is required</span>
+          <span class="text-danger" *ngIf="(customerLoginForm.get('userName').touched || submitted) && customerLoginForm.get('userName').errors && customerLoginForm.get('userName').errors['pattern']">Username must be 4–10 characters long and can only contain letters, numbers, dots (.) and underscores (_)</span>
         </mat-form-field>
   
         <mat-form-field class="example-full-width">
           <mat-label>Password</mat-label>
           <input matInput  formControlName = "password">
           <span class="text-danger" *ngIf="(customerLoginForm.get('password').touched || submitted) && customerLoginForm.get('password').errors && customerLoginForm.get('password').errors['required']">Password is required</span>
+          <span class="text-danger" *ngIf="(customerLoginForm.get('password').touched || submitted) && customerLoginForm.get('password').errors && customerLoginForm.get('password').errors['pattern']">Password must be 6–12 characters and include at least one uppercase letter, one lowercase letter, one digit, and one special character</span>
         </mat-form-field>
         
-        <button color="primary" type="submit" class="form-button">Login</button>
+        <button class="btn-primary submit-btn" type="submit" [disabled]="isDisabled">{{saveButtonLabel}}</button>
+        <button class="btn-secondary reset-btn" type="reset" (click) = "resetData()">Reset</button>
     </form>
   </div>
 
   <div class="table-section">
-    <div class="filter-section">
-      <div class="refresh">
+    <div class="refresh-filter-section">
+      <div class="refreshButton">
         <button mat-icon-button color="primary" (click)="refreshData()">
           <mat-icon>refresh</mat-icon>
         </button>
@@ -65,6 +71,21 @@
       <ng-container matColumnDef="password">
         <th mat-header-cell *matHeaderCellDef> Password </th>
         <td mat-cell *matCellDef="let element"> {{element.password}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="actions">
+            <button mat icon-button color="warm" (click)="editData(element)" matTooltip="edit">
+              <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat icon-button color="warm" (click)="deleteData(element)" matTooltip="delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+          </div>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
