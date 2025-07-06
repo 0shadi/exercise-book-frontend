@@ -165,26 +165,26 @@ const NavigationItems = [
       }
     ]
   },
-  {
-    id: 'FormDemo',
-    title: 'Form Demo',
-    type: 'group',
-    icon: 'icon-navigation',
-    auth: authenticationEnum.Home,
-    isVisible: false,
-    children: [
-      {
-        id: 'FormDemoDet',
-        title: 'Form-Demo',
-        type: 'item',
-        url: '/privileges/form-demo',
-        icon: 'feather icon-home',
-        classes: 'nav-item',
-        auth: authenticationEnum.Home_Dashboard,
-        isVisible: true
-      }
-    ]
-  },
+  // {
+  //   id: 'FormDemo',
+  //   title: 'Form Demo',
+  //   type: 'group',
+  //   icon: 'icon-navigation',
+  //   auth: authenticationEnum.Home,
+  //   isVisible: false,
+  //   children: [
+  //     {
+  //       id: 'FormDemoDet',
+  //       title: 'Form-Demo',
+  //       type: 'item',
+  //       url: '/privileges/form-demo',
+  //       icon: 'feather icon-home',
+  //       classes: 'nav-item',
+  //       auth: authenticationEnum.Home_Dashboard,
+  //       isVisible: true
+  //     }
+  //   ]
+  // },
   {
     id: 'registration',
     title: 'Registration Section',
@@ -285,104 +285,105 @@ const NavigationItems = [
       }
     ]
   },
-  {
-    id: 'ui-element',
-    title: 'UI ELEMENT',
-    type: 'group',
-    icon: 'icon-ui',
-    isVisible: false,
-    auth: authenticationEnum.Privileges,
-    children: [
-      {
-        id: 'basic',
-        title: 'Component',
-        type: 'collapse',
-        icon: 'feather icon-box',
-        isVisible: false,
-        auth: authenticationEnum.Privileges,
-        children: [
-          {
-            id: 'button',
-            title: 'Button',
-            type: 'item',
-            url: '/basic/button',
-            isVisible: false,
-            auth: authenticationEnum.Privileges
-          },
-          {
-            id: 'badges',
-            title: 'Badges',
-            type: 'item',
-            url: '/basic/badges',
-            isVisible: false,
-            auth: authenticationEnum.Privileges
-          },
-          {
-            id: 'breadcrumb-pagination',
-            title: 'Breadcrumb & Pagination',
-            type: 'item',
-            url: '/basic/breadcrumb-paging',
-            isVisible: false,
-            auth: authenticationEnum.Privileges
-          },
-          {
-            id: 'collapse',
-            title: 'Collapse',
-            type: 'item',
-            url: '/basic/collapse',
-            isVisible: false,
-            auth: authenticationEnum.Privileges
-          },
-          {
-            id: 'tabs-pills',
-            title: 'Tabs & Pills',
-            type: 'item',
-            url: '/basic/tabs-pills',
-            isVisible: false,
-            auth: authenticationEnum.Privileges
-          },
-          {
-            id: 'typography',
-            title: 'Typography',
-            type: 'item',
-            url: '/basic/typography',
-            isVisible: false,
-            auth: authenticationEnum.Privileges
-          }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'forms',
-    title: 'Forms & Tables',
-    type: 'group',
-    icon: 'icon-group',
-    isVisible: false,
-    auth: authenticationEnum.Privileges,
-    children: [
-      {
-        id: 'forms-element',
-        title: 'Form Elements',
-        type: 'item',
-        url: '/forms/basic',
-        classes: 'nav-item',
-        icon: 'feather icon-file-text',
-        isVisible: false,
-        auth: authenticationEnum.Privileges
-      },
-      {
-        id: 'tables',
-        title: 'Tables',
-        type: 'item',
-        url: '/tables/bootstrap',
-        classes: 'nav-item',
-        icon: 'feather icon-server',
-        isVisible: false,
-        auth: authenticationEnum.Privileges
-      }
-    ]
-  },
+  // {
+  //   id: 'ui-element',
+  //   title: 'UI ELEMENT',
+  //   type: 'group',
+  //   icon: 'icon-ui',
+  //   isVisible: false,
+  //   auth: authenticationEnum.Privileges,
+  //   children: [
+  //     {
+  //       id: 'basic',
+  //       title: 'Component',
+  //       type: 'collapse',
+  //       icon: 'feather icon-box',
+  //       isVisible: false,
+  //       auth: authenticationEnum.Privileges,
+  //       children: [
+  //         {
+  //           id: 'button',
+  //           title: 'Button',
+  //           type: 'item',
+  //           url: '/basic/button',
+  //           isVisible: false,
+  //           auth: authenticationEnum.Privileges
+  //         },
+  //         {
+  //           id: 'badges',
+  //           title: 'Badges',
+  //           type: 'item',
+  //           url: '/basic/badges',
+  //           isVisible: false,
+  //           auth: authenticationEnum.Privileges
+  //         },
+  //         {
+  //           id: 'breadcrumb-pagination',
+  //           title: 'Breadcrumb & Pagination',
+  //           type: 'item',
+  //           url: '/basic/breadcrumb-paging',
+  //           isVisible: false,
+  //           auth: authenticationEnum.Privileges
+  //         },
+  //         {
+  //           id: 'collapse',
+  //           title: 'Collapse',
+  //           type: 'item',
+  //           url: '/basic/collapse',
+  //           isVisible: false,
+  //           auth: authenticationEnum.Privileges
+  //         },
+  //         {
+  //           id: 'tabs-pills',
+  //           title: 'Tabs & Pills',
+  //           type: 'item',
+  //           url: '/basic/tabs-pills',
+  //           isVisible: false,
+  //           auth: authenticationEnum.Privileges
+  //         },
+  //         {
+  //           id: 'typography',
+  //           title: 'Typography',
+  //           type: 'item',
+  //           url: '/basic/typography',
+  //           isVisible: false,
+  //           auth: authenticationEnum.Privileges
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
+
+  // {
+  //   id: 'forms',
+  //   title: 'Forms & Tables',
+  //   type: 'group',
+  //   icon: 'icon-group',
+  //   isVisible: false,
+  //   auth: authenticationEnum.Privileges,
+  //   children: [
+  //     {
+  //       id: 'forms-element',
+  //       title: 'Form Elements',
+  //       type: 'item',
+  //       url: '/forms/basic',
+  //       classes: 'nav-item',
+  //       icon: 'feather icon-file-text',
+  //       isVisible: false,
+  //       auth: authenticationEnum.Privileges
+  //     },
+  //     {
+  //       id: 'tables',
+  //       title: 'Tables',
+  //       type: 'item',
+  //       url: '/tables/bootstrap',
+  //       classes: 'nav-item',
+  //       icon: 'feather icon-server',
+  //       isVisible: false,
+  //       auth: authenticationEnum.Privileges
+  //     }
+  //   ]
+  // },
   {
     id: 'chart-maps',
     title: 'Chart',
