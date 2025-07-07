@@ -2,6 +2,14 @@
   <div class="form-section">
     <p>Customer Form<p>
     <form [formGroup] = "customerLoginForm"  class="example-form" (ngSubmit) = "onSubmit()" >
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Customer Name</mat-label>
+        <mat-select  formControlName="customerName">
+          <mat-option *ngFor="let customer of customers" [value]="customer.customerName">{{ customer.customerName }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <mat-form-field class="example-full-width">
         <mat-label>First Name</mat-label>
         <input matInput  formControlName = "firstName">

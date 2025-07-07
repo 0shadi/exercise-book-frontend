@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EmployeeLoginService } from 'src/app/services/employee-login-service/employee-login.service';
+import { EmployeeRegistrationServiceService } from 'src/app/services/employee-registration/employee-registration-service.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 
 
@@ -28,15 +29,18 @@ export class EmployeeLoginComponent implements OnInit {
   saveButtonLabel='Save';
   mode = 'save';
 
+  employees = [];
+
   constructor(
     private fb : FormBuilder,
     private employeeLoginService: EmployeeLoginService,
-    private messageService: MessageServiceService
+    private messageService: MessageServiceService,
+    private employeeRegistrationService : EmployeeRegistrationServiceService
   ){
     this.employeeLoginForm= this.fb.group({
       id: new FormControl('',),
-      firstName: new FormControl('', [Validators.required,Validators.pattern('^[A-Za-z]{2,30}$')]),
-      lastName: new FormControl('', [Validators.required,Validators.pattern('^[A-Za-z]{2,30}$')]),
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
       userName: new FormControl('', [Validators.required,Validators.pattern('^[a-zA-Z0-9._]{4,10}$')]),
       password: new FormControl('', [Validators.required,Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=])[A-Za-z\\d!@#$%^&*()_+\\-=]{6,12}$')])
     });
@@ -45,6 +49,7 @@ export class EmployeeLoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.populateData();
+    this.getEmployees();
   }
 
   populateData() {
@@ -181,6 +186,18 @@ export class EmployeeLoginComponent implements OnInit {
     catch(error){
       this.messageService.showError('Action failed with error ' + error);
     }
+  }
+
+  getEmployees(){
+    this.employeeRegistrationService.getEmployee().subscribe({
+        next: (datalist:any[]) => {
+          if(datalist.length<=0){
+            return;
+          }
+          this.employees = datalist;
+        },        
+        error: (error) => this.messageService.showError('Action failed with error ' + error)
+      });
   }
 
 }

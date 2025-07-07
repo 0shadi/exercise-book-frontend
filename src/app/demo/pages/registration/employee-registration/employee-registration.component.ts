@@ -33,6 +33,12 @@ export class EmployeeRegistrationComponent implements OnInit {
   
   employeeForm: FormGroup;
 
+  roles = [
+    { id: 1, name: 'Cashier' },
+    { id: 2, name: 'Delliveryman' },
+    { id: 3, name: 'Production staff' }
+  ];
+
   constructor(
     private fb : FormBuilder,
     private employeeService: EmployeeRegistrationServiceService,
@@ -40,6 +46,8 @@ export class EmployeeRegistrationComponent implements OnInit {
   ){
     this.employeeForm = this.fb.group({
       employeeNumber:new FormControl(''),
+      firstName:new FormControl('',[Validators.required,Validators.pattern('^[A-Za-z ]+$')]),
+      lastName:new FormControl('',[Validators.required,Validators.pattern('^[A-Za-z ]+$')]),
       fullName:new FormControl('',[Validators.required,Validators.pattern('^[A-Za-z ]+$')]),
       callingName:new FormControl('',[Validators.minLength(3),Validators.maxLength(15),Validators.pattern('^[A-Za-z]+$')]),
       nic:new FormControl('',[Validators.pattern(/^(?:\d{9}[VvXx]|\d{12})$/)]),

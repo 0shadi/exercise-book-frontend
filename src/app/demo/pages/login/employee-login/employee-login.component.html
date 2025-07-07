@@ -2,18 +2,21 @@
   <div class="form-section">
     <p>Employee Form</p>
     <form [formGroup] = "employeeLoginForm"  class="example-form" (ngSubmit) = "onSubmit()" >
+
       <mat-form-field class="example-full-width">
         <mat-label>First Name</mat-label>
-        <input matInput  formControlName = "firstName">
+        <mat-select  formControlName="firstName">
+          <mat-option *ngFor="let employee of employees" [value]="employee.firstName">{{ employee.firstName }}</mat-option>
+        </mat-select>
         <span class="text-danger" *ngIf="(employeeLoginForm.get('firstName').touched || submitted) && employeeLoginForm.get('firstName').errors && employeeLoginForm.get('firstName').errors['required']">First Name is required</span>
-        <span class="text-danger" *ngIf="(employeeLoginForm.get('firstName').touched || submitted) && employeeLoginForm.get('firstName').errors && employeeLoginForm.get('firstName').errors['pattern']">Enter a valid name</span>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
         <mat-label>Last Name</mat-label>
-        <input matInput  formControlName = "lastName">
+        <mat-select  formControlName="lastName">
+          <mat-option *ngFor="let employee of employees" [value]="employee.lastName">{{ employee.lastName }}</mat-option>
+        </mat-select>
         <span class="text-danger" *ngIf="(employeeLoginForm.get('lastName').touched || submitted) && employeeLoginForm.get('lastName').errors && employeeLoginForm.get('lastName').errors['required']">Last Name is required</span>
-        <span class="text-danger" *ngIf="(employeeLoginForm.get('lastName').touched || submitted) && employeeLoginForm.get('lastName').errors && employeeLoginForm.get('lastName').errors['pattern']">Enter a valid name</span>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">

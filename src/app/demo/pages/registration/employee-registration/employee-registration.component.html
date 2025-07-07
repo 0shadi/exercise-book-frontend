@@ -2,7 +2,21 @@
   <div class="form-section">
     <form [formGroup] ="employeeForm" class="example-form" (ngSubmit)="onSubmit()">
 
-      <mat-form-field class="example-full-width">
+        <mat-form-field class="example-full-width">
+          <mat-label>First name</mat-label>
+          <input matInput placeholder="First name" formControlName = "firstName">
+          <span class="text-danger" *ngIf="(employeeForm.get('firstName').touched || submitted) && employeeForm.get('firstName').errors && employeeForm.get('firstName').errors['required']">First name is required</span>
+          <span class="text-danger" *ngIf="(employeeForm.get('firstName').touched || submitted) && employeeForm.get('firstName').errors && employeeForm.get('firstName').errors['pattern']">Please enter a valid name</span>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Last name</mat-label>
+          <input matInput placeholder="Last name" formControlName = "lastName">
+          <span class="text-danger" *ngIf="(employeeForm.get('lastName').touched || submitted) && employeeForm.get('lastName').errors && employeeForm.get('lastName').errors['required']">First name is required</span>
+          <span class="text-danger" *ngIf="(employeeForm.get('lastName').touched || submitted) && employeeForm.get('lastName').errors && employeeForm.get('lastName').errors['pattern']">Please enter a valid name</span>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
           <mat-label>Full name</mat-label>
           <input matInput placeholder="Full name" formControlName = "fullName">
           <span class="text-danger" *ngIf="(employeeForm.get('fullName').touched || submitted) && employeeForm.get('fullName').errors && employeeForm.get('fullName').errors['required']">First name is required</span>
@@ -66,8 +80,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Job role</mat-label>
           <mat-select formControlName="jobRole">
-            <mat-option value="Binder">Binder</mat-option>
-            <mat-option value="Cashier">Cashier</mat-option>
+            <mat-option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</mat-option>
           </mat-select>
         </mat-form-field>
 

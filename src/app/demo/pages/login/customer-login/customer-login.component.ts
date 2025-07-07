@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CustomerLoginService } from 'src/app/services/customer-login-service/customer-login.service';
+import { CustomerRegistrationService } from 'src/app/services/customer-registration/customer-registration.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 
 @Component({
@@ -26,13 +27,17 @@ export class CustomerLoginComponent implements OnInit {
   saveButtonLabel='Save';
   mode = 'save';
 
+  customers = [];
+
   constructor(
     private fb : FormBuilder,
     private customerLoginService: CustomerLoginService,
-    private messageService: MessageServiceService
+    private messageService: MessageServiceService,
+    private customerRegistrationService: CustomerRegistrationService,
   ){
     this.customerLoginForm= this.fb.group({
       id: new FormControl('',),
+      customerName : new FormControl(''),
       firstName: new FormControl('', [Validators.required,Validators.pattern('^[A-Za-z]{2,30}$')]),
       lastName: new FormControl('', [Validators.required,Validators.pattern('^[A-Za-z]{2,30}$')]),
       userName: new FormControl('', [Validators.required,Validators.pattern('^[a-zA-Z0-9._]{4,10}$')]),
@@ -43,6 +48,7 @@ export class CustomerLoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.populateData();
+    this.getCustomerNames();
   }
 
   populateData() {
@@ -179,5 +185,17 @@ resetData(){
     catch(error){
       this.messageService.showError('Action failed with error ' + error);
     }
+  }
+
+  getCustomerNames(){
+    this.customerRegistrationService.getCustomer().subscribe({
+        next: (datalist:any[]) => {
+          if(datalist.length<=0){
+            return;
+          }
+          this.customers = datalist;
+        },        
+        error: (error) => this.messageService.showError('Action failed with error ' + error)
+      });
   }
 }
