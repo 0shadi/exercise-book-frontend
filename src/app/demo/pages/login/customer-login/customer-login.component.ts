@@ -15,7 +15,7 @@ import { MessageServiceService } from 'src/app/services/message-service/message-
 export class CustomerLoginComponent implements OnInit {
   customerLoginForm : FormGroup;
 
-  displayedColumns: any[] = ['firstName','lastName','userName','password','actions'];
+  displayedColumns: any[] = ['firstName','lastName','userName','actions'];
   dataSource:MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -36,7 +36,7 @@ export class CustomerLoginComponent implements OnInit {
       firstName: new FormControl('', [Validators.required,Validators.pattern('^[A-Za-z]{2,30}$')]),
       lastName: new FormControl('', [Validators.required,Validators.pattern('^[A-Za-z]{2,30}$')]),
       userName: new FormControl('', [Validators.required,Validators.pattern('^[a-zA-Z0-9._]{4,10}$')]),
-      password: new FormControl('', [Validators.required,Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=])[A-Za-z\\d!@#$%^&*()_+\\-=]{6,12}$')])
+      password: new FormControl('', [Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=])[A-Za-z\\d!@#$%^&*()_+\\-=]{6,12}$')])
     });
 
   }
