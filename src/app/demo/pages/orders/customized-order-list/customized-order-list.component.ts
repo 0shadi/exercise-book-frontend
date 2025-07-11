@@ -13,8 +13,7 @@ export class CustomizedOrderListComponent implements OnInit {
   displayedColumns: string[] = ['orderId','date','cost','orderStatus','paymentMethod','details'];
   dataSource:MatTableDataSource<any>;
 
-  bookDetailsDisplayedColumns: any[] = ['orderId', 'material', 'paperColor', 'size','pagesCount','paperType','paperQuality','quantity'];
-  bookDetailsDataSource: MatTableDataSource<any>;
+  items=[];
 
   orderStatusOptions: string[] = ['Pending', 'Processing', 'Delivered', 'Cancelled'];
   selectedOrder;
@@ -61,7 +60,7 @@ export class CustomizedOrderListComponent implements OnInit {
           }
 
           console.log('get data response: ',datalist);
-          this.bookDetailsDataSource = new MatTableDataSource(datalist);
+          this.items = datalist;
           this.selectedOrder = this.dataSource.data.find(order => order.orderId === orderId);
           this.selectedStatus = this.selectedOrder?.orderStatus;
 
