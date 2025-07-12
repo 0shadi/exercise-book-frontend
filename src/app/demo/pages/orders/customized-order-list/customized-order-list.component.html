@@ -100,7 +100,10 @@
         </table> -->
 
         <table *ngFor="let item of items" class="order-item-table">
-            <tr><td><strong>Cover Photo:</strong></td><td> <img [src]="'data:image/jpeg;base64,' + item.imageBase64" width="150"/></td></tr>
+            <tr><td><strong>Cover Photo:</strong></td><td> 
+              <img [src]="'data:image/jpeg;base64,' + item.imageBase64" width="150"/><br>
+              <a [href]="'data:image/jpeg;base64,' + item.imageBase64" download="cover-photo-{{item.orderId}}.jpg">Download Image</a>
+            </td></tr>
             <tr><td><strong>Order Id:</strong></td><td>{{ item.orderId }}</td></tr>
             <tr><td><strong>Material:</strong></td><td>{{ item?.material }}</td></tr>
             <tr><td><strong>Paper Color:</strong></td><td>{{ item?.paperColor }}</td></tr>
