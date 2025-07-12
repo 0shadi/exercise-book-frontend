@@ -26,6 +26,7 @@ export class CheckoutComponent implements OnInit {
   selectedPaymentMethod:string;
   submitted = false;
   userId = null;
+  isDisabled = false;
 
   constructor(
     private onlineOrderingService: OnlineOrderingService,
@@ -84,7 +85,9 @@ export class CheckoutComponent implements OnInit {
     this.submitted=true;
     if(this.billingDetailsForm.invalid || 
       !this.selectedPaymentMethod || 
-      (this.selectedPaymentMethod === '2' && this.paymentForm.invalid)){
+      (this.selectedPaymentMethod === '2' && this.paymentForm.invalid) ||
+      (!this.orderItems || this.orderItems.length === 0)
+    ){
         return;
       }
 
@@ -177,7 +180,9 @@ export class CheckoutComponent implements OnInit {
 
   this.messageService.showSuccess('Order Placed Successfully');
 
-  
+  this.isDisabled = true;
+  this.billingDetailsForm.disable();
+  this.paymentForm.disable();
   }
 
   validateDate(control: AbstractControl) {

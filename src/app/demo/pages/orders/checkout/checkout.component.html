@@ -149,6 +149,6 @@
             </mat-card-actions>
           </mat-card>
 
-          <button mat-flat-button class="place-order-btn" (click)="placeOrder()">Place Order</button>
+          <button mat-flat-button class="place-order-btn" (click)="placeOrder()" [disabled]="isDisabled">Place Order</button>
     </div>
 </div>

@@ -21,6 +21,7 @@ export class CustomizedOrderCheckoutComponent {
   coverPhotoFile;
   totalCost;
   totalCostPerBook;
+  isDisabled = false;
 
   constructor(
     private fb : FormBuilder,
@@ -148,6 +149,10 @@ export class CustomizedOrderCheckoutComponent {
         });
 
       this.messageService.showSuccess('Order Placed Successfully');
+
+      this.isDisabled = true;
+      this.billingDetailsForm.disable();
+      this.paymentForm.disable();
   }
 
   validateDate(control: AbstractControl) {
