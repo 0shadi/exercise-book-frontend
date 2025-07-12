@@ -29,6 +29,11 @@ export class CustomerRegistrationComponent implements OnInit{
   isDisabled =false;
   submitted=false;
 
+  types=[
+    { id: 1, name: 'Individual Customer' },
+    { id: 2, name: 'Retailer' }
+  ];
+
   constructor(
     private fb: FormBuilder,
     private customerService: CustomerRegistrationService,

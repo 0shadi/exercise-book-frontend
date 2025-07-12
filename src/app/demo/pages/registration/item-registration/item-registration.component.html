@@ -24,27 +24,21 @@
               <mat-form-field class="example-full-width">
                 <mat-label>Item Type</mat-label>
                 <mat-select formControlName="itemType">
-                  <mat-option value="paper/cover">Papers/Covers</mat-option>
-                  <mat-option value="binding material">Binding material</mat-option>
-                  <mat-option value="machinery">Machines</mat-option>
+                  <mat-option *ngFor="let type of types" [value]="type.name">{{ type.name }}</mat-option>
                 </mat-select>
               </mat-form-field>
     
               <mat-form-field class="example-full-width" *ngIf="showElementType">
                 <mat-label>Element Type</mat-label>
                 <mat-select formControlName="elementType">
-                  <mat-option value="glue">Glue</mat-option>
-                  <mat-option value="stapler">Stapler</mat-option>
-                  <mat-option value="threads">Threads</mat-option>
-                  <mat-option value="needles">Needles</mat-option>
+                  <mat-option *ngFor="let elementType of elementTypes" [value]="elementType.name">{{ elementType.name }}</mat-option>
                 </mat-select>
             </mat-form-field>
     
             <mat-form-field class="example-full-width">
                 <mat-label>Item Brand</mat-label>
                 <mat-select formControlName="itemBrand">
-                  <mat-option value="Brand A">Brand A</mat-option>
-                  <mat-option value="Brand B">Brand B</mat-option>
+                  <mat-option *ngFor="let itemBrand of itemBrands" [value]="itemBrand.name">{{ itemBrand.name }}</mat-option>
                 </mat-select>
             </mat-form-field>
 
