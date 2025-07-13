@@ -1,22 +1,22 @@
-<!-- <div *ngFor="let item of itemDetails" class="container"> -->
+<div class="container">
 
 <div class="left">
   <h4>{{ itemDetail.itemName }}</h4>
-  <img [src]="'data:image/jpeg;base64,' + itemDetail.imageBase64" alt="Item Image" />
+  <img [src]="'data:image/jpeg;base64,' + itemDetail.imageBase64" alt="Item Image" style="max-height: 100%; height: auto; width: 100%;" />
 </div>
 <div class="right">
   <h5>Price = Rs.{{ itemDetail.itemPrice }}</h5>
   <p>Item Details</p>
 
   <ul class="list">
-    <li>{{ itemDetail.itemType }}</li>
-    <li>{{ itemDetail.bookType }}</li>
-    <li>{{ itemDetail.pagesCount }}</li>
-    <li>{{ itemDetail.bookSize }}</li>
-    <li>{{ itemDetail.itemBrand }}</li>
-    <li>{{ itemDetail.itemQuantity }}</li>
-    <li>Paper type</li>
-    <li>Paper quality</li>
+    <li *ngIf="itemDetail?.itemType">{{ itemDetail?.itemType }}</li>
+    <!-- <li *ngIf="itemDetail?.bookType">{{ itemDetail?.bookType }}</li>
+    <li *ngIf="itemDetail?.pagesCount">{{ itemDetail?.pagesCount }} Pages</li>
+    <li *ngIf="itemDetail?.bookSize">{{ itemDetail?.bookSize }}</li>
+    <li *ngIf="itemDetail?.itemBrand">{{ itemDetail?.itemBrand }}</li>
+    <li *ngIf="itemDetail?.stationaryName">{{ itemDetail?.stationaryName }}</li> -->
+    <li *ngIf="itemDetail?.itemName">{{ itemDetail?.itemName }}</li>
+    <!-- <li *ngIf="itemDetail.itemType">Paper quality : 50 GSM</li> -->
   </ul>
 
   <div class="quantity-selector">
@@ -30,5 +30,5 @@
 
   <button mat-raised-button (click)="addToCart()">Add to cart</button>
   <button mat-raised-button routerLink="/orders/checkout">Checkout</button>
-  <!-- </div> -->
+  </div>
 </div>

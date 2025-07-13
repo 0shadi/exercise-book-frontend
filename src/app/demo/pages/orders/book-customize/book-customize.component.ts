@@ -86,7 +86,7 @@ export class BookCustomizeComponent implements OnInit {
   userId = null; // user id changes
   bookPrice: number = 0;
   pageCount: number = 1;
-  totalCostPerBook: number = 0;
+  totalCostPerBook: number = 0; // dropdown values
   totalCost: number = 0;
 
   @ViewChild('prevBtn') prevBtn!: ElementRef;
@@ -130,7 +130,7 @@ export class BookCustomizeComponent implements OnInit {
       material: 'paper',
       paperColor: 'white',
       size: 'A4',
-      pagesCount: '40',
+      pagesCount: 40,
       paperType: 'Single Ruled',
       paperQuality: '50 GSM',
       quantity: 1
@@ -163,6 +163,7 @@ export class BookCustomizeComponent implements OnInit {
 
         console.log(this.bookPrice, ' -  ', this.pageCount);
         this.totalCostPerBook = +this.bookPrice * +this.pageCount;
+        this.totalCost = this.totalCostPerBook;
         console.log('Total Cost', this.totalCostPerBook); // initial cost
       }
     });
