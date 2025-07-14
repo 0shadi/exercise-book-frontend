@@ -5,24 +5,24 @@
 
       <mat-form-field class="example-full-width">
         <mat-label>Customer Name</mat-label>
-        <mat-select  formControlName="customerName">
-          <mat-option *ngFor="let customer of customers" [value]="customer.customerName">{{ customer.customerName }}</mat-option>
+        <mat-select  formControlName="customerId" (selectionChange)="onCustomerChange($event.value)">
+          <mat-option *ngFor="let customer of customers" [value]="customer.customerId">{{ customer.customerName }}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
-        <mat-label>First Name</mat-label>
-        <input matInput  formControlName = "firstName">
-        <span class="text-danger" *ngIf="(customerLoginForm.get('firstName').touched || submitted) && customerLoginForm.get('firstName').errors && customerLoginForm.get('firstName').errors['required']">First Name is required</span>
-        <span class="text-danger" *ngIf="(customerLoginForm.get('firstName').touched || submitted) && customerLoginForm.get('firstName').errors && customerLoginForm.get('firstName').errors['pattern']">Enter a valid name</span>
-      </mat-form-field>
+      <!-- <mat-form-field class="example-full-width">
+        <mat-label>Customer Name</mat-label>
+        <input matInput  formControlName = "customerName">
+        <span class="text-danger" *ngIf="(customerLoginForm.get('customerName').touched || submitted) && customerLoginForm.get('customerName').errors && customerLoginForm.get('customerName').errors['required']">First Name is required</span>
+        <span class="text-danger" *ngIf="(customerLoginForm.get('customerName').touched || submitted) && customerLoginForm.get('customerName').errors && customerLoginForm.get('customerName').errors['pattern']">Enter a valid name</span>
+      </mat-form-field> -->
 
-      <mat-form-field class="example-full-width">
+      <!-- <mat-form-field class="example-full-width">
         <mat-label>Last Name</mat-label>
         <input matInput  formControlName = "lastName">
         <span class="text-danger" *ngIf="(customerLoginForm.get('lastName').touched || submitted) && customerLoginForm.get('lastName').errors && customerLoginForm.get('lastName').errors['pattern']">Enter a valid name</span>
         <span class="text-danger" *ngIf="(customerLoginForm.get('lastName').touched || submitted) && customerLoginForm.get('lastName').errors && customerLoginForm.get('lastName').errors['required']">Last Name is required</span>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <mat-form-field class="example-full-width">
           <mat-label>Username</mat-label>
@@ -61,9 +61,9 @@
 
     <div class="table-container">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <ng-container matColumnDef="firstName">
+      <ng-container matColumnDef="customerName">
         <th mat-header-cell *matHeaderCellDef> First Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
       </ng-container>
 
       <ng-container matColumnDef="lastName">
