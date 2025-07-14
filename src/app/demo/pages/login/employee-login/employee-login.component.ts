@@ -7,44 +7,46 @@ import { EmployeeLoginService } from 'src/app/services/employee-login-service/em
 import { EmployeeRegistrationServiceService } from 'src/app/services/employee-registration/employee-registration-service.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 
-
 @Component({
   selector: 'app-employee-login',
   standalone: false,
   templateUrl: './employee-login.component.html',
   styleUrl: './employee-login.component.scss'
 })
-
 export class EmployeeLoginComponent implements OnInit {
-  employeeLoginForm : FormGroup;
+  employeeLoginForm: FormGroup;
 
-  displayedColumns: any[] = ['firstName','lastName','userName','password','actions'];
-  dataSource:MatTableDataSource<any>;
+  displayedColumns: any[] = ['firstName', 'lastName', 'userName', 'password', 'actions'];
+  dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   submitted = false;
-  isDisabled =false;
+  isDisabled = false;
   selectedData;
-  saveButtonLabel='Save';
+  saveButtonLabel = 'Save';
   mode = 'save';
+  selectedOption: any;
 
   employees = [];
 
   constructor(
-    private fb : FormBuilder,
+    private fb: FormBuilder,
     private employeeLoginService: EmployeeLoginService,
     private messageService: MessageServiceService,
-    private employeeRegistrationService : EmployeeRegistrationServiceService
-  ){
-    this.employeeLoginForm= this.fb.group({
-      id: new FormControl('',),
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
-      userName: new FormControl('', [Validators.required,Validators.pattern('^[a-zA-Z0-9._]{4,10}$')]),
-      password: new FormControl('', [Validators.required,Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=])[A-Za-z\\d!@#$%^&*()_+\\-=]{6,12}$')])
+    private employeeRegistrationService: EmployeeRegistrationServiceService
+  ) {
+    this.employeeLoginForm = this.fb.group({
+      id: new FormControl(''),
+      employee: new FormControl('', [Validators.required]),
+      firstName: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      lastName: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      userName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9._]{4,10}$')]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=])[A-Za-z\\d!@#$%^&*()_+\\-=]{6,12}$')
+      ])
     });
-
   }
 
   ngOnInit(): void {
@@ -53,24 +55,24 @@ export class EmployeeLoginComponent implements OnInit {
   }
 
   populateData() {
-    try{
+    try {
       this.employeeLoginService.getEmployeeLogin().subscribe({
-        next:(datalist:any[]) =>{
-        if(datalist.length <= 0){
-          return;
-        }
+        next: (datalist: any[]) => {
+          if (datalist.length <= 0) {
+            return;
+          }
 
-        console.log('get data response: ',datalist);
-        this.dataSource= new MatTableDataSource(datalist);
-  
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error:(error) =>{
-        this.messageService.showError('Action failed with error ' + error);
-      }
-    });
-    }catch(error){
+          console.log('get data response: ', datalist);
+          this.dataSource = new MatTableDataSource(datalist);
+
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: (error) => {
+          this.messageService.showError('Action failed with error ' + error);
+        }
+      });
+    } catch (error) {
       this.messageService.showError('Action failed with error ' + error);
     }
   }
@@ -84,120 +86,133 @@ export class EmployeeLoginComponent implements OnInit {
     }
   }
 
-  refreshData(){
+  refreshData() {
     this.populateData();
   }
 
-  onSubmit(){
-    this.submitted= true;
+  onSubmit() {
+    this.submitted = true;
 
-    try{
-      if(this.employeeLoginForm.invalid){
-      return;
-    }
+    try {
+      if (this.employeeLoginForm.invalid) {
+        return;
+      }
 
-    if(this.mode == 'save'){
-      this.employeeLoginService.serviceCall(this.employeeLoginForm.value).subscribe({
-      next: (datalist:any[]) => {
-        if(datalist.length<=0){
-          return;
-        }
-        if(this.dataSource && this.dataSource.data && this.dataSource.data.length >0){
-          this.dataSource= new MatTableDataSource([datalist,...this.dataSource.data]);
-        }
-        
-        else{
-          this.dataSource= new MatTableDataSource([datalist]);
-        }
+      if (this.mode == 'save') {
+        this.employeeLoginService.serviceCall(this.employeeLoginForm.getRawValue()).subscribe({
+          next: (datalist: any[]) => {
+            if (datalist.length <= 0) {
+              return;
+            }
+            if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0) {
+              this.dataSource = new MatTableDataSource([datalist, ...this.dataSource.data]);
+            } else {
+              this.dataSource = new MatTableDataSource([datalist]);
+            }
 
-        console.log("Login details submitted");
-        this.messageService.showSuccess('Data Saved Successfully');
-    },
-      error: (error) => this.messageService.showError('Action failed with error ' + error)
-    });
-    }
-  else if(this.mode === 'edit'){
-    this.employeeLoginService.editData(this.selectedData?.id, this.employeeLoginForm.value).subscribe({
-      next: (datalist:any[]) => {
-        if(datalist.length<=0){
-          return;
-        }
+            console.log('Login details submitted');
+            this.messageService.showSuccess('Data Saved Successfully');
+          },
+          error: (error) => this.messageService.showError('Action failed with error ' + error)
+        });
+      } else if (this.mode === 'edit') {
+        this.employeeLoginService.editData(this.selectedData?.id, this.employeeLoginForm.getRawValue()).subscribe({
+          next: (datalist: any[]) => {
+            if (datalist.length <= 0) {
+              return;
+            }
 
-        let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
-        this.dataSource.data[elementIndex] = datalist;          
-        this.dataSource = new MatTableDataSource(this.dataSource.data);
+            let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
+            this.dataSource.data[elementIndex] = datalist;
+            this.dataSource = new MatTableDataSource(this.dataSource.data);
 
-        this.messageService.showSuccess('Data Edited Successfully');
-      },
-      error: (error) => this.messageService.showError('Action failed with error'+ error)
-    });
-  }
+            this.messageService.showSuccess('Data Edited Successfully');
+          },
+          error: (error) => this.messageService.showError('Action failed with error' + error)
+        });
+      }
 
-    this.mode = 'save';
-    this.employeeLoginForm.disable();
-    this.isDisabled = true;
-    }
-    catch(error){
+      this.mode = 'save';
+      this.employeeLoginForm.disable();
+      this.isDisabled = true;
+    } catch (error) {
       this.messageService.showError('Action failed with error ' + error);
     }
   }
 
-  resetData(){
-      this.saveButtonLabel = 'Save';
-      this.employeeLoginForm.enable();
-      this.isDisabled= false;
-  
-      this.employeeLoginForm.setErrors =null;
-      this.employeeLoginForm.updateValueAndValidity();
-      this.submitted=false;
-    }
-  
-  editData(data:any){
+  resetData() {
+    this.saveButtonLabel = 'Save';
+    this.employeeLoginForm.enable();
+    this.isDisabled = false;
+
+    this.employeeLoginForm.setErrors = null;
+    this.employeeLoginForm.get('password')?.setValidators(Validators.required);
+
+    this.employeeLoginForm.updateValueAndValidity();
+    this.submitted = false;
+  }
+
+  editData(data: any) {
     this.employeeLoginForm.patchValue(data);
+    this.employeeLoginForm.patchValue({
+      employee: data.employee
+    });
+    console.log(data);
+    this.employeeLoginForm.get('password')?.removeValidators(Validators.required);
+    this.employeeLoginForm.get('password')?.updateValueAndValidity();
     this.saveButtonLabel = 'Edit';
     this.mode = 'edit';
     this.selectedData = data;
   }
 
-  deleteData(data:any){
-    try{
+  deleteData(data: any) {
+    try {
       this.selectedData = data;
       const id = data.id;
 
-    this.employeeLoginService.deleteData(id).subscribe({
-      next: (datalist:any[]) => {
-        if(datalist.length<=0){
-          return;
-        }
+      this.employeeLoginService.deleteData(id).subscribe({
+        next: (datalist: any[]) => {
+          if (datalist.length <= 0) {
+            return;
+          }
 
-        const index = this.dataSource.data.findIndex((element) => element.id === id);
+          const index = this.dataSource.data.findIndex((element) => element.id === id);
 
-        if(index !== -1){//If the index is available
-          this.dataSource.data.splice(index,1); //Remove the item from the data source
-        }
+          if (index !== -1) {
+            //If the index is available
+            this.dataSource.data.splice(index, 1); //Remove the item from the data source
+          }
 
-        this.dataSource = new MatTableDataSource(this.dataSource.data);
+          this.dataSource = new MatTableDataSource(this.dataSource.data);
 
-        this.messageService.showSuccess('Data Deleted Successfully');
-      },
-      error: (error) => this.messageService.showError('Action failed with error'+ error)
-    });
-    }
-    catch(error){
+          this.messageService.showSuccess('Data Deleted Successfully');
+        },
+        error: (error) => this.messageService.showError('Action failed with error' + error)
+      });
+    } catch (error) {
       this.messageService.showError('Action failed with error ' + error);
     }
   }
 
-  getEmployees(){
+  getEmployees() {
     this.employeeRegistrationService.getEmployee().subscribe({
-        next: (datalist:any[]) => {
-          if(datalist.length<=0){
-            return;
-          }
-          this.employees = datalist;
-        },        
-        error: (error) => this.messageService.showError('Action failed with error ' + error)
-      });
+      next: (datalist: any[]) => {
+        if (datalist.length <= 0) {
+          return;
+        }
+        this.employees = datalist;
+      },
+      error: (error) => this.messageService.showError('Action failed with error ' + error)
+    });
   }
 
+  public onEmployeeChange(data: any): void {
+    const employeeData = this.employees.find((emp: any) => data === emp.employeeNumber);
+
+    this.employeeLoginForm.patchValue({
+      employee: data,
+      firstName: employeeData?.firstName,
+      lastName: employeeData?.lastName
+    });
+  }
 }

@@ -1,44 +1,109 @@
 <div class="container">
   <div class="form-section">
     <p>Employee Form</p>
-    <form [formGroup] = "employeeLoginForm"  class="example-form" (ngSubmit) = "onSubmit()" >
-
+    <form [formGroup]="employeeLoginForm" class="example-form" (ngSubmit)="onSubmit()">
       <mat-form-field class="example-full-width">
+        <mat-label>Employee</mat-label>
+        <mat-select (selectionChange)="onEmployeeChange($event.value)" formControlName="employee">
+          <mat-option *ngFor="let employee of employees" [value]="employee.employeeNumber">
+            {{ employee.firstName + ' ' + employee.lastName }}
+          </mat-option>
+        </mat-select>
+        <span
+          class="text-danger"
+          *ngIf="
+            (employeeLoginForm.get('employee').touched || submitted) &&
+            employeeLoginForm.get('employee').errors &&
+            employeeLoginForm.get('employee').errors['required']
+          "
+        >
+          Employee is required
+        </span>
+      </mat-form-field>
+
+      <!-- <mat-form-field class="example-full-width">
         <mat-label>First Name</mat-label>
         <mat-select  formControlName="firstName">
           <mat-option *ngFor="let employee of employees" [value]="employee.firstName">{{ employee.firstName }}</mat-option>
         </mat-select>
         <span class="text-danger" *ngIf="(employeeLoginForm.get('firstName').touched || submitted) && employeeLoginForm.get('firstName').errors && employeeLoginForm.get('firstName').errors['required']">First Name is required</span>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <mat-form-field class="example-full-width">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" />
+      </mat-form-field>
+
+      <!-- <mat-form-field class="example-full-width">
         <mat-label>Last Name</mat-label>
         <mat-select  formControlName="lastName">
           <mat-option *ngFor="let employee of employees" [value]="employee.lastName">{{ employee.lastName }}</mat-option>
         </mat-select>
         <span class="text-danger" *ngIf="(employeeLoginForm.get('lastName').touched || submitted) && employeeLoginForm.get('lastName').errors && employeeLoginForm.get('lastName').errors['required']">Last Name is required</span>
+      </mat-form-field> -->
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" />
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
-          <mat-label>Username</mat-label>
-          <input matInput  formControlName = "userName">
-          <span class="text-danger" *ngIf="(employeeLoginForm.get('userName').touched || submitted) && employeeLoginForm.get('userName').errors && employeeLoginForm.get('userName').errors['required']">Username is required</span>
-          <span class="text-danger" *ngIf="(employeeLoginForm.get('userName').touched || submitted) && employeeLoginForm.get('userName').errors && employeeLoginForm.get('userName').errors['pattern']">Username must be 4–10 characters long and can only contain letters, numbers, dots (.) and underscores (_)</span>
-        </mat-form-field>
-  
-        <mat-form-field class="example-full-width">
-          <mat-label>Password</mat-label>
-          <input matInput  formControlName = "password">
-          <span class="text-danger" *ngIf="(employeeLoginForm.get('password').touched || submitted) && employeeLoginForm.get('password').errors && employeeLoginForm.get('password').errors['required']">Password is required</span>
-          <span class="text-danger" *ngIf="(employeeLoginForm.get('password').touched || submitted) && employeeLoginForm.get('password').errors && employeeLoginForm.get('password').errors['pattern']">Password must be 6–12 characters and include at least one uppercase letter, one lowercase letter, one digit, and one special character</span>
-        </mat-form-field>
-        
-        <button class="btn-primary submit-btn" type="submit" [disabled]="isDisabled">{{saveButtonLabel}}</button>
-        <button class="btn-secondary reset-btn" type="reset" (click) = "resetData()">Reset</button>
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="userName" />
+        <span
+          class="text-danger"
+          *ngIf="
+            (employeeLoginForm.get('userName').touched || submitted) &&
+            employeeLoginForm.get('userName').errors &&
+            employeeLoginForm.get('userName').errors['required']
+          "
+        >
+          Username is required
+        </span>
+        <span
+          class="text-danger"
+          *ngIf="
+            (employeeLoginForm.get('userName').touched || submitted) &&
+            employeeLoginForm.get('userName').errors &&
+            employeeLoginForm.get('userName').errors['pattern']
+          "
+        >
+          Username must be 4–10 characters long and can only contain letters, numbers, dots (.) and underscores (_)
+        </span>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" />
+        <span
+          class="text-danger"
+          *ngIf="
+            (employeeLoginForm.get('password').touched || submitted) &&
+            employeeLoginForm.get('password').errors &&
+            employeeLoginForm.get('password').errors['required']
+          "
+        >
+          Password is required
+        </span>
+        <span
+          class="text-danger"
+          *ngIf="
+            (employeeLoginForm.get('password').touched || submitted) &&
+            employeeLoginForm.get('password').errors &&
+            employeeLoginForm.get('password').errors['pattern']
+          "
+        >
+          Password must be 6–12 characters and include at least one uppercase letter, one lowercase letter, one digit, and one special
+          character
+        </span>
+      </mat-form-field>
+
+      <button class="btn-primary submit-btn" type="submit" [disabled]="isDisabled">{{ saveButtonLabel }}</button>
+      <button class="btn-secondary reset-btn" type="reset" (click)="resetData()">Reset</button>
     </form>
   </div>
-  
-   <div class="table-section">
+
+  <div class="table-section">
     <div class="refresh-filter-section">
       <div class="refresh">
         <button mat-icon-button color="primary" (click)="refreshData()">
@@ -49,53 +114,51 @@
       <div class="filter">
         <mat-form-field>
           <mat-label>Filter</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
         </mat-form-field>
       </div>
     </div>
 
     <div class="table-container">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef>First Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="firstName">
-        <th mat-header-cell *matHeaderCellDef> First Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
-      </ng-container>
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef>Last Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.lastName }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="lastName">
-        <th mat-header-cell *matHeaderCellDef> Last Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
-      </ng-container>
-      
-      <ng-container matColumnDef="userName">
-        <th mat-header-cell *matHeaderCellDef> User Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
-      </ng-container>
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef>User Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.userName }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="password">
-        <th mat-header-cell *matHeaderCellDef> Password </th>
-        <td mat-cell *matCellDef="let element"> {{element.password}} </td>
-      </ng-container>
+        <ng-container matColumnDef="password">
+          <th mat-header-cell *matHeaderCellDef>Password</th>
+          <td mat-cell *matCellDef="let element">{{ element.password }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" (click)="editData(element)" matTooltip="edit">
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="editData(element)" matTooltip="edit">
               <mat-icon>edit</mat-icon>
-          </button>
+            </button>
 
-          <button mat-icon-button color="warm" (click)="deleteData(element)" matTooltip="delete">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+            <button mat-icon-button color="warm" (click)="deleteData(element)" matTooltip="delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </div>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-
   </div>
 </div>

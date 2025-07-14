@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EmployeeLoginComponent } from './employee-login/employee-login.component';
 import { RouterModule } from '@angular/router';
 import { LoginRoutes } from './login.routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -29,7 +29,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    FormsModule
   ]
 })
 export class LoginModule { }
