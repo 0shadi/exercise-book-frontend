@@ -4,6 +4,7 @@ import { FormBuilder,FormGroup, FormControl, Validators, AbstractControl } from 
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 import { HttpService } from 'src/app/services/http.service';
+import { Router } from '@angular/router';
 
 export interface PeriodicElement {
   product: string;
@@ -33,7 +34,8 @@ export class CheckoutComponent implements OnInit {
     private fb : FormBuilder,
     private messageService : MessageServiceService,
     private checkoutService : CheckoutService,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private router: Router
   ) {
     this.billingDetailsForm= this.fb.group({
       orderId: new FormControl(''),
@@ -106,6 +108,7 @@ export class CheckoutComponent implements OnInit {
         console.log("Submitted billing details",datalist);
 
         //Saving order item details
+        const orderItemDetailsList: any[] = [];
         this.orderItems.forEach((item: any) => {
           const orderItemDetails = {
             itemId: item.itemId,
@@ -115,6 +118,8 @@ export class CheckoutComponent implements OnInit {
             subTotal: item.subTotal,
             orderId: savedOrderId
           };
+
+        orderItemDetailsList.push(orderItemDetails);
         this.checkoutService.saveOrderItemDetails(orderItemDetails).subscribe({
           next:(datalist:any[])=>{
             if(datalist.length <= 0){
@@ -163,6 +168,8 @@ export class CheckoutComponent implements OnInit {
           }
     
           console.log("Submitted payment values",datalist);
+
+          this.showOrderSummary(orderDetails, orderItemDetailsList);
         },
         error:(error)=>{
           this.messageService.showError('Action failed with error ' + error);
@@ -183,6 +190,8 @@ export class CheckoutComponent implements OnInit {
   this.isDisabled = true;
   this.billingDetailsForm.disable();
   this.paymentForm.disable();
+
+  
   }
 
   validateDate(control: AbstractControl) {
@@ -198,6 +207,14 @@ export class CheckoutComponent implements OnInit {
         }
         return null;
     }
+
+  showOrderSummary(orderDetails: any, orderItemDetails: any){
+    this.router.navigate(['/order-summary'], { 
+      state: { 
+        orderDetails: orderDetails , 
+        orderItemDetails: orderItemDetails 
+              } });
+  }
 }
 
 

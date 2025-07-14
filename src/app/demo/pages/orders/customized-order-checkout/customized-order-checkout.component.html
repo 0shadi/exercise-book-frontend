@@ -96,8 +96,8 @@
               <mat-radio-group class="payment method" aria-label="Select payment method" [(ngModel)]="selectedPaymentMethod">
                 <mat-label>Select payment method</mat-label>
                 <br>
-                <mat-radio-button value="1">Cash on Delivary</mat-radio-button><br>
-                <mat-radio-button value="2">Credit or Debit card</mat-radio-button>
+                <mat-radio-button value="Cash on Delivary">Cash on Delivary</mat-radio-button><br>
+                <mat-radio-button value="Credit or Debit card">Credit or Debit card</mat-radio-button>
               </mat-radio-group>
               <span class="text-danger" *ngIf="submitted && !selectedPaymentMethod" >Please select a payment method.</span>
 
