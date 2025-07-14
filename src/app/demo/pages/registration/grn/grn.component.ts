@@ -75,6 +75,9 @@ export class GrnComponent implements OnInit {
   originalData: any;
   isinnerEdit: boolean = false;
 
+  suppliers: any;
+  filteredSuppliers: any;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('input', { static: false }) inputField!: ElementRef; // Reference to the input element
@@ -100,7 +103,7 @@ export class GrnComponent implements OnInit {
       grnno: new FormControl(''),
       itemID: new FormControl(''),
       item: new FormControl(''),
-      expdate: new FormControl('', Validators.required),
+      expdate: new FormControl(''),
       qty: new FormControl('', Validators.required),
       cost: new FormControl('', Validators.required),
       ucost: new FormControl(''),
@@ -114,6 +117,7 @@ export class GrnComponent implements OnInit {
     this.getGrn();
     this.getInnerGRN();
     this.dataPopulate();
+    this.getSuppliers();
 
     this.demoForm.valueChanges.subscribe((values) => {
       // console.log('Form changed:', values);
@@ -628,4 +632,22 @@ export class GrnComponent implements OnInit {
       this.innerselectedRow = data; // Highlight the new row
     }
   }
+
+  getSuppliers(): void {
+    this.demoService.getSuppliers().subscribe({
+      next: (response: any) => {
+        console.log('suppliers');
+        console.log(response);
+        this.filteredSuppliers = response;
+        this.suppliers = response;
+        this.dataPopulate();
+
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  onSupplierChange(selectedItem: any) {}
 }

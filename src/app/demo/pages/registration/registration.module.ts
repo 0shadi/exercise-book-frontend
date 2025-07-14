@@ -21,6 +21,10 @@ import { SupplierRegistrationComponent } from './supplier-registration/supplier-
 import { SellingItemRegistrationComponent } from './selling-item-registration/selling-item-registration.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GrnComponent } from './grn/grn.component';
+import { ProdItemMapComponent } from './prod-item-map/prod-item-map.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListOption, MatSelectionList } from '@angular/material/list';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,8 @@ import { GrnComponent } from './grn/grn.component';
     ItemRegistrationComponent,
     SupplierRegistrationComponent,
     SellingItemRegistrationComponent,
-    GrnComponent
+    GrnComponent,
+    ProdItemMapComponent
   ],
   imports: [
     RouterModule.forChild(RegistrationRoutes),
@@ -48,7 +53,10 @@ import { GrnComponent } from './grn/grn.component';
     MatSortModule,
     MatSelectModule,
     MatPaginatorModule,
-    MatPaginator
+    MatPaginator,
+    MatCheckboxModule,
+    MatSelectionList,
+    MatListOption
   ]
 })
 export class RegistrationModule {}

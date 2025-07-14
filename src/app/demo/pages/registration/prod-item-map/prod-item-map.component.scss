@@ -1,0 +1,38 @@
+.item-container {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.form-section {
+    flex: 1;
+    padding: 5px;
+    border-right: 1px solid #ccc;
+}
+
+.table-section {
+    flex: 2;
+    max-height: 650px; /* Limit height */
+    overflow-y: auto;
+    overflow-x: auto;
+    width: 100%;
+}
+
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.submit-btn {
+    float: left;
+}
+
+.reset-btn {
+    float: right;
+}
+.example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+}

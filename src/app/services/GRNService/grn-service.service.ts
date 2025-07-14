@@ -236,6 +236,23 @@ export class GRNServiceService {
      return this.http.delete(requestUrl,{headers:headers});
   }
 
+  getSuppliers(){
+    console.log("get suppliers");
+
+    const requestUrl = environment.baseUrl + '/grn/get-suppliers'; //'http://localhost:8080/grn/get-suppliers'
+
+    //get authtoken and set it to header
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl,{headers:headers});
+  }
+
   }
 
 

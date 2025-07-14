@@ -260,6 +260,16 @@ const NavigationItems = [
             breadcrumbs: false,
             auth: authenticationEnum.Privilege_Groups,
             isVisible: false
+          },
+          {
+            id: 'prodItemMap',
+            title: 'Product Item Mapping',
+            type: 'item',
+            url: '/registration/product-item-map',
+            icon: 'ti ti-dashboard',
+            breadcrumbs: false,
+            auth: authenticationEnum.Privilege_Groups,
+            isVisible: false
           }
         ]
       }

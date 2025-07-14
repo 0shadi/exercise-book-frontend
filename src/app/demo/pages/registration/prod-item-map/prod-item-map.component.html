@@ -1,0 +1,102 @@
+<div class="item-container">
+  <div class="form-section">
+    <form class="item-form" [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="example-full-width">
+        <mat-label>Selling Product</mat-label>
+        <mat-select [(ngModel)]="selectedProductItem" formControlName="product">
+          <mat-option *ngFor="let product of productItems" [value]="product">
+            {{ product.itemBrand ? product.itemBrand + ' - ' + product.itemName : '' + product.itemName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- <mat-selection-list class="example-full-width" [(ngModel)]="selectedItems" (ngModelChange)="onItemSelectChange()">
+        <mat-list-option *ngFor="let item of availableItems" [value]="item">
+          <div class="item-row">
+            <span>{{ item.itemType }}</span>
+            <input *ngIf="item.selected" type="number" [(ngModel)]="item.quantityUsed" placeholder="Quantity Used" class="quantity-input" />
+          </div>
+        </mat-list-option>
+      </mat-selection-list> -->
+
+      <button type="submit" class="btn-primary submit-btn" mat-raised-button [disabled]="isDisabled">{{ saveButtonLabel }}</button>
+      <button type="reset" class="btn-secondary reset-btn" mat-raised-button (click)="resetItem()">Reset</button>
+    </form>
+  </div>
+  <div class="table-section">
+    <div class="filter-section">
+      <div class="refresh">
+        <button mat-icon-button color="primary" (click)="refreshData()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+
+      <div class="filter">
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="itemId">
+        <th mat-header-cell *matHeaderCellDef>Item Id</th>
+        <td mat-cell *matCellDef="let element">{{ element.itemId }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="itemCode">
+        <th mat-header-cell *matHeaderCellDef>Item Code</th>
+        <td mat-cell *matCellDef="let element">{{ element.itemCode }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="itemName">
+        <th mat-header-cell *matHeaderCellDef>Item Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.itemName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="itemType">
+        <th mat-header-cell *matHeaderCellDef>Item Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.itemType }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="elementType">
+        <th mat-header-cell *matHeaderCellDef>Element Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.elementType }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="itemBrand">
+        <th mat-header-cell *matHeaderCellDef>Item Brand</th>
+        <td mat-cell *matCellDef="let element">{{ element.itemBrand }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="supplier">
+        <th mat-header-cell *matHeaderCellDef>Supplier</th>
+        <td mat-cell *matCellDef="let element">{{ element.supplier }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat icon-button color="warm" (click)="editItem(element)" matTooltip="edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat icon-button color="warm" (click)="deleteItem(element)" matTooltip="delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+  </div>
+</div>
