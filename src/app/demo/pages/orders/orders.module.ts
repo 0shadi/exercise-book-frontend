@@ -22,6 +22,8 @@ import { CustomizedOrderListComponent } from './customized-order-list/customized
 import { CustomizedOrderCheckoutComponent } from './customized-order-checkout/customized-order-checkout.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatNativeDateModule } from '@angular/material/core';
+import { OrderSummaryComponent } from './order-summary/order-summary.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     OrderListComponent,
     BillingDetailsDialogComponent,
     CustomizedOrderListComponent,
-    CustomizedOrderCheckoutComponent
+    CustomizedOrderCheckoutComponent,
+    OrderSummaryComponent
   ],
   imports: [
     RouterModule.forChild(OrderRoutes),
@@ -51,6 +54,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDatepickerModule,
     MatGridListModule,
     MatNativeDateModule,
+    MatDividerModule
   ]
 })
 export class OrdersModule {}

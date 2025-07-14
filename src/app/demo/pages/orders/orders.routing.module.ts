@@ -6,6 +6,7 @@ import { BookCustomizeComponent } from './book-customize/book-customize.componen
 import { OrderListComponent } from './order-list/order-list.component';
 import { CustomizedOrderListComponent } from './customized-order-list/customized-order-list.component';
 import { CustomizedOrderCheckoutComponent } from './customized-order-checkout/customized-order-checkout.component';
+import { OrderSummaryComponent } from './order-summary/order-summary.component';
 
 export const OrderRoutes: Routes = [
   {
@@ -38,6 +39,10 @@ export const OrderRoutes: Routes = [
       {
         path: 'customized-order-checkout',
         component: CustomizedOrderCheckoutComponent
+      },
+      {
+        path: 'order-summary',
+        component: OrderSummaryComponent
       }
     ]
   }
