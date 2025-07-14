@@ -24,6 +24,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatNativeDateModule } from '@angular/material/core';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { CustomizedOrderSummaryComponent } from './customized-order-summary/customized-order-summary.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { MatDividerModule } from '@angular/material/divider';
     BillingDetailsDialogComponent,
     CustomizedOrderListComponent,
     CustomizedOrderCheckoutComponent,
-    OrderSummaryComponent
+    OrderSummaryComponent,
+    CustomizedOrderSummaryComponent
   ],
   imports: [
     RouterModule.forChild(OrderRoutes),

@@ -134,6 +134,8 @@ export class CustomizedOrderCheckoutComponent {
                 }
 
                 console.log("Submitted payment values",datalist);
+
+                this.showOrderSummary(orderDetails, bookDetailsWithOrderId);
               },
               error:(error)=>{
                 this.messageService.showError('Action failed with error ' + error);
@@ -168,4 +170,14 @@ export class CustomizedOrderCheckoutComponent {
         }
         return null;
       }
+
+  showOrderSummary(orderDetails:any, bookDetails:any){
+    this.router.navigate(['/customized-order-summary'], { 
+      state: { 
+        orderDetails: orderDetails , 
+        bookDetails: bookDetails,
+        totalCostPerBook: this.totalCostPerBook
+              } });
+    console.log('orderDetails sent :',orderDetails,'bookDetails : ', bookDetails);
+  }
 }

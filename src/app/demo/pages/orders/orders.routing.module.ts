@@ -7,6 +7,7 @@ import { OrderListComponent } from './order-list/order-list.component';
 import { CustomizedOrderListComponent } from './customized-order-list/customized-order-list.component';
 import { CustomizedOrderCheckoutComponent } from './customized-order-checkout/customized-order-checkout.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
+import { CustomizedOrderSummaryComponent } from './customized-order-summary/customized-order-summary.component';
 
 export const OrderRoutes: Routes = [
   {
@@ -43,6 +44,10 @@ export const OrderRoutes: Routes = [
       {
         path: 'order-summary',
         component: OrderSummaryComponent
+      },
+      {
+        path: 'customized-order-summary',
+        component: CustomizedOrderSummaryComponent
       }
     ]
   }
