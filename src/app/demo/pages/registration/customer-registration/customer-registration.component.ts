@@ -29,6 +29,9 @@ export class CustomerRegistrationComponent implements OnInit{
   isDisabled =false;
   submitted=false;
 
+  individualCustomer: boolean = false;
+  retailer: boolean = false;
+
   types=[
     { id: 1, name: 'Individual Customer' },
     { id: 2, name: 'Retailer' }
@@ -43,6 +46,8 @@ export class CustomerRegistrationComponent implements OnInit{
       customerId : new FormControl(''),
       customerType : new FormControl('',[Validators.required]),
       customerName : new FormControl('',[Validators.required,Validators.pattern('^[A-Za-z ]+$')]),
+      firstName : new FormControl('',[Validators.required]),
+      lastName : new FormControl('',[Validators.required]),
       contactNo : new FormControl('',[Validators.pattern(/^0?[1-9]\d-?\d{7}$/)]),
       email : new FormControl('',[Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
       address : new FormControl('',[Validators.pattern(/^[A-Za-z0-9\/\-,. ]+$/)]),
@@ -50,6 +55,7 @@ export class CustomerRegistrationComponent implements OnInit{
   }
   ngOnInit(): void {
     this.populateData();
+    this.showNames();
   }
   populateData(){
     try{
@@ -127,7 +133,7 @@ export class CustomerRegistrationComponent implements OnInit{
     
   }
 
-  displayedColumns: any[] = ['customerId', 'customerType', 'customerName', 'contactNo','email','address','actions'];
+  displayedColumns: any[] = ['customerId', 'customerType', 'customerName','firstName' ,'lastName','contactNo','actions'];
   dataSource:MatTableDataSource<any>;
 
   applyFilter(event: Event) {
@@ -187,6 +193,27 @@ export class CustomerRegistrationComponent implements OnInit{
 
   refreshData(){
     this.populateData();
+  }
+
+  showNames(){
+    this.customerForm.get('customerType')?.valueChanges.subscribe((value ) => {
+      this.retailer = false;
+      this.individualCustomer = false;
+
+      this.customerForm.get('customerName')?.disable();
+      this.customerForm.get('firstName')?.disable();
+      this.customerForm.get('lastName')?.disable();
+
+      if (value === "Retailer") {
+        this.retailer = true;
+        this.customerForm.get('customerName')?.enable(); // Enable the field
+      } 
+      if(value === "Individual Customer"){
+        this.individualCustomer = true;
+        this.customerForm.get('firstName')?.enable(); // Enable the field
+        this.customerForm.get('lastName')?.enable(); // Enable the field
+      }
+      });
   }
   
 }
