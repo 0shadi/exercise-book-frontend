@@ -40,17 +40,18 @@ export class CustomerLoginComponent implements OnInit {
       customerId: new FormControl(''),
       customerName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z]{2,30}$')]),
       userName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9._]{4,10}$')]),
-      password: new FormControl('', [Validators.required,
+      password: new FormControl('', [
+        Validators.required,
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=])[A-Za-z\\d!@#$%^&*()_+\\-=]{6,12}$')
       ])
     });
   }
 
   hide = signal(true);
-    clickEvent(event: MouseEvent) {
-      this.hide.set(!this.hide());
-      event.stopPropagation();
-    }
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
 
   ngOnInit(): void {
     this.populateData();
@@ -201,11 +202,13 @@ export class CustomerLoginComponent implements OnInit {
   }
 
   public onCustomerChange(data: any) {
-    const customerData = this.customers.find((cus: any) => cus.customerId = data);
+    const customerData = this.customers.find((cus: any) => (cus.customerId = data));
 
     this.customerLoginForm.patchValue({
-        customerId: data,
-        customerName: customerData.customerName,
-      });
+      customerId: data,
+      customerName: customerData.customerName,
+      firstName: customerData.firstName,
+      lastName: customerData.lastName
+    });
   }
 }

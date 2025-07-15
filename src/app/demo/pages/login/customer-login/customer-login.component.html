@@ -4,10 +4,20 @@
     <form [formGroup] = "customerLoginForm"  class="example-form" (ngSubmit) = "onSubmit()" >
 
       <mat-form-field class="example-full-width">
-        <mat-label>Customer Name</mat-label>
+        <mat-label>Customer</mat-label>
         <mat-select  formControlName="customerId" (selectionChange)="onCustomerChange($event.value)">
           <mat-option *ngFor="let customer of customers" [value]="customer.customerId">{{ customer.customerName }}</mat-option>
         </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" />
       </mat-form-field>
 
       <!-- <mat-form-field class="example-full-width">
