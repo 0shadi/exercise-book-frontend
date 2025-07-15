@@ -104,6 +104,29 @@ export class SellingItemRegistrationComponent implements OnInit{
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
+
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+
+    if (!input.files || input.files.length === 0) {
+    return;
+  }
+
+    const file = input.files[0];
+
+    // Clear any existing errors
+    this.sellingItemForm.get('itemImage')?.setErrors(null);
+
+    if (file.size > maxSize) {
+      this.sellingItemForm.get('itemImage')?.setErrors({ fileSize: true });
+      return;
+    }
+
+    if (!allowedTypes.includes(file.type)) {
+      this.sellingItemForm.get('itemImage')?.setErrors({ fileType: true });
+      return;
+    }
+
     if (input.files && input.files.length > 0) {
       this.photoFile = input.files[0];
   

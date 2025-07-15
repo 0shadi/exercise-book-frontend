@@ -82,6 +82,15 @@
           <img [src]="selectedImageUrl ? selectedImageUrl : 'assets/images/download.png'" width="100px" height="100px" />
         </div>
         <input type="file"  (change)="onFileSelected($event)"#fileInput accept="image/*">
+        <span>Accepted formats: JPG, JPEG, PNG. Max size: 2MB</span>
+        <div *ngIf="sellingItemForm.get('itemImage')?.errors as errors">
+          <span class="text-danger" *ngIf="errors['fileSize']">
+            File must be smaller than 2MB.
+          </span>
+          <span class="text-danger" *ngIf="errors['fileType']">
+            Only JPG, JPEG, and PNG files are allowed.
+          </span>
+        </div>
       </div>
       <img *ngIf="photoPreview" [src]="photoPreview" alt="Preview" width="100">
   

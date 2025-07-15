@@ -281,6 +281,25 @@ export class BookCustomizeComponent implements OnInit {
 
   onFileChange(event: any) {
     const file = (event.target as HTMLInputElement).files?.[0];
+
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+
+    if (!file) return;
+
+    // Clear any existing errors
+    this.bookForm.get('coverPhoto')?.setErrors(null);
+
+    if (file.size > maxSize) {
+      this.bookForm.get('coverPhoto')?.setErrors({ fileSize: true });
+      return;
+    }
+
+    if (!allowedTypes.includes(file.type)) {
+      this.bookForm.get('coverPhoto')?.setErrors({ fileType: true });
+      return;
+    }
+    
     if (file) {
       this.selectedFile = file;
       const reader = new FileReader();

@@ -5,6 +5,15 @@
       <div class="form-group">
         <label for="coverPhoto">Cover Photo</label>
         <input type="file" id="coverPhoto" accept="image/*" (change)="onFileChange($event)" />
+        <span>Accepted formats: JPG, JPEG, PNG. Max size: 2MB</span>
+        <div *ngIf="bookForm.get('coverPhoto')?.errors as errors">
+          <span class="text-danger" *ngIf="errors['fileSize']">
+            File must be smaller than 2MB.
+          </span>
+          <span class="text-danger" *ngIf="errors['fileType']">
+            Only JPG, JPEG, and PNG files are allowed.
+          </span>
+        </div>
       </div>
 
       <div class="form-group">
