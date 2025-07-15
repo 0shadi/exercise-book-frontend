@@ -46,20 +46,20 @@ export class ItemRegistrationComponent implements OnInit {
     { id: 3, name: 'Pcs' }
   ];
 
-  types=[
+  types = [
     { id: 1, name: 'Paper/cover' },
     { id: 2, name: 'Binding material' },
     { id: 3, name: 'Machinery' }
   ];
 
-  elementTypes=[
+  elementTypes = [
     { id: 1, name: 'Glue' },
     { id: 2, name: 'Stapler' },
     { id: 3, name: 'Threads' },
     { id: 4, name: 'Needles' }
   ];
 
-  itemBrands=[
+  itemBrands = [
     { id: 1, name: 'Atlas' },
     { id: 2, name: 'Chemfix' },
     { id: 3, name: 'Kangaro' },
@@ -111,7 +111,7 @@ export class ItemRegistrationComponent implements OnInit {
 
             setTimeout(() => {
               this.lastAddedRow = null;
-              const dataObj = { stockItemID: addedID, qty: 0, stockItemName: this.itemForm.value.itemName };
+              const dataObj = { stockItemID: addedID, qty: 0, stockItemName: this.itemForm.getRawValue()?.itemName };
               console.log(dataObj);
 
               this.itemService.createStock(dataObj).subscribe({
