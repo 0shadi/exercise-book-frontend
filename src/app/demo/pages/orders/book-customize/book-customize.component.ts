@@ -25,8 +25,8 @@ export class BookCustomizeComponent implements OnInit {
   // public page3Style;
   bookForm: FormGroup;
   coverPhotoUrl: string = '';
-  imageUrl: string | ArrayBuffer | null = '/assets/images/dog.jpg';
-  defaultBookImage = ''; // 'assets/plain-book.png';
+  imageUrl: string | ArrayBuffer | null = '/assets/images/default_cover_photo.png';
+  defaultBookImage = '/assets/images/default_cover_photo.png'; // '/assets/images/Cover_photo.jpg';
   itemPriceMap: any[];
   materials = [
     { title: 'Paper', value: 'paper' },
@@ -183,6 +183,10 @@ export class BookCustomizeComponent implements OnInit {
 
   goToCheckout() {
     const bookDetails = this.bookForm.value;
+    
+    if (!bookDetails.coverPhoto) {
+    bookDetails.coverPhoto = this.defaultBookImage;  // '/assets/images/Cover_photo.jpg'
+  }
 
     this.router.navigate(['/customized-order-checkout'], { state: { book: bookDetails, coverPhotoFile: this.selectedFile,totalCost:this.totalCost, totalCostPerBook: this.totalCostPerBook } });
     console.log('book details', bookDetails);
