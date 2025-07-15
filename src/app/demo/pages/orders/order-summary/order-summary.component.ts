@@ -26,7 +26,7 @@ export class OrderSummaryComponent {
   }
 
   printInvoice(){
-
+    window.print();
   }
 
 
