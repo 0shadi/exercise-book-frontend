@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -16,7 +16,7 @@ import { MessageServiceService } from 'src/app/services/message-service/message-
 export class EmployeeLoginComponent implements OnInit {
   employeeLoginForm: FormGroup;
 
-  displayedColumns: any[] = ['firstName', 'lastName', 'userName', 'password', 'actions'];
+  displayedColumns: any[] = ['firstName', 'lastName', 'userName','actions'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -47,6 +47,12 @@ export class EmployeeLoginComponent implements OnInit {
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=])[A-Za-z\\d!@#$%^&*()_+\\-=]{6,12}$')
       ])
     });
+  }
+
+  hide = signal(true);
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
   }
 
   ngOnInit(): void {

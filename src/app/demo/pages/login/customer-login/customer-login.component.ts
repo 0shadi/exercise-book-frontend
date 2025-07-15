@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -45,6 +45,12 @@ export class CustomerLoginComponent implements OnInit {
       ])
     });
   }
+
+  hide = signal(true);
+    clickEvent(event: MouseEvent) {
+      this.hide.set(!this.hide());
+      event.stopPropagation();
+    }
 
   ngOnInit(): void {
     this.populateData();
