@@ -24,7 +24,6 @@ import { GrnComponent } from './grn/grn.component';
 import { ProdItemMapComponent } from './prod-item-map/prod-item-map.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [

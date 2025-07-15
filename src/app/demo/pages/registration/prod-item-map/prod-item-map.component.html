@@ -1,14 +1,67 @@
 <div class="item-container">
   <div class="form-section">
-    <form class="item-form" [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+    <form class="item-form" [formGroup]="itemMapForm" (ngSubmit)="onSubmit()">
       <mat-form-field class="example-full-width">
         <mat-label>Selling Product</mat-label>
-        <mat-select [(ngModel)]="selectedProductItem" formControlName="product">
-          <mat-option *ngFor="let product of productItems" [value]="product">
+        <mat-select formControlName="product" (selectionChange)="onProductChange($event)">
+          <mat-option *ngFor="let product of productItems" [value]="product.itemId">
             {{ product.itemBrand ? product.itemBrand + ' - ' + product.itemName : '' + product.itemName }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <div formArrayName="itemList">
+          <div class="subtask-row" *ngFor="let item of itemList.controls; let i = index"  [formGroupName]="i">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Item Name</mat-label>
+            <mat-select formControlName="itemId" required (selectionChange)="onItemChange($event, i)">
+              <mat-option *ngFor="let item of filteredItems" [value]="item.itemId">
+                {{ item.itemName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Category</mat-label>
+            <input
+                matInput
+                placeholder="Category"
+                formControlName="categoryName"
+              />
+            <!-- <mat-select formControlName="categoryName" required (selectionChange)="onCategoryChange($event, i)">
+              <mat-option *ngFor="let category of itemCategories" [value]="category.name">
+                {{ category.name }}
+              </mat-option>
+            </mat-select> -->
+          </mat-form-field>
+
+            <mat-form-field class="full-width">
+              <input
+                matInput
+                placeholder="Quantity"
+                formControlName="itemQuantity"
+                placeholder="Quantity"
+                type="number"
+              />
+            </mat-form-field>
+           
+            <button
+              type="button"
+              class="btn btn-danger remove-button"
+              (click)="removeItem(i)"
+            >
+              -
+            </button>
+          </div>  
+
+            <button
+                type="button"
+                class="btn btn-primary mt-2 mb-4"
+                (click)="addItem()"
+            >
+                +
+            </button>    
+        </div>
 
       <!-- <mat-selection-list class="example-full-width" [(ngModel)]="selectedItems" (ngModelChange)="onItemSelectChange()">
         <mat-list-option *ngFor="let item of availableItems" [value]="item">
@@ -40,55 +93,32 @@
     </div>
 
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <ng-container matColumnDef="itemId">
-        <th mat-header-cell *matHeaderCellDef>Item Id</th>
-        <td mat-cell *matCellDef="let element">{{ element.itemId }}</td>
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>Id</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="itemCode">
-        <th mat-header-cell *matHeaderCellDef>Item Code</th>
-        <td mat-cell *matCellDef="let element">{{ element.itemCode }}</td>
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef>Product Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.productName }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="itemName">
+      <!-- <ng-container matColumnDef="itemName">
         <th mat-header-cell *matHeaderCellDef>Item Name</th>
         <td mat-cell *matCellDef="let element">{{ element.itemName }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="itemType">
-        <th mat-header-cell *matHeaderCellDef>Item Type</th>
-        <td mat-cell *matCellDef="let element">{{ element.itemType }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="elementType">
-        <th mat-header-cell *matHeaderCellDef>Element Type</th>
-        <td mat-cell *matCellDef="let element">{{ element.elementType }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="itemBrand">
-        <th mat-header-cell *matHeaderCellDef>Item Brand</th>
-        <td mat-cell *matCellDef="let element">{{ element.itemBrand }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef>Description</th>
-        <td mat-cell *matCellDef="let element">{{ element.description }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="supplier">
-        <th mat-header-cell *matHeaderCellDef>Supplier</th>
-        <td mat-cell *matCellDef="let element">{{ element.supplier }}</td>
-      </ng-container>
+      <ng-container matColumnDef="itemQuantity">
+        <th mat-header-cell *matHeaderCellDef>Item Quantity</th>
+        <td mat-cell *matCellDef="let element">{{ element.itemQuantity }}</td>
+      </ng-container> -->
 
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
           <button mat icon-button color="warm" (click)="editItem(element)" matTooltip="edit">
             <mat-icon>edit</mat-icon>
-          </button>
-
-          <button mat icon-button color="warm" (click)="deleteItem(element)" matTooltip="delete">
-            <mat-icon>delete</mat-icon>
           </button>
         </td>
       </ng-container>
