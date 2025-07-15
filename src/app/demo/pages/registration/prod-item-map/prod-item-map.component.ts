@@ -21,7 +21,7 @@ export class ProdItemMapComponent implements OnInit {
   showElementType: boolean = false;
 
   saveButtonLabel = 'Save';
-  mode = 'save';
+  mode = 'add'; // ??
   selectedData;
   isDisabled = false;
   submitted = false;
@@ -76,7 +76,9 @@ export class ProdItemMapComponent implements OnInit {
     if (this.mode == 'add') {
       this.prodItemsMapService.addProductItemMap(this.itemMapForm.getRawValue()).subscribe({
         next: (response: any) => {
+          console.log(this.itemMapForm.getRawValue());
           this.populateData();
+          
           this.messageService.showSuccess('Data saved successfully!');
         },
         error: (error: any) => {
