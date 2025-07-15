@@ -58,6 +58,7 @@ export class ProdItemMapComponent implements OnInit {
     this.itemMapForm = this.fb.group({
       product: new FormControl(''),
       productName: new FormControl(''),
+      productQuantity: new FormControl(''),
       itemList: this.fb.array([])
     });
 
@@ -78,11 +79,11 @@ export class ProdItemMapComponent implements OnInit {
         next: (response: any) => {
           console.log(this.itemMapForm.getRawValue());
           this.populateData();
-          
+
           this.messageService.showSuccess('Data saved successfully!');
         },
         error: (error: any) => {
-          this.messageService.showError('Error Occured! Please try again');
+          this.messageService.showError(error);
         }
       });
     } else if (this.mode == 'edit') {
@@ -156,7 +157,8 @@ export class ProdItemMapComponent implements OnInit {
     this.mode = 'edit';
     this.itemMapForm.patchValue({
       product: data.product,
-      productName: data.productName
+      productName: data.productName,
+      productQuantity: data.productQuantity
     });
     this.itemMapForm.enable();
 
