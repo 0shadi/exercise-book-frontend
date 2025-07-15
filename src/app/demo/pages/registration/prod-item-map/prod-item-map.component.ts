@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +7,7 @@ import { FormDemoServiceService } from 'src/app/services/form-demo/form-demo-ser
 import { ItemRegistrationService } from 'src/app/services/item-registration/item-registration.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import { NotificationService } from 'src/app/services/notification-service/notification.service';
+import { ProdItemMapService } from 'src/app/services/prod-item-map-service/prod-item-map.service';
 import { SellingItemRegistrationService } from 'src/app/services/selling-item-registration/selling-item-registration.service';
 
 @Component({
@@ -16,7 +17,7 @@ import { SellingItemRegistrationService } from 'src/app/services/selling-item-re
   styleUrl: './prod-item-map.component.scss'
 })
 export class ProdItemMapComponent implements OnInit {
-  itemForm: FormGroup;
+  itemMapForm: FormGroup;
   showElementType: boolean = false;
 
   saveButtonLabel = 'Save';
@@ -32,18 +33,15 @@ export class ProdItemMapComponent implements OnInit {
   availableItems: any[] = [];
   selectedItems: any[] = [];
   dropdownSettings = {};
-
-  displayedColumns: string[] = [
-    'itemId',
-    'itemCode',
-    'itemName',
-    'itemType',
-    'elementType',
-    'itemBrand',
-    'description',
-    'supplier',
-    'actions'
+  filteredItems: any[] = [];
+  catogories: any[] = [];
+  itemCategories = [
+    { id: 1, name: 'Kg' },
+    { id: 2, name: 'Liter' },
+    { id: 3, name: 'Pcs' }
   ];
+
+  displayedColumns: string[] = ['id', 'productName', 'actions'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -54,18 +52,13 @@ export class ProdItemMapComponent implements OnInit {
     private messageService: MessageServiceService, //Import message Service
     private notificationService: NotificationService,
     private selllingItemService: SellingItemRegistrationService,
-    private itemRegistration: ItemRegistrationService
+    private itemRegistration: ItemRegistrationService,
+    private prodItemsMapService: ProdItemMapService
   ) {
-    this.itemForm = this.fb.group({
-      itemId: new FormControl(''),
-      itemCode: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z]{3}(-?\d{1,4})$/)]),
-      itemName: new FormControl('', [Validators.required, Validators.pattern(/^[A-Za-z0-9\s(),&-]{1,100}$/)]),
-      itemType: new FormControl(''),
-      elementType: new FormControl(''),
-      itemBrand: new FormControl(''),
-      description: new FormControl('', [Validators.pattern(/^[A-Za-z0-9.,()'"\s-]{5,200}$/)]),
-      itemCategory: new FormControl(''),
-      supplier: new FormControl('')
+    this.itemMapForm = this.fb.group({
+      product: new FormControl(''),
+      productName: new FormControl(''),
+      itemList: this.fb.array([])
     });
 
     this.dropdownSettings = {
@@ -78,72 +71,29 @@ export class ProdItemMapComponent implements OnInit {
     };
   }
   onSubmit() {
-    this.submitted = true;
-    try {
-      if (this.itemForm.invalid) {
-        return;
-      }
+    console.log(this.itemMapForm.getRawValue());
 
-      if (this.mode === 'save') {
-        console.log('Form Submitted!', this.itemForm.value);
-
-        this.itemService.serviceCall(this.itemForm.value).subscribe({
-          next: (datalist: any) => {
-            if (datalist.length <= 0) {
-              return;
-            }
-
-            if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0) {
-              this.dataSource = new MatTableDataSource([datalist, ...this.dataSource.data]);
-            } else {
-              this.dataSource = new MatTableDataSource([datalist]);
-            }
-            this.lastAddedRow = datalist; // Track the last added row
-            this.messageService.showSuccess('Data Saved Successfully');
-            const addedID = (datalist as { itemId: number }).itemId;
-
-            setTimeout(() => {
-              this.lastAddedRow = null;
-              const dataObj = { stockItemID: addedID, qty: 0, stockItemName: this.itemForm.value.itemName };
-              console.log(dataObj);
-
-              this.itemService.createStock(dataObj).subscribe({
-                next: (response: any) => {
-                  console.log('stock data Server Response', response);
-                },
-                error: (error) => {
-                  console.log(error);
-                }
-              });
-            }, 3000);
-          },
-          error: (error) => {
-            this.messageService.showError('Action failed with error ' + error);
-          }
-        });
-      } else if (this.mode === 'edit') {
-        this.itemService.editItem(this.selectedData?.itemId, this.itemForm.value).subscribe({
-          next: (datalist: any[]) => {
-            if (datalist.length <= 0) {
-              return;
-            }
-
-            let elementIndex = this.dataSource.data.findIndex((element) => element.itemId === this.selectedData?.itemId);
-            this.dataSource.data[elementIndex] = datalist;
-            this.dataSource = new MatTableDataSource(this.dataSource.data);
-
-            this.messageService.showSuccess('Data Edited Successfully');
-          },
-          error: (error) => this.messageService.showError('Action failed with error' + error)
-        });
-      }
-    } catch (error) {
-      this.messageService.showError('Action failed with error ' + error);
+    if (this.mode == 'add') {
+      this.prodItemsMapService.addProductItemMap(this.itemMapForm.getRawValue()).subscribe({
+        next: (response: any) => {
+          this.populateData();
+          this.messageService.showSuccess('Data saved successfully!');
+        },
+        error: (error: any) => {
+          this.messageService.showError('Error Occured! Please try again');
+        }
+      });
+    } else if (this.mode == 'edit') {
+      this.prodItemsMapService.updateProductItemMap(this.itemMapForm.getRawValue(), this.selectedData?.id).subscribe({
+        next: (response: any) => {
+          this.populateData();
+          this.messageService.showSuccess('Data saved successfully!');
+        },
+        error: (error: any) => {
+          this.messageService.showError('Error Occured! Please try again');
+        }
+      });
     }
-
-    this.mode = 'save';
-    this.itemForm.disable();
-    this.isDisabled = true;
   }
 
   applyFilter(event: Event) {
@@ -157,35 +107,40 @@ export class ProdItemMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.populateData();
-    this.showElement();
     this.getSellingProducts();
     this.getRegisteredItems();
   }
 
   populateData() {
     try {
-      this.itemService.getItem().subscribe({
+      this.prodItemsMapService.getData().subscribe({
         next: (datalist: any[]) => {
           if (datalist.length <= 0) {
             return;
           }
 
-          console.log('get data response: ', datalist);
-          this.dataSource = new MatTableDataSource(datalist);
+          // let dataSourceArray = [];
 
+          // datalist.forEach((data: any) => {
+          //   let id = data.id;
+          //   let product = data.product;
+          //   let productName = data.productName;
+          //   let itemList = data.itemList;
+          //   let dataSourceobj = {};
+          //   itemList.forEach((item: any) => {
+          //     dataSourceobj = {
+          //       id: id,
+          //       product: product,
+          //       productName: productName,
+          //       ...item
+          //     };
+          //   });
+
+          //   dataSourceArray.push(dataSourceobj);
+          // });
+          this.dataSource = new MatTableDataSource(datalist);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
-        },
-        error: (error) => this.messageService.showError('Action failed with error ' + error)
-      });
-
-      this.itemService.getSuppliers().subscribe({
-        next: (datalist: any[]) => {
-          if (datalist.length <= 0) {
-            return;
-          }
-
-          this.suppliers = datalist;
         },
         error: (error) => this.messageService.showError('Action failed with error ' + error)
       });
@@ -195,65 +150,58 @@ export class ProdItemMapComponent implements OnInit {
   }
 
   editItem(data: any) {
-    this.itemForm.patchValue(data);
-    this.saveButtonLabel = 'Edit';
+    this.resetData();
     this.mode = 'edit';
+    this.itemMapForm.patchValue({
+      product: data.product,
+      productName: data.productName
+    });
+    this.itemMapForm.enable();
+
+    data.itemList.forEach((item: any) => {
+      this.itemList.push(
+        this.fb.group({
+          id: [item.id],
+          itemId: [item.itemId],
+          itemName: [item.itemName],
+          categoryName: [item.categoryName],
+          itemQuantity: [item.itemQuantity]
+        })
+      );
+    });
+
     this.selectedData = data;
+    this.saveButtonLabel = 'Edit';
   }
 
-  deleteItem(data: any) {
-    this.selectedData = data;
-    const id = data.itemId;
+  public resetData() {
+    const itemListFormArray = this.itemList;
+    itemListFormArray.clear();
+    this.resetFormManually();
+    this.itemMapForm.reset();
+    this.saveButtonLabel = 'Save';
+    // this.isButtonDisable = false;
+    this.enableFormManually();
 
-    try {
-      this.itemService.deleteItem(id).subscribe({
-        next: (datalist: any[]) => {
-          if (datalist.length <= 0) {
-            return;
-          }
-
-          const index = this.dataSource.data.findIndex((element) => element.itemId === id);
-
-          if (index !== -1) {
-            //If the index is available
-            this.dataSource.data.splice(index, 1); //Remove the item from the data source
-          }
-
-          this.dataSource = new MatTableDataSource(this.dataSource.data);
-
-          this.messageService.showSuccess('Data Deleted Successfully');
-        },
-        error: (error) => this.messageService.showError('Action failed with error' + error)
-      });
-    } catch (error) {
-      this.messageService.showError('Action failed with error' + error);
+    while (itemListFormArray.length !== 0) {
+      itemListFormArray.removeAt(0);
     }
   }
 
-  showElement() {
-    this.itemForm.get('itemType')?.valueChanges.subscribe((value) => {
-      if (value === 'binding material') {
-        this.showElementType = true;
-        this.itemForm.get('elementType')?.enable(); // Enable the field
-      } else {
-        this.showElementType = false;
-        this.itemForm.get('elementType')?.setValue(''); // Reset value
-        this.itemForm.get('elementType')?.disable(); // Disable the field
-      }
-    });
-
-    // Initially disable elementType
-    this.itemForm.get('elementType')?.disable();
+  public resetFormManually() {
+    this.itemMapForm.get('product')?.reset({}, { emitEvent: false });
+    this.itemMapForm.get('productName')?.reset();
   }
 
-  resetItem() {
-    this.saveButtonLabel = 'Save';
-    this.itemForm.enable();
-    this.isDisabled = false;
+  public enableFormManually() {
+    this.itemMapForm.get('product')?.enable({ emitEvent: false });
+    this.itemMapForm.get('productName')?.enable();
+  }
 
-    this.itemForm.setErrors = null;
-    this.itemForm.updateValueAndValidity();
-    this.submitted = false;
+  deleteItem(data: any) {}
+
+  resetItem() {
+    this.resetData();
   }
 
   refreshData() {
@@ -283,7 +231,8 @@ export class ProdItemMapComponent implements OnInit {
             return;
           }
           console.log(datalist);
-          this.availableItems = datalist;
+          this.availableItems = datalist.map((item) => ({ ...item }));
+          this.filteredItems = this.availableItems.map((item) => ({ ...item }));
         },
         error: (error) => this.messageService.showError('Action failed with error ' + error)
       });
@@ -304,5 +253,47 @@ export class ProdItemMapComponent implements OnInit {
   }
   onSelectAll(items: any) {
     console.log(items);
+  }
+
+  get itemList() {
+    return this.itemMapForm.get('itemList') as FormArray;
+  }
+
+  public onItemChange(inputValue: any, index: number) {
+    const tempItems: any[] = this.availableItems.map((item) => ({
+      itemId: item.itemId,
+      itemCategory: item.itemCategory,
+      itemName: item.itemName
+    }));
+
+    const selectedItem = tempItems.find((item: any) => item.itemId == inputValue.value);
+
+    const itemGroup = this.itemList.at(index) as FormGroup;
+    itemGroup.get('itemName')?.patchValue(selectedItem.itemName);
+    itemGroup.get('categoryName')?.patchValue(selectedItem.itemCategory);
+  }
+
+  public onCategoryChange(inputId: any, index: number) {}
+  addItem() {
+    this.itemList.push(
+      this.fb.group({
+        id: [null],
+        itemId: [''],
+        itemName: [''],
+        categoryName: [''],
+        itemQuantity: ['']
+      })
+    );
+  }
+  removeItem(index: number) {
+    this.itemList.removeAt(index);
+  }
+
+  public onProductChange(input: any) {
+    const selectedProduct = this.productItems.find((prod: any) => prod.itemId == input.value);
+
+    this.itemMapForm.patchValue({
+      productName: selectedProduct.itemName
+    });
   }
 }
