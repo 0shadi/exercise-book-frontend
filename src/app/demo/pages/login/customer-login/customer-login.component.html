@@ -33,7 +33,17 @@
   
         <mat-form-field class="example-full-width">
           <mat-label>Password</mat-label>
-          <input matInput  formControlName = "password">
+          <input matInput  formControlName = "password" [type]="hide() ? 'password' : 'text'" >
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+          >
+            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
           <span class="text-danger" *ngIf="(customerLoginForm.get('password').touched || submitted) && customerLoginForm.get('password').errors && customerLoginForm.get('password').errors['required']">Password is required</span>
           <span class="text-danger" *ngIf="(customerLoginForm.get('password').touched || submitted) && customerLoginForm.get('password').errors && customerLoginForm.get('password').errors['pattern']">Password must be 6–12 characters and include at least one uppercase letter, one lowercase letter, one digit, and one special character</span>
         </mat-form-field>
