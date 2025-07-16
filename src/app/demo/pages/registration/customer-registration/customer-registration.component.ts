@@ -87,8 +87,20 @@ export class CustomerRegistrationComponent implements OnInit{
 
       if(this.mode == 'save'){
         console.log('Form Submitted!', this.customerForm.value);
+
+            const customerType = this.customerForm.get('customerType').value;
+
+            if (customerType === 'Individual Customer') {
+                const firstName = this.customerForm.get('firstName').value;
+                const lastName = this.customerForm.get('lastName').value;
+                const customerName = firstName + ' ' + lastName;
+
+                this.customerForm.patchValue({
+                  customerName: customerName
+                });
+            }
     
-        this.customerService.serviceCall(this.customerForm.value).subscribe({
+        this.customerService.serviceCall(this.customerForm.getRawValue()).subscribe({
           next: (datalist:any[]) => {
             if(datalist.length<=0){
               return;
@@ -107,7 +119,20 @@ export class CustomerRegistrationComponent implements OnInit{
       }
   
       else if(this.mode === 'edit'){
-        this.customerService.editCustomer(this.selectedData?.customerId, this.customerForm.value).subscribe({
+
+        const customerType = this.customerForm.get('customerType').value;
+
+            if (customerType === 'Individual Customer') {
+                const firstName = this.customerForm.get('firstName').value;
+                const lastName = this.customerForm.get('lastName').value;
+                const customerName = firstName + ' ' + lastName;
+
+                this.customerForm.patchValue({
+                  customerName: customerName
+                });
+            }
+
+        this.customerService.editCustomer(this.selectedData?.customerId, this.customerForm.getRawValue()).subscribe({
           next: (datalist:any[]) => {
             if(datalist.length<=0){
               return;

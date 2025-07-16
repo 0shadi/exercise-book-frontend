@@ -15,7 +15,7 @@
             </mat-form-field>
 
             <mat-form-field class="example-full-width" *ngIf="retailer">
-                <mat-label>Customer Name</mat-label>
+                <mat-label>Corporate Name</mat-label>
                 <input matInput placeholder="Enter the customer name" formControlName="customerName">
                 <span class="text-danger" *ngIf="(customerForm.get('customerName').touched || submitted) && customerForm.get('customerName').errors && customerForm.get('customerName').errors['required']">Customer name is required</span>
                 <span class="text-danger" *ngIf="(customerForm.get('customerName').touched || submitted) && customerForm.get('customerName').errors && customerForm.get('customerName').errors['pattern']">Enter a valid name</span>
@@ -87,7 +87,7 @@
             </ng-container>
 
             <ng-container matColumnDef="customerName">
-              <th mat-header-cell *matHeaderCellDef> Customer Name </th>
+              <th mat-header-cell *matHeaderCellDef> Name </th>
               <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
             </ng-container>
 

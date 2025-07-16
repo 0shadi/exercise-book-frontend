@@ -28,6 +28,8 @@ export class CustomerLoginComponent implements OnInit {
   mode = 'save';
 
   customers = [];
+  hideFirstName = false;
+  hideLastName = false;
 
   constructor(
     private fb: FormBuilder,
@@ -38,19 +40,23 @@ export class CustomerLoginComponent implements OnInit {
     this.customerLoginForm = this.fb.group({
       id: new FormControl(''),
       customerId: new FormControl(''),
-      customerName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z]{2,30}$')]),
+      customerName: new FormControl(''),
+      firstName: new FormControl({value: '', disabled: true}),
+      lastName: new FormControl({value: '', disabled: true}),
+      customerType: new FormControl(''),
       userName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9._]{4,10}$')]),
-      password: new FormControl('', [Validators.required,
+      password: new FormControl('', [
+        Validators.required,
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=])[A-Za-z\\d!@#$%^&*()_+\\-=]{6,12}$')
       ])
     });
   }
 
   hide = signal(true);
-    clickEvent(event: MouseEvent) {
-      this.hide.set(!this.hide());
-      event.stopPropagation();
-    }
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
 
   ngOnInit(): void {
     this.populateData();
@@ -102,7 +108,7 @@ export class CustomerLoginComponent implements OnInit {
       }
 
       if (this.mode === 'save') {
-        this.customerLoginService.serviceCall(this.customerLoginForm.value).subscribe({
+        this.customerLoginService.serviceCall(this.customerLoginForm.getRawValue()).subscribe({
           next: (datalist: any[]) => {
             if (datalist.length <= 0) {
               return;
@@ -119,7 +125,7 @@ export class CustomerLoginComponent implements OnInit {
           error: (error) => this.messageService.showError('Action failed with error ' + error)
         });
       } else if (this.mode === 'edit') {
-        this.customerLoginService.editData(this.selectedData?.id, this.customerLoginForm.value).subscribe({
+        this.customerLoginService.editData(this.selectedData?.id, this.customerLoginForm.getRawValue()).subscribe({
           next: (datalist: any[]) => {
             if (datalist.length <= 0) {
               return;
@@ -148,12 +154,30 @@ export class CustomerLoginComponent implements OnInit {
     this.isDisabled = false;
 
     this.customerLoginForm.setErrors = null;
+
+    
+    this.customerLoginForm.get('password')?.setValidators(Validators.required);
+
     this.customerLoginForm.updateValueAndValidity();
     this.submitted = false;
+    this.mode = 'save';
   }
 
   editData(data: any) {
+
+    const customerData = this.customers.find((cus: any) => (cus.customerId == data.customerId));
+
     this.customerLoginForm.patchValue(data);
+    this.customerLoginForm.patchValue({
+      customerType: customerData.customerType
+    });
+
+    // this.employeeLoginForm.patchValue({
+    //   employee: data.employee
+    // });
+    this.customerLoginForm.get('password')?.removeValidators(Validators.required);
+    this.customerLoginForm.get('password')?.updateValueAndValidity();
+
     this.saveButtonLabel = 'Edit';
     this.mode = 'edit';
     this.selectedData = data;
@@ -201,11 +225,22 @@ export class CustomerLoginComponent implements OnInit {
   }
 
   public onCustomerChange(data: any) {
-    const customerData = this.customers.find((cus: any) => cus.customerId = data);
+    const customerData = this.customers.find((cus: any) => (cus.customerId == data));
 
     this.customerLoginForm.patchValue({
-        customerId: data,
-        customerName: customerData.customerName,
-      });
+      customerId: data,
+      customerName: customerData.customerName,
+      firstName: customerData.firstName,
+      lastName: customerData.lastName,
+      customerType: customerData.customerType
+    });
+
+    if (customerData.customerType === "Retailer") {
+      this.hideFirstName = true;
+      this.hideLastName = true;
+    } else {
+      this.hideFirstName = false;
+      this.hideLastName = false;
+    }
   }
 }
