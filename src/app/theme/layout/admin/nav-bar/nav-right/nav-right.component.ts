@@ -28,6 +28,7 @@ export class NavRightComponent implements OnInit {
   orderItems: any;
   unreadCount = 0;
   notifications: Notification[] = [];
+  userName: any;
 
   constructor(
     private httpService: HttpService,
@@ -57,6 +58,12 @@ export class NavRightComponent implements OnInit {
       this.numberOfItems = items.length;
       this.orderItems = items;
     });
+
+    this.getUserName();
+  }
+
+  public getUserName() {
+    this.userName = this.httpService.getLoginNameFromCache();
   }
 
   public logOutUser(): void {
