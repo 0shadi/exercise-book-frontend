@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CustomerLoginService } from 'src/app/services/customer-login-service/customer-login.service';
 import { CustomerRegistrationService } from 'src/app/services/customer-registration/customer-registration.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
+import { DeleteConfirmDialogComponent } from '../../registration/delete-confirm-dialog/delete-confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-customer-login',
@@ -242,5 +244,20 @@ export class CustomerLoginComponent implements OnInit {
       this.hideFirstName = false;
       this.hideLastName = false;
     }
+  }
+
+  readonly dialog = inject(MatDialog);
+  openDeleteDialog(data: any) {
+    const dialogRef = this.dialog.open(DeleteConfirmDialogComponent, {
+      width: '300px',
+      data: { message: 'Are you sure you want to delete this data?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog result:', result);
+      if (result) {
+        this.deleteData(data);
+      }
+    });
   }
 }
