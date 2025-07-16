@@ -25,6 +25,9 @@ import { ProdItemMapComponent } from './prod-item-map/prod-item-map.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { StockComponent } from './stock/stock.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { DeleteConfirmDialogComponent } from './delete-confirm-dialog/delete-confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,8 @@ import { StockComponent } from './stock/stock.component';
     SellingItemRegistrationComponent,
     GrnComponent,
     ProdItemMapComponent,
-    StockComponent
+    StockComponent,
+    DeleteConfirmDialogComponent
   ],
   imports: [
     RouterModule.forChild(RegistrationRoutes),
@@ -57,7 +61,9 @@ import { StockComponent } from './stock/stock.component';
     MatPaginator,
     MatCheckboxModule,
     MatSelectionList,
-    MatListOption
+    MatListOption,
+    MatDialogModule,
+    MatButtonModule
   ]
 })
 export class RegistrationModule {}

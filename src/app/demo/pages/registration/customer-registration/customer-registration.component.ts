@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { FormBuilder,FormGroup,FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { CustomerRegistrationService } from 'src/app/services/customer-registration/customer-registration.service';
@@ -6,6 +6,8 @@ import { OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
+import { DeleteConfirmDialogComponent } from '../delete-confirm-dialog/delete-confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 const ELEMENT_DATA: any[] = [
   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
@@ -239,6 +241,21 @@ export class CustomerRegistrationComponent implements OnInit{
         this.customerForm.get('lastName')?.enable(); // Enable the field
       }
       });
+  }
+
+  readonly dialog = inject(MatDialog);
+  openDeleteDialog(data: any) {
+    const dialogRef = this.dialog.open(DeleteConfirmDialogComponent, {
+      width: '300px',
+      data: { message: 'Are you sure you want to delete this data?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog result:', result);
+      if (result) {
+        this.deleteCustomer(data);
+      }
+    });
   }
   
 }

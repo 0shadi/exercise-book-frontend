@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder,FormGroup,FormControl, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import { SupplierRegistrationService } from 'src/app/services/supplier-registration/supplier-registration.service';
+import { DeleteConfirmDialogComponent } from '../delete-confirm-dialog/delete-confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -175,5 +177,20 @@ export class SupplierRegistrationComponent implements OnInit {
 
   refreshData(){
     this.populateData();
+  }
+
+  readonly dialog = inject(MatDialog);
+  openDeleteDialog(data: any) {
+    const dialogRef = this.dialog.open(DeleteConfirmDialogComponent, {
+      width: '300px',
+      data: { message: 'Are you sure you want to delete this data?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog result:', result);
+      if (result) {
+        this.deleteItem(data);
+      }
+    });
   }
 }
