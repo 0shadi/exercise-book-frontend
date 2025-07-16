@@ -270,6 +270,16 @@ const NavigationItems = [
             breadcrumbs: false,
             auth: authenticationEnum.Privilege_Groups,
             isVisible: false
+          },
+          {
+            id: 'stock',
+            title: 'Stock',
+            type: 'item',
+            url: '/registration/stock',
+            icon: 'ti ti-dashboard',
+            breadcrumbs: false,
+            auth: authenticationEnum.Privilege_Groups,
+            isVisible: false
           }
         ]
       }

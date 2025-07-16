@@ -24,6 +24,7 @@ import { GrnComponent } from './grn/grn.component';
 import { ProdItemMapComponent } from './prod-item-map/prod-item-map.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
+import { StockComponent } from './stock/stock.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MatListOption, MatSelectionList } from '@angular/material/list';
     SupplierRegistrationComponent,
     SellingItemRegistrationComponent,
     GrnComponent,
-    ProdItemMapComponent
+    ProdItemMapComponent,
+    StockComponent
   ],
   imports: [
     RouterModule.forChild(RegistrationRoutes),

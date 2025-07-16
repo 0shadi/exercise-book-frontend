@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder,FormGroup,FormControl, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import { SupplierRegistrationService } from 'src/app/services/supplier-registration/supplier-registration.service';
@@ -25,6 +26,7 @@ export class SupplierRegistrationComponent implements OnInit {
   submitted = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private fb:FormBuilder,

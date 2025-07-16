@@ -1,0 +1,41 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+
+  .container{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+  }
+
+  .form-section{
+    flex: 1;
+  }
+
+  .table-section{
+    flex: 1;
+  }
+
+  /* Structure */
+table {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.submit-btn {
+    float: left;
+  }
+
+.reset-btn {
+    float: right;
+  }

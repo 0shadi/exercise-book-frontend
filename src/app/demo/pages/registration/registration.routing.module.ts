@@ -6,6 +6,7 @@ import { SupplierRegistrationComponent } from './supplier-registration/supplier-
 import { SellingItemRegistrationComponent } from './selling-item-registration/selling-item-registration.component';
 import { GrnComponent } from './grn/grn.component';
 import { ProdItemMapComponent } from './prod-item-map/prod-item-map.component';
+import { StockComponent } from './stock/stock.component';
 
 export const RegistrationRoutes: Routes = [
   {
@@ -39,6 +40,10 @@ export const RegistrationRoutes: Routes = [
       {
         path: 'product-item-map',
         component: ProdItemMapComponent
+      },
+      {
+        path: 'stock',
+        component: StockComponent
       }
     ]
   }
