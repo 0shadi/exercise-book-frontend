@@ -10,12 +10,12 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="example-full-width" *ngIf="!hideFirstName">
         <mat-label>First Name</mat-label>
         <input matInput formControlName="firstName" />
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="example-full-width" *ngIf="!hideLastName">
         <mat-label>Last Name</mat-label>
         <input matInput formControlName="lastName" />
       </mat-form-field>
@@ -82,7 +82,7 @@
     <div class="table-container">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="customerName">
-        <th mat-header-cell *matHeaderCellDef> First Name </th>
+        <th mat-header-cell *matHeaderCellDef> Customer Name </th>
         <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
       </ng-container>
 
