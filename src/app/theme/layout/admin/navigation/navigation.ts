@@ -414,7 +414,7 @@ const NavigationItems = [
     children: [
       {
         id: 'apexChart',
-        title: 'ApexChart',
+        title: 'Sales Stats',
         type: 'item',
         url: 'apexchart',
         classes: 'nav-item',

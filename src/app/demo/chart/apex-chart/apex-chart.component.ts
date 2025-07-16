@@ -24,6 +24,8 @@ import {
   ApexTitleSubtitle,
   ApexGrid
 } from 'ng-apexcharts';
+import { CommonDataServiceService } from 'src/app/services/common-data-service/common-data-service.service';
+import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries | ApexNonAxisChartSeries;
@@ -52,241 +54,285 @@ export type ChartOptions = {
 })
 export default class ApexChartComponent {
   @ViewChild('chart') chart: ChartComponent;
-  barSimpleChart: Partial<ChartOptions>;
-  barStackedChart: Partial<ChartOptions>;
-  areaAngleChart: Partial<ChartOptions>;
-  areaSmoothChart: Partial<ChartOptions>;
-  lineAreaChart: Partial<ChartOptions>;
-  donutChart: Partial<ChartOptions>;
+  monthlySalesChartOptions: any = {};
+  monthlySalesIncomeChartOptions: any = {};
+  weeklyOrdersbyStatus: any = {};
+  salesIncomePerItemChartOptions: any = {};
 
-  constructor() {
-    this.barSimpleChart = {
+  constructor(private commonDataService: CommonDataServiceService, private messageService: MessageServiceService) {
+    this.getMonthlySalesData();
+    this.getMonthlySalesIncome();
+    this.getNoOfOrdersPlaceThisWeekByStatus();
+    this.getSalesPerOrderItem();
+  }
+
+  public getMonthlySalesData(): void {
+    this.commonDataService.getMonthlySalesData().subscribe({
+      next: (response: any) => {
+        this.updateMonthlySalesChart(response);
+      },
+      error: (error: any) => {
+        this.messageService.showError(error);
+      }
+    });
+  }
+
+  public getMonthlySalesIncome(): void {
+    this.commonDataService.getMonthlySalesIncome().subscribe({
+      next: (response: any) => {
+        this.updateMonthlySalesIncomeChart(response);
+      },
+      error: (error: any) => {
+        this.messageService.showError(error);
+      }
+    });
+  }
+
+  public getNoOfOrdersPlaceThisWeekByStatus(): void {
+    this.commonDataService.getNoOfOrdersPlaceThisWeekByStatus().subscribe({
+      next: (response: any) => {
+        this.updateWeeklyOrdersByStatus(response);
+      },
+      error: (error: any) => {
+        this.messageService.showError(error);
+      }
+    });
+  }
+
+  public getSalesPerOrderItem(): void {
+    this.commonDataService.getSalesPerOrderItem().subscribe({
+      next: (response: any) => {
+        this.updateSalesPerItemChart(response);
+      },
+      error: (error: any) => {
+        this.messageService.showError(error);
+      }
+    });
+  }
+
+  public updateMonthlySalesChart(dataList: any) {
+    const monthlySalesData = dataList.map((data: any) =>{
+      return {
+        x: data.orderMonth,
+        y: data.cnt
+      };
+    });
+
+    this.monthlySalesChartOptions = {
       series: [
-        {
-          name: 'Net Profit',
-          data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-        },
-        {
-          name: 'Revenue',
-          data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-        },
-        {
-          name: 'Free Cash Flow',
-          data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-        }
+        { name: 'Numbe of Sales per Month', data: monthlySalesData }
       ],
       chart: {
         type: 'bar',
-        height: 350
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: '55%'
+        height: 350,
+        animations: {
+          enabled: true,
+          easing: 'easeinout',
+          speed: 800
         }
       },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ['transparent']
-      },
       xaxis: {
-        categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
+        labels: {
+          style: {
+            colors: '#6b7280'
+          }
+        }
       },
       yaxis: {
         title: {
-          text: '$ (thousands)'
+          text: 'Count',
+          style: {
+            color: '#6b7280'
+          }
+        },
+        labels: {
+          style: {
+            colors: '#6b7280'
+          },
         }
       },
-      fill: {
-        opacity: 1
+      colors: ['#f97316'],
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          columnWidth: '60%'
+        }
       },
-      tooltip: {
-        y: {
-          formatter: function (val) {
-            return '$ ' + val + ' thousands';
-          }
+      grid: {
+        borderColor: '#e5e7eb'
+      },
+      title: {
+        text: 'Numbe of Sales per Month',
+        align: 'center',
+        style: {
+          color: '#1f2937',
+          fontSize: '16px'
         }
       }
     };
-    this.barStackedChart = {
+  }
+
+  public updateMonthlySalesIncomeChart(dataList: any) {
+    const monthlySalesIncomeData = dataList.map((data: any) =>{
+      return {
+        x: data.orderMonth,
+        y: data.summation
+      };
+    });
+
+    this.monthlySalesIncomeChartOptions = {
       series: [
-        {
-          name: 'PRODUCT A',
-          data: [44, 55, 41, 67, 22, 43, 21, 49]
-        },
-        {
-          name: 'PRODUCT B',
-          data: [13, 23, 20, 8, 13, 27, 33, 12]
-        },
-        {
-          name: 'PRODUCT C',
-          data: [11, 17, 15, 15, 21, 14, 15, 13]
-        }
+        { name: 'Sales income per Month', data: monthlySalesIncomeData }
       ],
       chart: {
         type: 'bar',
         height: 350,
-        stacked: true,
-        stackType: '100%'
+        animations: {
+          enabled: true,
+          easing: 'easeinout',
+          speed: 800
+        }
       },
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            legend: {
-              position: 'bottom',
-              offsetX: -10,
-              offsetY: 0
-            }
+      xaxis: {
+        labels: {
+          style: {
+            colors: '#6b7280'
           }
         }
-      ],
-      xaxis: {
-        categories: ['2011 Q1', '2011 Q2', '2011 Q3', '2011 Q4', '2012 Q1', '2012 Q2', '2012 Q3', '2012 Q4']
       },
-      fill: {
-        opacity: 1
-      },
-      legend: {
-        position: 'right',
-        offsetX: 0,
-        offsetY: 50
-      }
-    };
-    this.areaAngleChart = {
-      chart: {
-        height: 380,
-        type: 'area',
-        stacked: false
-      },
-      stroke: {
-        curve: 'straight'
-      },
-      series: [
-        {
-          name: 'Music',
-          data: [11, 15, 26, 20, 33, 27]
+      yaxis: {
+        title: {
+          text: 'Count',
+          style: {
+            color: '#6b7280'
+          }
         },
-        {
-          name: 'Photos',
-          data: [32, 33, 21, 42, 19, 32]
-        }
-      ],
-      xaxis: {
-        categories: ['2011 Q1', '2011 Q2', '2011 Q3', '2011 Q4', '2012 Q1', '2012 Q2']
-      },
-      tooltip: {
-        followCursor: true
-      },
-      fill: {
-        opacity: 1
-      }
-    };
-    this.areaSmoothChart = {
-      series: [
-        {
-          name: 'series1',
-          data: [31, 40, 28, 51, 42, 109, 100]
-        },
-        {
-          name: 'series2',
-          data: [11, 32, 45, 32, 34, 52, 41]
-        }
-      ],
-      chart: {
-        height: 350,
-        type: 'area'
-      },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        curve: 'smooth'
-      },
-      xaxis: {
-        type: 'datetime',
-        categories: [
-          '2018-09-19T00:00:00.000Z',
-          '2018-09-19T01:30:00.000Z',
-          '2018-09-19T02:30:00.000Z',
-          '2018-09-19T03:30:00.000Z',
-          '2018-09-19T04:30:00.000Z',
-          '2018-09-19T05:30:00.000Z',
-          '2018-09-19T06:30:00.000Z'
-        ]
-      },
-      tooltip: {
-        x: {
-          format: 'dd/MM/yy HH:mm'
-        }
-      }
-    };
-    this.lineAreaChart = {
-      series: [
-        {
-          name: 'Desktops',
-          data: [20, 55, 45, 75, 50, 75, 100]
-        },
-        {
-          name: 'Desktops',
-          data: [10, 45, 35, 65, 40, 65, 90]
-        }
-      ],
-      chart: {
-        height: 350,
-        type: 'line',
-        zoom: {
-          enabled: false
+        labels: {
+          style: {
+            colors: '#6b7280'
+          },
         }
       },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        curve: 'straight'
-      },
-      title: {
-        text: 'Product Trends by Month',
-        align: 'left'
+      colors: ['#076866ff'],
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          columnWidth: '60%'
+        }
       },
       grid: {
-        row: {
-          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-          opacity: 0.5
-        }
+        borderColor: '#e5e7eb'
       },
-      xaxis: {
-        categories: ['2006', '2007', '2008', '2009', '2010', '2011', '2012']
+      title: {
+        text: 'Sales income per Month',
+        align: 'center',
+        style: {
+          color: '#1f2937',
+          fontSize: '16px'
+        }
       }
     };
-    this.donutChart = {
+  }
+
+  public updateWeeklyOrdersByStatus(dataSet: any): void {
+    const data = dataSet.map((item: any) => item.cnt);
+    const labels = dataSet.map((item: any) => item.status);
+
+    this.weeklyOrdersbyStatus = {
+      series: data,
       chart: {
-        type: 'donut',
-        width: '100%',
-        height: 350
+        type: 'pie',
+        height: 350,
+        animations: {
+          enabled: true,
+          easing: 'easeinout',
+          speed: 800
+        }
       },
-      dataLabels: {
-        enabled: false
+      labels: labels,
+      colors: ['#3b82f6', '#10b981', '#f97316', '#8b5cf6', '#ef4444', '#06b6d4'],
+      legend: {
+        position: 'bottom',
+        labels: {
+          colors: '#6b7280'
+        }
       },
       plotOptions: {
         pie: {
-          customScale: 0.8,
           donut: {
-            size: '75%'
-          },
-          offsetY: 20
+            size: '60%'
+          }
         }
       },
-      colors: ['#00D8B6', '#008FFB', '#FEB019', '#FF4560', '#775DD0'],
-      series: [21, 23, 19, 14, 6],
-      labels: ['Clothing', 'Food Products', 'Electronics', 'Kitchen Utility', 'Gardening'],
-      legend: {
-        position: 'left',
-        offsetY: 80
+      title: {
+        text: 'Weekly orders by status',
+        align: 'center',
+        style: {
+          color: '#1f2937',
+          fontSize: '16px'
+        }
+      }
+    };
+  }
+
+  public updateSalesPerItemChart(dataList: any): void {
+    const salesPerItemData = dataList.map((data: any) =>{
+      return {
+        x: data.itemName,
+        y: data.cnt
+      };
+    });
+
+    this.salesIncomePerItemChartOptions = {
+      series: [
+        { name: 'Sales Income Per Item', data: salesPerItemData }
+      ],
+      chart: {
+        type: 'bar',
+        height: 350,
+        animations: {
+          enabled: true,
+          easing: 'easeinout',
+          speed: 800
+        }
+      },
+      xaxis: {
+        labels: {
+          style: {
+            colors: '#6b7280'
+          }
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'Count',
+          style: {
+            color: '#6b7280'
+          }
+        },
+        labels: {
+          style: {
+            colors: '#6b7280'
+          },
+        }
+      },
+      colors: ['#076866ff'],
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          columnWidth: '60%'
+        }
+      },
+      grid: {
+        borderColor: '#e5e7eb'
+      },
+      title: {
+        text: 'Sales income per Month',
+        align: 'center',
+        style: {
+          color: '#1f2937',
+          fontSize: '16px'
+        }
       }
     };
   }

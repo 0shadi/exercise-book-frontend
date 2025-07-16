@@ -88,4 +88,56 @@ export class CommonDataServiceService implements OnInit {
       return this.http.get(requestUrl, { headers: headers }).toPromise();
     }
   }
+
+  public getMonthlySalesData() {
+    const requestUrl = environment.baseUrl + '/common-data-service/monthly-sales';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl,{headers:headers});
+  }
+
+  public getMonthlySalesIncome() {
+    const requestUrl = environment.baseUrl + '/common-data-service/monthly-sales-income';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl,{headers:headers});
+  }
+
+    public getNoOfOrdersPlaceThisWeekByStatus() {
+    const requestUrl = environment.baseUrl + '/common-data-service/wekly-orders-by-status';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl,{headers:headers});
+  }
+
+  public getSalesPerOrderItem() {
+    const requestUrl = environment.baseUrl + '/common-data-service/sales-per-item';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl,{headers:headers});
+  }
 }
