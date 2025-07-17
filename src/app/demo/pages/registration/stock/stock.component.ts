@@ -80,6 +80,7 @@ onSubmit(){
         let elementIndex = this.dataSource.data.findIndex((element) => element.stockItemID === this.selectedData?.stockItemID);
         this.dataSource.data[elementIndex] = datalist;       
         this.dataSource = new MatTableDataSource(this.dataSource.data);   
+        this.dataSource.paginator = this.paginator;
         
         this.messageService.showSuccess('Stock Edited Successfully');
       },

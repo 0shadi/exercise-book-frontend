@@ -87,7 +87,7 @@ export class CheckoutComponent implements OnInit {
     this.submitted=true;
     if(this.billingDetailsForm.invalid || 
       !this.selectedPaymentMethod || 
-      (this.selectedPaymentMethod === '2' && this.paymentForm.invalid) ||
+      (this.selectedPaymentMethod === 'Credit or Debit card' && this.paymentForm.invalid) ||
       (!this.orderItems || this.orderItems.length === 0)
     ){
         return;

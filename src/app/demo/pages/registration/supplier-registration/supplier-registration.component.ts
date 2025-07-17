@@ -63,6 +63,8 @@ export class SupplierRegistrationComponent implements OnInit {
             }         
             else{
               this.dataSource= new MatTableDataSource([datalist]);
+              this.dataSource.paginator = this.paginator;
+              // this.dataSource.sort = this.sort;
             }
   
             this.messageService.showSuccess('Data Saved Successfully');

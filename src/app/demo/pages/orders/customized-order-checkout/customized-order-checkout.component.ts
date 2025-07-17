@@ -67,7 +67,7 @@ export class CustomizedOrderCheckoutComponent {
     this.submitted=true;
     if(this.billingDetailsForm.invalid || 
       !this.selectedPaymentMethod || 
-      (this.selectedPaymentMethod === '2' && this.paymentForm.invalid)){
+      (this.selectedPaymentMethod === 'Credit or Debit card' && this.paymentForm.invalid)){
         return;
       }
     

@@ -101,7 +101,7 @@
               </mat-radio-group>
               <span class="text-danger" *ngIf="submitted && !selectedPaymentMethod" >Please select a payment method.</span>
 
-              <div class="payment-gateway" *ngIf="selectedPaymentMethod == '2'">
+              <div class="payment-gateway" *ngIf="selectedPaymentMethod == 'Credit or Debit card'">
                 <form [formGroup] = "paymentForm">
                   <mat-form-field class="example-full-width">
                     <mat-label>Card holder Name</mat-label>

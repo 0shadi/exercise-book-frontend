@@ -114,6 +114,7 @@ export class EmployeeLoginComponent implements OnInit {
             }
             if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0) {
               this.dataSource = new MatTableDataSource([datalist, ...this.dataSource.data]);
+              this.dataSource.paginator = this.paginator;
             } else {
               this.dataSource = new MatTableDataSource([datalist]);
             }
@@ -133,6 +134,7 @@ export class EmployeeLoginComponent implements OnInit {
             let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
             this.dataSource.data[elementIndex] = datalist;
             this.dataSource = new MatTableDataSource(this.dataSource.data);
+            this.dataSource.paginator = this.paginator;
 
             this.messageService.showSuccess('Data Edited Successfully');
           },
@@ -192,6 +194,7 @@ export class EmployeeLoginComponent implements OnInit {
           }
 
           this.dataSource = new MatTableDataSource(this.dataSource.data);
+          this.dataSource.paginator = this.paginator;
 
           this.messageService.showSuccess('Data Deleted Successfully');
         },
