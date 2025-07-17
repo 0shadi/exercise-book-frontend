@@ -23,7 +23,7 @@ const ELEMENT_DATA: any[] = [
   styleUrl: './employee-registration.component.scss',
 })
 export class EmployeeRegistrationComponent implements OnInit {
-  displayedColumns: any[] = ['employeeNumber', 'fullName', 'callingName', 'nic','contactNo','bDay','gender','address','emergencyContactNumber','email','jobRole','actions'];
+  displayedColumns: any[] = ['employeeNumber', 'firstName', 'lastName', 'nic','contactNo','jobRole','actions'];
   dataSource:MatTableDataSource<any>;
   saveButtonLabel='Save';
   @ViewChild(MatPaginator) paginator: MatPaginator;

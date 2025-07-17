@@ -31,10 +31,7 @@ export class ItemRegistrationComponent implements OnInit {
     'itemId',
     'itemCode',
     'itemName',
-    'itemType',
-    'elementType',
     'itemBrand',
-    'description',
     'supplier',
     'actions'
   ];

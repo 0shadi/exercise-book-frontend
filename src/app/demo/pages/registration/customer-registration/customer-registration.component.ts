@@ -163,7 +163,7 @@ export class CustomerRegistrationComponent implements OnInit{
     
   }
 
-  displayedColumns: any[] = ['customerId', 'customerType', 'customerName','firstName' ,'lastName','contactNo','actions'];
+  displayedColumns: any[] = ['customerId', 'customerType', 'customerName','contactNo','actions'];
   dataSource:MatTableDataSource<any>;
 
   applyFilter(event: Event) {
