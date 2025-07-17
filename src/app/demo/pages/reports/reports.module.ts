@@ -12,9 +12,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { EmployeeListComponent } from './Static Report/app/components/employee-list/employee-list.component';
 import { ReportsRoute } from './reports.routing.module';
 import { LoadingSpinnerComponent } from './Static Report/app/components/loading-spinner/loading-spinner.component';
+import { CustomerReportComponent } from './Static Report/app/components/customer-report/customer-report.component';
 
 @NgModule({
-  declarations: [EmployeeListComponent, LoadingSpinnerComponent],
+  declarations: [
+    EmployeeListComponent, 
+    LoadingSpinnerComponent,
+    CustomerReportComponent
+  ],
   imports: [
     RouterModule.forChild(ReportsRoute),
     CommonModule,
