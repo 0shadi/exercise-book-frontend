@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
@@ -23,6 +24,8 @@ export class OrderListComponent implements OnInit{
 
   orderStatusOptions: string[] = ['Pending', 'Processing', 'Delivered', 'Cancelled'];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   constructor(
     private checkoutService  : CheckoutService,
     private messageService : MessageServiceService
@@ -43,6 +46,7 @@ export class OrderListComponent implements OnInit{
     
             console.log('get data response: ',datalist);
             this.dataSource = new MatTableDataSource(datalist);
+            this.dataSource.paginator = this.paginator;
   
           },        
           error: (error) => this.messageService.showError('Action failed with error ' + error)

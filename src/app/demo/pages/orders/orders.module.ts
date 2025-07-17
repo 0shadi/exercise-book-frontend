@@ -25,6 +25,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { CustomizedOrderSummaryComponent } from './customized-order-summary/customized-order-summary.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { CustomizedOrderSummaryComponent } from './customized-order-summary/cust
     MatDatepickerModule,
     MatGridListModule,
     MatNativeDateModule,
-    MatDividerModule
+    MatDividerModule,
+    MatPaginatorModule
   ]
 })
 export class OrdersModule {}

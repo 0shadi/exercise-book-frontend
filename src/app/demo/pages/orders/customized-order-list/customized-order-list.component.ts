@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { BookCustomizeService } from 'src/app/services/book-customize/book-customize.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
@@ -18,6 +19,8 @@ export class CustomizedOrderListComponent implements OnInit {
   orderStatusOptions: string[] = ['Pending', 'Processing', 'Delivered', 'Cancelled'];
   selectedOrder;
   selectedStatus;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private bookCustomizeService  : BookCustomizeService,
@@ -40,6 +43,7 @@ export class CustomizedOrderListComponent implements OnInit {
     
             console.log('get data response: ',datalist);
             this.dataSource = new MatTableDataSource(datalist);
+            this.dataSource.paginator = this.paginator;
   
           },        
           error: (error) => this.messageService.showError('Action failed with error ' + error)
