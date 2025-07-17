@@ -1,5 +1,6 @@
 <div class="container">
   <div class="form-section">
+    <p>Employee Registration Form</p>
     <form [formGroup] ="employeeForm" class="example-form" (ngSubmit)="onSubmit()">
 
         <mat-form-field class="example-full-width">
@@ -52,7 +53,7 @@
           <span class="text-danger" *ngIf="(employeeForm.get('bDay').touched||submitted) && employeeForm.get('bDay').errors">Enter a valid date of birth</span>
         </mat-form-field>
 
-        <div class="radio-button mb-4">
+        <div class="radio-button mb-4" style="background-color: #f9f0ce;">
           <mat-label >Choose your gender</mat-label><br>
           <mat-radio-group aria-label="Select an option" formControlName = "gender">
             <mat-radio-button value="Male">Male</mat-radio-button>
@@ -85,7 +86,7 @@
         </mat-form-field>
 
         <button type="button" class="btn btn-primary submit-btn" type="submit" [disabled]="isDisabled">{{saveButtonLabel}}</button>
-        <button  type="button" class="btn btn-secondary reset-btn" type="reset"  mat-raised-button (click) = "resetEmployee()">Reset</button>
+        <button  type="button" class="btn btn-secondary reset-btn" type="reset" (click) = "resetEmployee()">Reset</button>
     </form>
   </div>
 

@@ -1,5 +1,6 @@
-<div class="item-container">
+<div class="container">
   <div class="form-section">
+    <p>Selling Item Registration Form</p>
     <form class="example-form" [formGroup] ="sellingItemForm" (ngSubmit)="onSubmit()">
       <!-- <mat-form-field class="example-full-width">
         <mat-label>Item Id</mat-label>
@@ -79,7 +80,7 @@
       <div class="example-full-width">
         <mat-label>Upload Photo</mat-label>
         <div>
-          <img [src]="selectedImageUrl ? selectedImageUrl : 'assets/images/download.png'" width="100px" height="100px" />
+          <!-- <img [src]="selectedImageUrl ? selectedImageUrl : 'assets/images/logo.png'" width="50px" height="50px" /> -->
         </div>
         <input type="file"  (change)="onFileSelected($event)"#fileInput accept="image/*">
         <span>Accepted formats: JPG, JPEG, PNG. Max size: 2MB</span>
