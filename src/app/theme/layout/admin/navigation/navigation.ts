@@ -290,7 +290,7 @@ const NavigationItems = [
     title: 'Reports',
     type: 'group',
     icon: 'icon-navigation',
-    auth: [authenticationEnum.Employee_List],
+    auth: [authenticationEnum.Employee_List, authenticationEnum.Customer_List],
     isVisible: false,
     children: [
       {
@@ -298,10 +298,10 @@ const NavigationItems = [
         title: 'Reports',
         type: 'collapse',
         icon: 'ti ti-key',
-        auth: authenticationEnum.Home,
+        auth: [authenticationEnum.Employee_List, authenticationEnum.Customer_List],
         isVisible: false,
         children: [
-          {
+      {
         id: 'EmployeeList',
         title: 'Employee Report',
         type: 'item',
@@ -318,7 +318,7 @@ const NavigationItems = [
         url: '/reports/customer-report',
         icon: 'feather icon-home',
         classes: 'nav-item',
-        auth: authenticationEnum.Home_Dashboard,
+        auth: [authenticationEnum.Customer_List],
         isVisible: false
       }
         ]
