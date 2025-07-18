@@ -9,6 +9,7 @@ import { MessageServiceService } from 'src/app/services/message-service/message-
 import { DeleteConfirmDialogComponent } from '../../registration/delete-confirm-dialog/delete-confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RsaService } from 'src/app/services/rsa-service/rsa.service';
+import { NotificationService } from 'src/app/services/notification-service/notification.service';
 
 @Component({
   selector: 'app-customer-login',
@@ -39,7 +40,8 @@ export class CustomerLoginComponent implements OnInit {
     private customerLoginService: CustomerLoginService,
     private messageService: MessageServiceService,
     private customerRegistrationService: CustomerRegistrationService,
-    private rsaService: RsaService
+    private rsaService: RsaService,
+    private notificationService: NotificationService,
   ) {
     this.customerLoginForm = this.fb.group({
       id: new FormControl(''),
@@ -131,7 +133,7 @@ export class CustomerLoginComponent implements OnInit {
 
       if (this.mode === 'save') {
         this.customerLoginService.serviceCall(loginFormCopy).subscribe({
-          next: (datalist: any[]) => {
+          next: (datalist: any) => {
             if (datalist.length <= 0) {
               return;
             }
@@ -142,7 +144,7 @@ export class CustomerLoginComponent implements OnInit {
               this.dataSource = new MatTableDataSource([datalist]);
             }
             console.log('Login details submitted');
-
+            this.addNotification('Welcome to Samagi Exercise Books!', datalist.userId);
             this.messageService.showSuccess('Data Saved Successfully');
           },
           error: (error) => this.messageService.showError('Action failed with error ' + error)
@@ -282,5 +284,9 @@ export class CustomerLoginComponent implements OnInit {
         this.deleteData(data);
       }
     });
+  }
+
+  public addNotification(message: string, userId: number): void {
+    this.notificationService.addNotification(message, 'success', userId);
   }
 }
