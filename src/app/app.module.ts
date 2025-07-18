@@ -34,6 +34,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { OrdersModule } from './demo/pages/orders/orders.module';
 import { LoginModule } from './demo/pages/login/login.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FrontPageComponent } from './front-page/front-page.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NavGroupComponent,
     NavItemComponent,
     NavSearchComponent,
-    ToggleFullScreenDirective
+    ToggleFullScreenDirective,
+    FrontPageComponent
   ],
   imports: [
     BrowserModule,

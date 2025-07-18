@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
 import { AuthGuard } from './guards/auth.guard';
+import { FrontPageComponent } from './front-page/front-page.component';
 
 const routes: Routes = [
   {
@@ -10,8 +11,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '/auth/signin',
-        pathMatch: 'full'
+        component: FrontPageComponent
       },
       {
         path: 'auth',
