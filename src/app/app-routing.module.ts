@@ -4,6 +4,7 @@ import { AdminComponent } from './theme/layout/admin/admin.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
 import { AuthGuard } from './guards/auth.guard';
 import { FrontPageComponent } from './front-page/front-page.component';
+import { LandingPageComponent } from './demo/pages/landing-page/landing-page.component';
 
 const routes: Routes = [
   {
@@ -26,8 +27,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full'
+        component: LandingPageComponent
+      },
+      {
+        path: 'land',
+        component: LandingPageComponent
       },
       {
         path: 'dashboard',

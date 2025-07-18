@@ -62,7 +62,7 @@ export default class AuthSigninComponent implements OnInit {
           try {
             if (data.length > 0) {
               this.cacheService.set(userId.toString(), data);
-              this.router.navigate(['/dashboard']);
+              this.router.navigate(['/land']);
             } else {
               this._messageService.showError('User does not have privileges');
             }
