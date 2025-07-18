@@ -37,6 +37,9 @@
           >
             Password is required
           </span>
+          <span class="text-danger m-b-12" *ngIf="userNamePasswordError">
+              Username or password incorrect
+            </span>
           <div class="form-group text-start mb-4">
             <!-- <div class="checkbox checkbox-fill d-inline">
               <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="" />
