@@ -111,4 +111,9 @@ export class OnlineOrderingService {
       this.cartItems.next(this.getCartData());
     }
   }
+
+  emptyCartData() {
+    this.cartItems.next([]);
+    this.placeHolder = [];
+  }
 }

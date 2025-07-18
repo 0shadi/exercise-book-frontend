@@ -67,6 +67,7 @@ export class NavRightComponent implements OnInit {
   }
 
   public logOutUser(): void {
+    this.onlineOrderingService.emptyCartData();
     this.cacheService.clear(this.httpService.getUserId()!);
     this.httpService.removeToken();
     this.router.navigate(['/auth/signin']);
