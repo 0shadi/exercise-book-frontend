@@ -93,7 +93,7 @@ export class ProdItemMapComponent implements OnInit {
           this.messageService.showSuccess('Data saved successfully!');
         },
         error: (error: any) => {
-          this.messageService.showError('Error Occured! Please try again');
+          this.messageService.showError(error);
         }
       });
     }
