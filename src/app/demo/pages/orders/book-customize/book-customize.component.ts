@@ -361,8 +361,8 @@ export class BookCustomizeComponent implements OnInit {
     console.log(price);
 
     if (type !== 'pagesCount') {
-      if (this.bookPrice && this.bookPrice !== 0) {
-        this.bookPrice = this.bookPrice / this.pageCount;
+      if (this.totalCostPerBook && this.totalCostPerBook !== 0) {
+        this.bookPrice = this.totalCostPerBook / this.pageCount;
       }
 
       this.bookPrice = this.bookPrice + price;
