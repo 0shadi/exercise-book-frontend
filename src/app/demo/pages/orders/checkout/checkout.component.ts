@@ -5,6 +5,7 @@ import { MessageServiceService } from 'src/app/services/message-service/message-
 import { CheckoutService } from 'src/app/services/checkout/checkout.service';
 import { HttpService } from 'src/app/services/http.service';
 import { Router } from '@angular/router';
+import { NotificationService } from 'src/app/services/notification-service/notification.service';
 
 export interface PeriodicElement {
   product: string;
@@ -35,7 +36,8 @@ export class CheckoutComponent implements OnInit {
     private messageService : MessageServiceService,
     private checkoutService : CheckoutService,
     private httpService: HttpService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {
     this.billingDetailsForm= this.fb.group({
       orderId: new FormControl(''),
@@ -146,18 +148,20 @@ export class CheckoutComponent implements OnInit {
         customerId: this.userId
       };
       this.checkoutService.saveOrderDetails(orderDetails).subscribe({
-        next:(datalist:any[])=>{
+        next:(datalist:any)=>{
           if(datalist.length <= 0){
             return;
           }
     
           console.log("Submitted values",datalist);
+          this.addNotification('Order Placed Successfully!', datalist.customerId);
         },
         error:(error)=>{
           this.messageService.showError('Action failed with error ' + error);
         }
         
       });
+      
 
       //Saving card details
       const paymentDetails = {...this.paymentForm.value, orderId: savedOrderId};
@@ -186,7 +190,7 @@ export class CheckoutComponent implements OnInit {
     
 
   this.messageService.showSuccess('Order Placed Successfully');
-
+  
   this.isDisabled = true;
   this.billingDetailsForm.disable();
   this.paymentForm.disable();
@@ -214,6 +218,10 @@ export class CheckoutComponent implements OnInit {
         orderDetails: orderDetails , 
         orderItemDetails: orderItemDetails 
               } });
+  }
+
+  public addNotification(message: string, userId: number): void {
+    this.notificationService.addNotification(message, 'success', userId);
   }
 }
 

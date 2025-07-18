@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BookCustomizeService } from 'src/app/services/book-customize/book-customize.service';
 import { HttpService } from 'src/app/services/http.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
+import { NotificationService } from 'src/app/services/notification-service/notification.service';
 
 @Component({
   selector: 'app-customized-order-checkout',
@@ -29,6 +30,7 @@ export class CustomizedOrderCheckoutComponent {
     private httpService: HttpService,
     private bookCustomizeService: BookCustomizeService,
     private messageService:MessageServiceService,
+    private notificationService: NotificationService
   ){
     this.billingDetailsForm= this.fb.group({
       orderId: new FormControl(''),
@@ -87,6 +89,7 @@ export class CustomizedOrderCheckoutComponent {
             }
             const savedOrderId = datalist.orderId; 
             console.log("Submitted Order Details",datalist);
+            
 
             const formData = new FormData();
             formData.append('coverPhoto', this.coverPhotoFile); // File from file input
@@ -96,11 +99,12 @@ export class CustomizedOrderCheckoutComponent {
             formData.append('bookForm', new Blob([JSON.stringify(bookDetailsWithOrderId)], { type: 'application/json' }));
               
             this.bookCustomizeService.saveBookDetails(formData).subscribe({
-              next:(datalist:any[])=>{
+              next:(datalist:any)=>{
                 if(datalist.length <= 0){
                   return;
                 }
                 console.log("Submitted Customization Details",datalist);
+                
                 
               },
               error:(error)=>{
@@ -142,6 +146,7 @@ export class CustomizedOrderCheckoutComponent {
               }
         
       });
+        this.addNotification('Order Placed Successfully!', datalist.customerId);
             
           },
           error:(error)=>{
@@ -179,5 +184,9 @@ export class CustomizedOrderCheckoutComponent {
         totalCostPerBook: this.totalCostPerBook
               } });
     console.log('orderDetails sent :',orderDetails,'bookDetails : ', bookDetails);
+  }
+
+  public addNotification(message: string, userId: number): void {
+    this.notificationService.addNotification(message, 'success', userId);
   }
 }
