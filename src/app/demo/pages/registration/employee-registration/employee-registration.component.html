@@ -18,7 +18,7 @@
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
-          <mat-label>Full name</mat-label>
+          <mat-label>Name with Initials</mat-label>
           <input matInput placeholder="Full name" formControlName = "fullName">
           <span class="text-danger" *ngIf="(employeeForm.get('fullName').touched || submitted) && employeeForm.get('fullName').errors && employeeForm.get('fullName').errors['required']">First name is required</span>
           <span class="text-danger" *ngIf="(employeeForm.get('fullName').touched || submitted) && employeeForm.get('fullName').errors && employeeForm.get('fullName').errors['pattern']">Please enter a valid name</span>
@@ -27,8 +27,8 @@
         <mat-form-field class="example-full-width">
           <mat-label>Calling Name</mat-label>
           <input matInput placeholder="Calling Name" formControlName = "callingName">
-          <span class="text-danger" *ngIf="(employeeForm.get('callingName').touched||submitted) && employeeForm.get('callingName').errors && employeeForm.get('callingName').errors['minlength']">Enter atleast 3 characters</span>
-          <span class="text-danger" *ngIf="(employeeForm.get('callingName').touched||submitted) && employeeForm.get('callingName').errors && employeeForm.get('callingName').errors['maxlength']">Enter maximum 15 characters</span>
+          <!-- <span class="text-danger" *ngIf="(employeeForm.get('callingName').touched||submitted) && employeeForm.get('callingName').errors && employeeForm.get('callingName').errors['minlength']">Enter atleast 3 characters</span>
+          <span class="text-danger" *ngIf="(employeeForm.get('callingName').touched||submitted) && employeeForm.get('callingName').errors && employeeForm.get('callingName').errors['maxlength']">Enter maximum 15 characters</span> -->
           <span class="text-danger" *ngIf="(employeeForm.get('callingName').touched||submitted) && employeeForm.get('callingName').errors && employeeForm.get('callingName').errors['pattern']">Enter a valid name</span>
         </mat-form-field>
 
@@ -50,7 +50,7 @@
           <input matInput [matDatepicker]="picker" formControlName = "bDay">
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
-          <span class="text-danger" *ngIf="(employeeForm.get('bDay').touched||submitted) && employeeForm.get('bDay').errors">Enter a valid date of birth</span>
+          <span class="text-danger" *ngIf="(employeeForm.get('bDay').touched||submitted) && employeeForm.get('bDay').errors">Age must be greater than 18 years</span>
         </mat-form-field>
 
         <div class="radio-button mb-4" style="background-color: #f9f0ce;">

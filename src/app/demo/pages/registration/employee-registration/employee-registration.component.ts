@@ -51,7 +51,7 @@ export class EmployeeRegistrationComponent implements OnInit {
       firstName:new FormControl('',[Validators.required,Validators.pattern('^[A-Za-z ]+$')]),
       lastName:new FormControl('',[Validators.required,Validators.pattern('^[A-Za-z ]+$')]),
       fullName:new FormControl('',[Validators.required,Validators.pattern('^[A-Za-z ]+$')]),
-      callingName:new FormControl('',[Validators.minLength(3),Validators.maxLength(15),Validators.pattern('^[A-Za-z]+$')]),
+      callingName:new FormControl('',[Validators.pattern('^[A-Za-z ]+$')]),
       nic:new FormControl('',[Validators.pattern(/^(?:\d{9}[VvXx]|\d{12})$/)]),
       contactNo: new FormControl('',[Validators.required,Validators.pattern(/^0?[1-9]\d-?\d{7}$/)]),
       bDay:new FormControl('',[this.validateAge]),

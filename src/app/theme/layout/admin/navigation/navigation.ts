@@ -303,7 +303,7 @@ const NavigationItems = [
         children: [
       {
         id: 'EmployeeList',
-        title: 'Employee Report',
+        title: 'Employee List',
         type: 'item',
         url: '/reports/employee-list',
         icon: 'feather icon-home',
@@ -312,10 +312,50 @@ const NavigationItems = [
         isVisible: false
       },
       {
-        id: 'Customer Report',
-        title: 'Customer Report',
+        id: 'Customer List',
+        title: 'Customer List',
         type: 'item',
         url: '/reports/customer-report',
+        icon: 'feather icon-home',
+        classes: 'nav-item',
+        auth: [authenticationEnum.Customer_List],
+        isVisible: false
+      },
+      {
+        id: 'Monthly Sales',
+        title: 'Monthly Sales',
+        type: 'item',
+        url: '/reports/monthly-sales-report',
+        icon: 'feather icon-home',
+        classes: 'nav-item',
+        auth: [authenticationEnum.Customer_List],
+        isVisible: false
+      },
+      {
+        id: 'Monthly Sales Income',
+        title: 'Monthly Sales Income',
+        type: 'item',
+        url: '/reports/monthly-sales-income-report',
+        icon: 'feather icon-home',
+        classes: 'nav-item',
+        auth: [authenticationEnum.Customer_List],
+        isVisible: false
+      },
+      {
+        id: 'Weekly Orders by status',
+        title: 'Weekly Orders By Status',
+        type: 'item',
+        url: '/reports/weekly-order-status-report',
+        icon: 'feather icon-home',
+        classes: 'nav-item',
+        auth: [authenticationEnum.Customer_List],
+        isVisible: false
+      },
+      {
+        id: 'salesIncomePerItem',
+        title: 'Sales Income Per Item',
+        type: 'item',
+        url: '/reports/sales-per-item-report',
         icon: 'feather icon-home',
         classes: 'nav-item',
         auth: [authenticationEnum.Customer_List],
@@ -424,26 +464,26 @@ const NavigationItems = [
   //     }
   //   ]
   // },
-  {
-    id: 'chart-maps',
-    title: 'Chart',
-    type: 'group',
-    icon: 'icon-charts',
-    isVisible: false,
-    auth: [authenticationEnum.Sales_Stats],
-    children: [
-      {
-        id: 'apexChart',
-        title: 'Sales Stats',
-        type: 'item',
-        url: 'apexchart',
-        classes: 'nav-item',
-        icon: 'feather icon-pie-chart',
-        isVisible: false,
-        auth: [authenticationEnum.Sales_Stats]
-      }
-    ]
-  },
+  // {
+  //   id: 'chart-maps',
+  //   title: 'Chart',
+  //   type: 'group',
+  //   icon: 'icon-charts',
+  //   isVisible: false,
+  //   auth: [authenticationEnum.Sales_Stats],
+  //   children: [
+  //     {
+  //       id: 'apexChart',
+  //       title: 'Sales Stats',
+  //       type: 'item',
+  //       url: 'apexchart',
+  //       classes: 'nav-item',
+  //       icon: 'feather icon-pie-chart',
+  //       isVisible: false,
+  //       auth: [authenticationEnum.Sales_Stats]
+  //     }
+  //   ]
+  // },
   // {
   //   id: 'pages',
   //   title: 'Pages',

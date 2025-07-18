@@ -13,12 +13,22 @@ import { EmployeeListComponent } from './Static Report/app/components/employee-l
 import { ReportsRoute } from './reports.routing.module';
 import { LoadingSpinnerComponent } from './Static Report/app/components/loading-spinner/loading-spinner.component';
 import { CustomerReportComponent } from './Static Report/app/components/customer-report/customer-report.component';
+import { MonthlySalesComponent } from './Charts/monthly-sales/monthly-sales.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { SharedModule } from 'src/app/theme/shared/shared.module';
+import { MonthlySalesIncomeComponent } from './Charts/monthly-sales-income/monthly-sales-income.component';
+import { WeeklyOrderStatusComponent } from './Charts/weekly-order-status/weekly-order-status.component';
+import { SalesPerItemComponent } from './Charts/sales-per-item/sales-per-item.component';
 
 @NgModule({
   declarations: [
     EmployeeListComponent, 
     LoadingSpinnerComponent,
-    CustomerReportComponent
+    CustomerReportComponent,
+    MonthlySalesComponent,
+    MonthlySalesIncomeComponent,
+    WeeklyOrderStatusComponent,
+    SalesPerItemComponent
   ],
   imports: [
     RouterModule.forChild(ReportsRoute),
@@ -30,7 +40,9 @@ import { CustomerReportComponent } from './Static Report/app/components/customer
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    NgApexchartsModule,
+    SharedModule
   ]
 })
 export class ReportsModule {}

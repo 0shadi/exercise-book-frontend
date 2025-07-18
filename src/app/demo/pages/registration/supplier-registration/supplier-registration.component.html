@@ -17,6 +17,7 @@
           <mat-label>Contact Number</mat-label>
           <input matInput placeholder="Contact Number" formControlName = "contactNo">
           <span class="text-danger" *ngIf="(supplierForm.get('contactNo').touched || submitted) && supplierForm.get('contactNo').errors && supplierForm.get('contactNo').errors['pattern']">Enter a valid contact number</span>
+          <span class="text-danger" *ngIf="(supplierForm.get('contactNo').touched || submitted) && supplierForm.get('contactNo').errors && supplierForm.get('contactNo').errors['required']">Contact number is required</span>
       </mat-form-field>
   
       <mat-form-field class="example-full-width">
