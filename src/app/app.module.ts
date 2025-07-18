@@ -35,6 +35,7 @@ import { OrdersModule } from './demo/pages/orders/orders.module';
 import { LoginModule } from './demo/pages/login/login.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FrontPageComponent } from './front-page/front-page.component';
+import { LandingPageComponent } from './demo/pages/landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { FrontPageComponent } from './front-page/front-page.component';
     NavItemComponent,
     NavSearchComponent,
     ToggleFullScreenDirective,
-    FrontPageComponent
+    FrontPageComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,
