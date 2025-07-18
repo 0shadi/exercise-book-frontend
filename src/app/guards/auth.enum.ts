@@ -24,4 +24,8 @@ export enum authenticationEnum {
   Employee_List = 19,
   Sales_Stats = 20,
   Customer_List = 21,
+  Monthly_sales = 22,
+  Monthly_sales_income = 23,
+  weekly_Orders_by_Status= 24,
+  sales_Income_Per_Item = 25
 }

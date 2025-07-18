@@ -290,7 +290,7 @@ const NavigationItems = [
     title: 'Reports',
     type: 'group',
     icon: 'icon-navigation',
-    auth: [authenticationEnum.Employee_List, authenticationEnum.Customer_List],
+    auth: [authenticationEnum.Employee_List, authenticationEnum.Customer_List,authenticationEnum.Monthly_sales,authenticationEnum.Monthly_sales_income,authenticationEnum.weekly_Orders_by_Status,authenticationEnum.sales_Income_Per_Item],
     isVisible: false,
     children: [
       {
@@ -298,7 +298,7 @@ const NavigationItems = [
         title: 'Reports',
         type: 'collapse',
         icon: 'ti ti-key',
-        auth: [authenticationEnum.Employee_List, authenticationEnum.Customer_List],
+        auth: [authenticationEnum.Employee_List, authenticationEnum.Customer_List,authenticationEnum.Monthly_sales,authenticationEnum.Monthly_sales_income,authenticationEnum.weekly_Orders_by_Status,authenticationEnum.sales_Income_Per_Item],
         isVisible: false,
         children: [
       {
@@ -328,7 +328,7 @@ const NavigationItems = [
         url: '/reports/monthly-sales-report',
         icon: 'feather icon-home',
         classes: 'nav-item',
-        auth: [authenticationEnum.Customer_List],
+        auth: [authenticationEnum.Monthly_sales],
         isVisible: false
       },
       {
@@ -338,7 +338,7 @@ const NavigationItems = [
         url: '/reports/monthly-sales-income-report',
         icon: 'feather icon-home',
         classes: 'nav-item',
-        auth: [authenticationEnum.Customer_List],
+        auth: [authenticationEnum.Monthly_sales_income],
         isVisible: false
       },
       {
@@ -348,7 +348,7 @@ const NavigationItems = [
         url: '/reports/weekly-order-status-report',
         icon: 'feather icon-home',
         classes: 'nav-item',
-        auth: [authenticationEnum.Customer_List],
+        auth: [authenticationEnum.weekly_Orders_by_Status],
         isVisible: false
       },
       {
@@ -358,7 +358,7 @@ const NavigationItems = [
         url: '/reports/sales-per-item-report',
         icon: 'feather icon-home',
         classes: 'nav-item',
-        auth: [authenticationEnum.Customer_List],
+        auth: [authenticationEnum.sales_Income_Per_Item],
         isVisible: false
       }
         ]
