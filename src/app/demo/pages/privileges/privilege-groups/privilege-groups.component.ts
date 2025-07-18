@@ -202,4 +202,19 @@ export class PrivilegeGroupsComponent implements OnInit {
       console.log(error);
     }
   }
+
+  onSetAsCustomerDefaultClick(data: any) {
+    try {
+      console.log(this.selectedRecord);
+      const groupId = this.selectedRecord.id;
+      this._privilegesService.setAsCustomerDefault(groupId, this.selectedRecord).then((response: any) => {
+        if (response) {
+          this.getPrivilegeGroupList();
+          this._messageService.showSuccess('Default privilege group for customers set successfull');
+        }
+      });
+    } catch (error) {
+      this._messageService.showError('Default privilege group for customer Set failed! Please try agin');
+    }
+  }
 }
