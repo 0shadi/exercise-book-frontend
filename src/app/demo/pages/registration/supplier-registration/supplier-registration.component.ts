@@ -38,7 +38,7 @@ export class SupplierRegistrationComponent implements OnInit {
     this.supplierForm = this.fb.group({
       supplierId: new FormControl(''),
       supplierName: new FormControl('',[Validators.required,Validators.pattern('^[A-Za-z ]+$')]),
-      contactNo: new FormControl('',[Validators.pattern(/^0?[1-9]\d-?\d{7}$/)]),
+      contactNo: new FormControl('',[Validators.required,Validators.pattern(/^0?[1-9]\d-?\d{7}$/)]),
       email: new FormControl('',[Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
       address: new FormControl(''),
     })
