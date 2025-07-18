@@ -8,6 +8,7 @@ import { EmployeeRegistrationServiceService } from 'src/app/services/employee-re
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import { DeleteConfirmDialogComponent } from '../../registration/delete-confirm-dialog/delete-confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { NotificationService } from 'src/app/services/notification-service/notification.service';
 
 @Component({
   selector: 'app-employee-login',
@@ -36,7 +37,8 @@ export class EmployeeLoginComponent implements OnInit {
     private fb: FormBuilder,
     private employeeLoginService: EmployeeLoginService,
     private messageService: MessageServiceService,
-    private employeeRegistrationService: EmployeeRegistrationServiceService
+    private employeeRegistrationService: EmployeeRegistrationServiceService,
+    private notificationService: NotificationService
   ) {
     this.employeeLoginForm = this.fb.group({
       id: new FormControl(''),
@@ -108,8 +110,8 @@ export class EmployeeLoginComponent implements OnInit {
 
       if (this.mode == 'save') {
         this.employeeLoginService.serviceCall(this.employeeLoginForm.getRawValue()).subscribe({
-          next: (datalist: any[]) => {
-            if (datalist.length <= 0) {
+          next: (datalist: any) => {
+            if (!datalist) {
               return;
             }
             if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0) {
@@ -120,14 +122,15 @@ export class EmployeeLoginComponent implements OnInit {
             }
 
             console.log('Login details submitted');
+            this.addNotification('Welcome to Samagi Exercise Books!', datalist.userId);
             this.messageService.showSuccess('Data Saved Successfully');
           },
           error: (error) => this.messageService.showError('Action failed with error ' + error)
         });
       } else if (this.mode === 'edit') {
         this.employeeLoginService.editData(this.selectedData?.id, this.employeeLoginForm.getRawValue()).subscribe({
-          next: (datalist: any[]) => {
-            if (datalist.length <= 0) {
+          next: (datalist: any) => {
+            if (!datalist) {
               return;
             }
 
@@ -240,5 +243,9 @@ export class EmployeeLoginComponent implements OnInit {
         this.deleteData(data);
       }
     });
+  }
+
+  public addNotification(message: string, userId: number): void {
+    this.notificationService.addNotification(message, 'success', userId);
   }
 }

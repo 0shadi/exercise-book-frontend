@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { HttpService } from '../http.service';
 import { HttpClient } from '@angular/common/http';
+import { MessageServiceService } from '../message-service/message-service.service';
 
 export interface Task {
   id: string;
@@ -45,7 +46,7 @@ export class NotificationService {
   private toastNotifications = new BehaviorSubject<Notification[]>([]);
   public toastNotifications$ = this.toastNotifications.asObservable();
 
-  constructor(private httpService: HttpService, private http: HttpClient) {}
+  constructor(private httpService: HttpService, private http: HttpClient, private messageService: MessageServiceService) {}
 
   addNotification(
     message: string,
@@ -69,16 +70,21 @@ export class NotificationService {
 
     const notificationtemp = notification;
     notificationtemp.id = '';
+    const loggedInId = this.httpService.getUserId();
 
     this.addNotificationToDb(notificationtemp).subscribe({
       next: (response: any) => {
         console.log(response);
-        this.addNotificationToBell([notificationtemp]);
+
+        if (+loggedInId == targetUser) {
+          this.addNotificationToBell([notificationtemp]);
+        }
       },
       // Displaying error message
       error: (error) => {
         console.log(error);
-        this.addNotificationToBell([notificationtemp]);
+        this.messageService.showError('Failed to send notification to user!');
+        // this.addNotificationToBell([notificationtemp]);
       },
     });
   }
