@@ -110,7 +110,7 @@ export class EmployeeLoginComponent implements OnInit {
         return;
       }
       let  encryptedPassword = '';
-      if (this.employeeLoginForm.value.password) {
+      if (this.employeeLoginForm.getRawValue().password != null || this.employeeLoginForm.getRawValue().password != undefined) {
         encryptedPassword = this.rsaService.encrypt(this.employeeLoginForm.value.password);
       }
 
@@ -143,7 +143,7 @@ export class EmployeeLoginComponent implements OnInit {
           error: (error) => this.messageService.showError('Action failed with error ' + error)
         });
       } else if (this.mode === 'edit') {
-        this.employeeLoginService.editData(this.selectedData?.id, this.employeeLoginForm.getRawValue()).subscribe({
+        this.employeeLoginService.editData(this.selectedData?.id, loginFormCopy).subscribe({
           next: (datalist: any) => {
             if (!datalist) {
               return;
