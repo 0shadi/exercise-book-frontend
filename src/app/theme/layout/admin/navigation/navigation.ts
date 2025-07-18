@@ -44,8 +44,8 @@ const NavigationItems = [
         isVisible: true
       },
       {
-        id: 'online-ordering',
-        title: 'Online Ordering',
+        id: 'Product-ordering',
+        title: 'Product Ordering',
         type: 'item',
         url: '/orders/online-ordering',
         icon: 'feather icon-home',
@@ -294,14 +294,34 @@ const NavigationItems = [
     isVisible: false,
     children: [
       {
+        id: 'Reports',
+        title: 'Reports',
+        type: 'collapse',
+        icon: 'ti ti-key',
+        auth: authenticationEnum.Home,
+        isVisible: false,
+        children: [
+          {
         id: 'EmployeeList',
-        title: 'Employee List',
+        title: 'Employee Report',
         type: 'item',
         url: '/reports/employee-list',
         icon: 'feather icon-home',
         classes: 'nav-item',
         auth: [authenticationEnum.Employee_List],
         isVisible: false
+      },
+      {
+        id: 'Customer Report',
+        title: 'Customer Report',
+        type: 'item',
+        url: '/reports/customer-report',
+        icon: 'feather icon-home',
+        classes: 'nav-item',
+        auth: authenticationEnum.Home_Dashboard,
+        isVisible: false
+      }
+        ]
       }
     ]
   },

@@ -1,5 +1,6 @@
-<div class="item-container">
+<div class="container">
     <div class="form-section">
+      <p>Item Registration Form</p>
         <form class="item-form" [formGroup] ="itemForm" (ngSubmit)="onSubmit()">
     
             <!-- <mat-form-field class="example-full-width" >
@@ -62,8 +63,8 @@
                 </mat-select>
               </mat-form-field> -->
               
-              <button type="submit" class="btn-primary submit-btn" mat-raised-button [disabled]="isDisabled">{{saveButtonLabel}}</button>
-              <button type="reset" class="btn-secondary reset-btn" mat-raised-button (click) = "resetItem()">Reset</button>
+              <button type="submit" class="btn-primary submit-btn"  [disabled]="isDisabled">{{saveButtonLabel}}</button>
+              <button type="reset" class="btn-secondary reset-btn" (click) = "resetItem()">Reset</button>
         </form>
     
     </div>
