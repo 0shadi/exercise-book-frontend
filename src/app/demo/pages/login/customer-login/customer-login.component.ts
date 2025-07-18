@@ -8,6 +8,7 @@ import { CustomerRegistrationService } from 'src/app/services/customer-registrat
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import { DeleteConfirmDialogComponent } from '../../registration/delete-confirm-dialog/delete-confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { RsaService } from 'src/app/services/rsa-service/rsa.service';
 
 @Component({
   selector: 'app-customer-login',
@@ -37,7 +38,8 @@ export class CustomerLoginComponent implements OnInit {
     private fb: FormBuilder,
     private customerLoginService: CustomerLoginService,
     private messageService: MessageServiceService,
-    private customerRegistrationService: CustomerRegistrationService
+    private customerRegistrationService: CustomerRegistrationService,
+    private rsaService: RsaService
   ) {
     this.customerLoginForm = this.fb.group({
       id: new FormControl(''),
@@ -109,8 +111,26 @@ export class CustomerLoginComponent implements OnInit {
         return;
       }
 
+      let encryptedPassword = '';
+
+      if (this.customerLoginForm.getRawValue().password != null || this.customerLoginForm.getRawValue().password != undefined) {
+        encryptedPassword = this.rsaService.encrypt(this.customerLoginForm.value.password);
+      }
+
+
+      const loginFormCopy = {
+        id: this.customerLoginForm.value.id ,
+        customerId:  this.customerLoginForm.getRawValue().customerId,
+        customerName: this.customerLoginForm.getRawValue().customerName,
+        firstName: this.customerLoginForm.getRawValue().firstName,
+        lastName: this.customerLoginForm.getRawValue().lastName,
+        customerType: this.customerLoginForm.getRawValue().customerType,
+        userName: this.customerLoginForm.getRawValue().userName,
+        password: encryptedPassword
+      }
+
       if (this.mode === 'save') {
-        this.customerLoginService.serviceCall(this.customerLoginForm.getRawValue()).subscribe({
+        this.customerLoginService.serviceCall(loginFormCopy).subscribe({
           next: (datalist: any[]) => {
             if (datalist.length <= 0) {
               return;
@@ -128,7 +148,7 @@ export class CustomerLoginComponent implements OnInit {
           error: (error) => this.messageService.showError('Action failed with error ' + error)
         });
       } else if (this.mode === 'edit') {
-        this.customerLoginService.editData(this.selectedData?.id, this.customerLoginForm.getRawValue()).subscribe({
+        this.customerLoginService.editData(this.selectedData?.id, loginFormCopy).subscribe({
           next: (datalist: any[]) => {
             if (datalist.length <= 0) {
               return;
