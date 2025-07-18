@@ -89,6 +89,7 @@ export default class AuthSigninComponent implements OnInit {
           password: this.rsaService.encrypt(this.loginForm.value.password)
         })
         .then((response) => {
+          this.httpService.removeToken();
           this.httpService.setAuthToken(response.token);
           this.httpService.setUserId(response.id);
           this.httpService.setLoginNameToCache(response.login);

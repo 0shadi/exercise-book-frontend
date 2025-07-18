@@ -9,6 +9,7 @@ import { MessageServiceService } from 'src/app/services/message-service/message-
 import { DeleteConfirmDialogComponent } from '../../registration/delete-confirm-dialog/delete-confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from 'src/app/services/notification-service/notification.service';
+import { RsaService } from 'src/app/services/rsa-service/rsa.service';
 
 @Component({
   selector: 'app-employee-login',
@@ -38,7 +39,8 @@ export class EmployeeLoginComponent implements OnInit {
     private employeeLoginService: EmployeeLoginService,
     private messageService: MessageServiceService,
     private employeeRegistrationService: EmployeeRegistrationServiceService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private rsaService:RsaService
   ) {
     this.employeeLoginForm = this.fb.group({
       id: new FormControl(''),
@@ -107,9 +109,22 @@ export class EmployeeLoginComponent implements OnInit {
       if (this.employeeLoginForm.invalid) {
         return;
       }
+      let  encryptedPassword = '';
+      if (this.employeeLoginForm.getRawValue().password != null || this.employeeLoginForm.getRawValue().password != undefined) {
+        encryptedPassword = this.rsaService.encrypt(this.employeeLoginForm.value.password);
+      }
+
+      const loginFormCopy = {
+        id: this.employeeLoginForm.value.id,
+        employee: this.employeeLoginForm.getRawValue().employee,
+        firstName: this.employeeLoginForm.getRawValue().firstName,
+        lastName: this.employeeLoginForm.getRawValue().lastName,
+        userName: this.employeeLoginForm.getRawValue().userName,
+        password: encryptedPassword
+      };
 
       if (this.mode == 'save') {
-        this.employeeLoginService.serviceCall(this.employeeLoginForm.getRawValue()).subscribe({
+        this.employeeLoginService.serviceCall(loginFormCopy).subscribe({
           next: (datalist: any) => {
             if (!datalist) {
               return;
@@ -128,7 +143,7 @@ export class EmployeeLoginComponent implements OnInit {
           error: (error) => this.messageService.showError('Action failed with error ' + error)
         });
       } else if (this.mode === 'edit') {
-        this.employeeLoginService.editData(this.selectedData?.id, this.employeeLoginForm.getRawValue()).subscribe({
+        this.employeeLoginService.editData(this.selectedData?.id, loginFormCopy).subscribe({
           next: (datalist: any) => {
             if (!datalist) {
               return;

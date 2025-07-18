@@ -128,4 +128,8 @@ export class HttpService {
   public clearCache(): void {
     this.removeToken();
   }
+
+  public setLoginEvent(): void {
+    localStorage.setItem('loginEvent', Date.now().toString());
+  }
 }
