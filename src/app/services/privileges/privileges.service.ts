@@ -4,10 +4,13 @@ import { HttpService } from '../http.service';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class PrivilegesService {
-  constructor(private httpService: HttpService, private http: HttpClient) {}
+  constructor(
+    private httpService: HttpService,
+    private http: HttpClient
+  ) {}
 
   public getPrivilegeGroupList(): Promise<any> {
     const requestUrl = environment.baseUrl + '/privilege-groups';
@@ -16,7 +19,7 @@ export class PrivilegesService {
 
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
@@ -31,46 +34,52 @@ export class PrivilegesService {
 
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
-    return this.http
-      .post(requestUrl, privilegeGroup, { headers: headers })
-      .toPromise();
+    return this.http.post(requestUrl, privilegeGroup, { headers: headers }).toPromise();
   }
 
   public editPrivilegeGroup(id: number, privilegeGroup: any): Promise<any> {
-    const requestUrl =
-      environment.baseUrl + '/privilege-groups/' + id.toString();
+    const requestUrl = environment.baseUrl + '/privilege-groups/' + id.toString();
 
     let headers = {};
 
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
-    return this.http
-      .put(requestUrl, privilegeGroup, { headers: headers })
-      .toPromise();
+    return this.http.put(requestUrl, privilegeGroup, { headers: headers }).toPromise();
   }
 
   public deletePrivilegeGroup(id: number, priviegeGroup: any): Promise<any> {
-    const requestUrl =
-      environment.baseUrl + '/privilege-groups/delete/' + id.toString();
+    const requestUrl = environment.baseUrl + '/privilege-groups/delete/' + id.toString();
 
     let headers = {};
 
     if (this.httpService.getAuthToken() !== null) {
       headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
       };
     }
 
-    return this.http
-      .put(requestUrl, priviegeGroup, { headers: headers })
-      .toPromise();
+    return this.http.put(requestUrl, priviegeGroup, { headers: headers }).toPromise();
+  }
+
+  public setAsCustomerDefault(id: number, privilegeGroup: any): Promise<any> {
+    const requestUrl = environment.baseUrl + '/privilege-groups/set-as-default/' + id.toString();
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken()
+      };
+    }
+
+    return this.http.put(requestUrl, privilegeGroup, { headers: headers }).toPromise();
   }
 }

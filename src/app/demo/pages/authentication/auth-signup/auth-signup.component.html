@@ -57,6 +57,14 @@
           >
             Password is required
           </span>
+          <span
+            class="text-danger"
+            *ngIf="
+              (formControl['password'].touched || submitted) && formControl['password'].errors && formControl['password'].errors['pattern']
+            "
+          >
+            Password must be 6–12 characters and include at least one uppercase letter, lowercase letter, digit, and one special
+          </span>
           <!-- <div class="form-group text-start mb-4">
             <div class="checkbox checkbox-fill d-inline">
               <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-1" checked="" />
