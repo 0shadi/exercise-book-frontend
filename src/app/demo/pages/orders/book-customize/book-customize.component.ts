@@ -182,14 +182,47 @@ export class BookCustomizeComponent implements OnInit {
   }
 
   goToCheckout() {
-    const bookDetails = this.bookForm.value;
-    
-    if (!bookDetails.coverPhoto) {
-    bookDetails.coverPhoto = this.defaultBookImage;  // '/assets/images/Cover_photo.jpg'
+    this.convertAssetToFile(this.defaultBookImage, 'default')
+      .then((file) => {
+        if (file) {
+          this.selectedFile = file;
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            const base64Image = e.target?.result;
+            this.imageUrl = base64Image;
+            this.bookForm.patchValue({ coverPhoto: base64Image });
+
+            const f1Element = this.f1.nativeElement;
+            this.renderer.setStyle(f1Element, 'background-image', `url(${base64Image})`);
+          };
+          reader.readAsDataURL(file);
+        }
+
+        const bookDetails = this.bookForm.value;
+
+        if (!bookDetails.coverPhoto) {
+          bookDetails.coverPhoto = this.defaultBookImage; // '/assets/images/Cover_photo.jpg'
+        }
+
+        this.router.navigate(['/customized-order-checkout'], {
+          state: {
+            book: bookDetails,
+            coverPhotoFile: this.selectedFile,
+            totalCost: this.totalCost,
+            totalCostPerBook: this.totalCostPerBook
+          }
+        });
+        console.log('book details', bookDetails);
+      })
+      .catch((err) => {
+        console.log('Error setting default file');
+      });
   }
 
-    this.router.navigate(['/customized-order-checkout'], { state: { book: bookDetails, coverPhotoFile: this.selectedFile,totalCost:this.totalCost, totalCostPerBook: this.totalCostPerBook } });
-    console.log('book details', bookDetails);
+  convertAssetToFile(path: string, filename: string): Promise<File> {
+    return fetch(path)
+      .then((res) => res.blob())
+      .then((blob) => new File([blob], filename, { type: blob.type }));
   }
 
   public openBook(): void {
@@ -299,7 +332,7 @@ export class BookCustomizeComponent implements OnInit {
       this.bookForm.get('coverPhoto')?.setErrors({ fileType: true });
       return;
     }
-    
+
     if (file) {
       this.selectedFile = file;
       const reader = new FileReader();
@@ -374,12 +407,12 @@ export class BookCustomizeComponent implements OnInit {
 
     this.totalCostPerBook = +this.bookPrice * +this.pageCount;
     console.log('Total Cost Per Book', this.totalCostPerBook); // can get the total cost here (Multiply by quantity to get the amount to pay)
-    
+
     if (type === 'quantity') {
-    this.quantity = +item;
-    this.totalCost = this.totalCostPerBook * this.quantity;
-    return;
-  }
+      this.quantity = +item;
+      this.totalCost = this.totalCostPerBook * this.quantity;
+      return;
+    }
 
     this.totalCost = this.totalCostPerBook * this.quantity;
     console.log('Quantity', this.quantity);
