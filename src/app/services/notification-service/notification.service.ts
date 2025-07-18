@@ -179,4 +179,8 @@ export class NotificationService {
     // sending POST request to the server
     return this.http.post(requestUrl, notification, { headers: headers });
   }
+
+  public clearNotifications(): void {
+    this.notifications.next([]);
+  }
 }
