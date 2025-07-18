@@ -40,12 +40,25 @@ export class NavContentComponent {
 
   public setEntitlements(navigationArray: NavigationItem[], isAdmin: boolean, privilegeArray?: number[]): void {
     navigationArray.forEach((element) => {
+      // if (isAdmin) {
+      //   element.isVisible = true;
+      // } else if (privilegeArray.includes(element.auth)) {
+      //   element.isVisible = true;
+      // } else {
+      //   element.isVisible = false;
+      // }
+
       if (isAdmin) {
         element.isVisible = true;
-      } else if (privilegeArray.includes(element.auth)) {
-        element.isVisible = true;
       } else {
-        element.isVisible = false;
+        for (let i = 0; i < element.auth.length; i++) {
+          if (privilegeArray.includes(element.auth[i])) {
+            element.isVisible = true;
+            break;
+          } else {
+            element.isVisible = false;
+          }
+        }
       }
 
       if (element.children && element.children.length > 0) {
@@ -57,11 +70,20 @@ export class NavContentComponent {
           element.isVisible = true;
           return;
         } else {
-          if (privilegeArray.includes(element.auth)) {
+          // if (privilegeArray.includes(element.auth)) {
+          //   element.isVisible = true;
+          // } else {
+          //   element.isVisible = false;
+          // }
+
+          for (let i = 0; i < element.auth.length; i++) {
+          if (privilegeArray.includes(element.auth[i])) {
             element.isVisible = true;
+            break;
           } else {
             element.isVisible = false;
           }
+        }
         }
 
         if (privilegeArray && privilegeArray.length === 0) {

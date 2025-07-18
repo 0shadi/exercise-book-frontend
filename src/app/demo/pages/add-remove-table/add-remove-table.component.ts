@@ -152,6 +152,7 @@ export class AddRemoveTableComponent implements OnInit {
   }
 
   saveData() {
+    try {
     const addedData = this.getAddedItems();
     const removedData = this.getRemovedItems();
 
@@ -166,9 +167,14 @@ export class AddRemoveTableComponent implements OnInit {
 
     this.commonDataService.saveData('post', url, body).then((response: any) => {
       this.cacheService.refreshCache(this.httpService.getUserId()!);
+
+      this._messageService.showSuccess("Data saved successfully!");
     });
 
     this.isDisableButton = true;
+    } catch(error) {
+      this._messageService.showError("Error while saving data");
+    }
   }
 
   public getRemovedItems() {

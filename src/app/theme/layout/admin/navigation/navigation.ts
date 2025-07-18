@@ -16,7 +16,7 @@ export interface NavigationItem {
   breadcrumbs?: boolean;
   function?: any;
   children?: Navigation[];
-  auth?: number;
+  auth?: number[];
   isVisible: boolean;
 }
 
@@ -30,7 +30,7 @@ const NavigationItems = [
     title: 'Home',
     type: 'group',
     icon: 'icon-navigation',
-    auth: authenticationEnum.Home,
+    auth: [authenticationEnum.Home_Dashboard, authenticationEnum.Online_Ordering, authenticationEnum.Customized_Book_Ordering, authenticationEnum.All_Orders, authenticationEnum.All_Customized_Orders],
     isVisible: false,
     children: [
       {
@@ -40,7 +40,7 @@ const NavigationItems = [
         url: '/dashboard',
         icon: 'feather icon-home',
         classes: 'nav-item',
-        auth: authenticationEnum.Home_Dashboard,
+        auth: [authenticationEnum.Home_Dashboard],
         isVisible: true
       },
       {
@@ -50,7 +50,7 @@ const NavigationItems = [
         url: '/orders/online-ordering',
         icon: 'feather icon-home',
         classes: 'nav-item',
-        auth: authenticationEnum.Home_Dashboard,
+        auth: [authenticationEnum.Online_Ordering],
         isVisible: true
       },
       {
@@ -60,7 +60,7 @@ const NavigationItems = [
         url: '/orders/book-customize',
         icon: 'feather icon-home',
         classes: 'nav-item',
-        auth: authenticationEnum.Home_Dashboard,
+        auth: [authenticationEnum.Customized_Book_Ordering],
         isVisible: true
       },
       {
@@ -70,7 +70,7 @@ const NavigationItems = [
         url: '/orders/order-list',
         icon: 'feather icon-home',
         classes: 'nav-item',
-        auth: authenticationEnum.Home_Dashboard,
+        auth: [authenticationEnum.All_Orders],
         isVisible: true
       },
       {
@@ -80,7 +80,7 @@ const NavigationItems = [
         url: '/orders/customized-order-list',
         icon: 'feather icon-home',
         classes: 'nav-item',
-        auth: authenticationEnum.Home_Dashboard,
+        auth: [authenticationEnum.All_Customized_Orders],
         isVisible: true
       }
     ]
@@ -91,14 +91,14 @@ const NavigationItems = [
     type: 'group',
     icon: 'icon-navigation',
     isVisible: false,
-    auth: authenticationEnum.Privileges,
+    auth: [authenticationEnum.System_Privileges, authenticationEnum.Privilege_Groups],
     children: [
       {
         id: 'privilegeDetails',
         title: 'Privileges',
         type: 'collapse',
         icon: 'ti ti-key',
-        auth: authenticationEnum.Privileges,
+        auth: [authenticationEnum.System_Privileges, authenticationEnum.Privilege_Groups],
         isVisible: false,
         children: [
           {
@@ -108,7 +108,7 @@ const NavigationItems = [
             url: '/privileges/system-privileges',
             icon: 'ti ti-dashboard',
             breadcrumbs: false,
-            auth: authenticationEnum.System_Privileges,
+            auth: [authenticationEnum.System_Privileges],
             isVisible: false
           },
           {
@@ -118,7 +118,7 @@ const NavigationItems = [
             url: '/privileges/privilege-groups',
             icon: 'ti ti-dashboard',
             breadcrumbs: false,
-            auth: authenticationEnum.Privilege_Groups,
+            auth: [authenticationEnum.Privilege_Groups],
             isVisible: false
           }
         ]
@@ -131,14 +131,14 @@ const NavigationItems = [
     type: 'group',
     icon: 'icon-navigation',
     isVisible: false,
-    auth: authenticationEnum.Privileges,
+    auth: [authenticationEnum.Employee_List, authenticationEnum.Customer_Login],
     children: [
       {
         id: 'loginDetails',
         title: 'Login',
         type: 'collapse',
         icon: 'ti ti-key',
-        auth: authenticationEnum.Privileges,
+        auth: [authenticationEnum.Employee_List, authenticationEnum.Customer_Login],
         isVisible: false,
         children: [
           {
@@ -148,7 +148,7 @@ const NavigationItems = [
             url: '/login/employee-login',
             icon: 'ti ti-dashboard',
             breadcrumbs: false,
-            auth: authenticationEnum.System_Privileges,
+            auth: [authenticationEnum.Employee_Login],
             isVisible: false
           },
           {
@@ -158,7 +158,7 @@ const NavigationItems = [
             url: '/login/customer-login',
             icon: 'ti ti-dashboard',
             breadcrumbs: false,
-            auth: authenticationEnum.Privilege_Groups,
+            auth: [authenticationEnum.Customer_Login],
             isVisible: false
           }
         ]
@@ -191,14 +191,14 @@ const NavigationItems = [
     type: 'group',
     icon: 'icon-navigation',
     isVisible: false,
-    auth: authenticationEnum.Privileges,
+    auth: [authenticationEnum.Employee_Registration, authenticationEnum.Customer_Registration, authenticationEnum.Item_Registration, authenticationEnum.supplier_Registration, authenticationEnum.Selling_Items, authenticationEnum.GRN, authenticationEnum.Product_Item_Map, authenticationEnum.Stock],
     children: [
       {
         id: 'registrationDetails',
         title: 'Registration',
         type: 'collapse',
         icon: 'ti ti-key',
-        auth: authenticationEnum.Privileges,
+        auth: [authenticationEnum.Employee_Registration, authenticationEnum.Customer_Registration, authenticationEnum.Item_Registration, authenticationEnum.supplier_Registration, authenticationEnum.Selling_Items, authenticationEnum.GRN, authenticationEnum.Product_Item_Map, authenticationEnum.Stock],
         isVisible: false,
         children: [
           {
@@ -208,7 +208,7 @@ const NavigationItems = [
             url: '/registration/employee-registration',
             icon: 'ti ti-dashboard',
             breadcrumbs: false,
-            auth: authenticationEnum.System_Privileges,
+            auth: [authenticationEnum.Employee_Registration],
             isVisible: false
           },
           {
@@ -218,7 +218,7 @@ const NavigationItems = [
             url: '/registration/customer-registration',
             icon: 'ti ti-dashboard',
             breadcrumbs: false,
-            auth: authenticationEnum.Privilege_Groups,
+            auth: [authenticationEnum.Customer_Registration],
             isVisible: false
           },
           {
@@ -228,7 +228,7 @@ const NavigationItems = [
             url: '/registration/item-registration',
             icon: 'ti ti-dashboard',
             breadcrumbs: false,
-            auth: authenticationEnum.Privilege_Groups,
+            auth: [authenticationEnum.Item_Registration],
             isVisible: false
           },
           {
@@ -238,7 +238,7 @@ const NavigationItems = [
             url: '/registration/supplier-registration',
             icon: 'ti ti-dashboard',
             breadcrumbs: false,
-            auth: authenticationEnum.Privilege_Groups,
+            auth: [authenticationEnum.supplier_Registration],
             isVisible: false
           },
           {
@@ -248,7 +248,7 @@ const NavigationItems = [
             url: '/registration/selling-item-registration',
             icon: 'ti ti-dashboard',
             breadcrumbs: false,
-            auth: authenticationEnum.Privilege_Groups,
+            auth: [authenticationEnum.Selling_Items],
             isVisible: false
           },
           {
@@ -258,7 +258,7 @@ const NavigationItems = [
             url: '/registration/grn',
             icon: 'ti ti-dashboard',
             breadcrumbs: false,
-            auth: authenticationEnum.Privilege_Groups,
+            auth: [authenticationEnum.GRN],
             isVisible: false
           },
           {
@@ -268,7 +268,7 @@ const NavigationItems = [
             url: '/registration/product-item-map',
             icon: 'ti ti-dashboard',
             breadcrumbs: false,
-            auth: authenticationEnum.Privilege_Groups,
+            auth: [authenticationEnum.Product_Item_Map],
             isVisible: false
           },
           {
@@ -278,7 +278,7 @@ const NavigationItems = [
             url: '/registration/stock',
             icon: 'ti ti-dashboard',
             breadcrumbs: false,
-            auth: authenticationEnum.Privilege_Groups,
+            auth: [authenticationEnum.Stock],
             isVisible: false
           }
         ]
@@ -290,7 +290,7 @@ const NavigationItems = [
     title: 'Reports',
     type: 'group',
     icon: 'icon-navigation',
-    auth: authenticationEnum.Home,
+    auth: [authenticationEnum.Employee_List],
     isVisible: false,
     children: [
       {
@@ -300,7 +300,7 @@ const NavigationItems = [
         url: '/reports/employee-list',
         icon: 'feather icon-home',
         classes: 'nav-item',
-        auth: authenticationEnum.Home_Dashboard,
+        auth: [authenticationEnum.Employee_List],
         isVisible: false
       }
     ]
@@ -410,7 +410,7 @@ const NavigationItems = [
     type: 'group',
     icon: 'icon-charts',
     isVisible: false,
-    auth: authenticationEnum.Privileges,
+    auth: [authenticationEnum.Sales_Stats],
     children: [
       {
         id: 'apexChart',
@@ -420,7 +420,7 @@ const NavigationItems = [
         classes: 'nav-item',
         icon: 'feather icon-pie-chart',
         isVisible: false,
-        auth: authenticationEnum.Privileges
+        auth: [authenticationEnum.Sales_Stats]
       }
     ]
   },
