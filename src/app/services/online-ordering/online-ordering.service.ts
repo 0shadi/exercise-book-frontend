@@ -17,7 +17,7 @@ export class OnlineOrderingService {
   ) {
     const ls = this.getCartData();
 
-    if (ls) this.cartItems.next(ls);
+    if (ls && ls.length > 0) this.cartItems.next(ls);
   }
 
   getSellingItems() {
@@ -51,7 +51,7 @@ export class OnlineOrderingService {
 
     let exist: any;
 
-    if (ls)
+    if (ls && ls.length > 0)
       exist = ls.find((item) => {
         return item.itemId === itemDetail.itemId;
       });
@@ -59,8 +59,9 @@ export class OnlineOrderingService {
     if (exist) {
       exist.ordQty = itemDetail.ordQty;
       this.setCartData(ls);
+      this.cartItems.next(this.getCartData());
     } else {
-      if (ls) {
+      if (ls && ls.length > 0) {
         const newData = [...ls, itemDetail];
         this.setCartData(newData);
         this.cartItems.next(this.getCartData());
@@ -76,7 +77,7 @@ export class OnlineOrderingService {
 
     let exist: any;
 
-    if (ls)
+    if (ls && ls.length > 0)
       exist = ls.find((item) => {
         return item.itemId === itemToRemove.itemId;
       });
@@ -98,6 +99,11 @@ export class OnlineOrderingService {
     const ls = this.getCartData();
     const cartArray = ls;
     const index: number = cartArray.findIndex((item: any) => item.itemId === itemToRemove.itemId);
+    const placeHolderIndex: number = this.placeHolder.findIndex((item: any) => item.itemId === itemToRemove.id);
+
+    if (placeHolderIndex !== -1) {
+      this.placeHolder.splice(index, 1);
+    }
 
     if (index !== -1) {
       cartArray.splice(index, 1);
