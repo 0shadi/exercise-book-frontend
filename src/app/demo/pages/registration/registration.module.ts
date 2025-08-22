@@ -1,0 +1,69 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RegistrationRoutes } from './registration.routing.module';
+import { RouterModule } from '@angular/router';
+import { EmployeeRegistrationComponent } from './employee-registration/employee-registration.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { CustomerRegistrationComponent } from './customer-registration/customer-registration.component';
+import { MatSelectModule } from '@angular/material/select';
+import { ItemRegistrationComponent } from './item-registration/item-registration.component';
+import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
+import { SellingItemRegistrationComponent } from './selling-item-registration/selling-item-registration.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { GrnComponent } from './grn/grn.component';
+import { ProdItemMapComponent } from './prod-item-map/prod-item-map.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListOption, MatSelectionList } from '@angular/material/list';
+import { StockComponent } from './stock/stock.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { DeleteConfirmDialogComponent } from './delete-confirm-dialog/delete-confirm-dialog.component';
+
+@NgModule({
+  declarations: [
+    EmployeeRegistrationComponent,
+    CustomerRegistrationComponent,
+    ItemRegistrationComponent,
+    SupplierRegistrationComponent,
+    SellingItemRegistrationComponent,
+    GrnComponent,
+    ProdItemMapComponent,
+    StockComponent,
+    DeleteConfirmDialogComponent
+  ],
+  imports: [
+    RouterModule.forChild(RegistrationRoutes),
+    CommonModule,
+    ReactiveFormsModule,
+    NgbModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTableModule,
+    MatIconModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatSelectModule,
+    MatPaginatorModule,
+    MatPaginator,
+    MatCheckboxModule,
+    MatSelectionList,
+    MatListOption,
+    MatDialogModule,
+    MatButtonModule
+  ]
+})
+export class RegistrationModule {}

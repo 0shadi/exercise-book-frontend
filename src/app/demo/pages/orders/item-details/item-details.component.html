@@ -1,0 +1,34 @@
+<div class="container">
+
+<div class="left">
+  <h4>{{ itemDetail.itemName }}</h4>
+  <img [src]="'data:image/jpeg;base64,' + itemDetail.imageBase64" alt="Item Image" style="max-height: 100%; height: auto; width: 100%;" />
+</div>
+<div class="right">
+  <h5>Price = Rs.{{ itemDetail.itemPrice }}</h5>
+  <p>Item Details</p>
+
+  <ul class="list">
+    <li *ngIf="itemDetail?.itemType">{{ itemDetail?.itemType }}</li>
+    <!-- <li *ngIf="itemDetail?.bookType">{{ itemDetail?.bookType }}</li>
+    <li *ngIf="itemDetail?.pagesCount">{{ itemDetail?.pagesCount }} Pages</li>
+    <li *ngIf="itemDetail?.bookSize">{{ itemDetail?.bookSize }}</li>
+    <li *ngIf="itemDetail?.itemBrand">{{ itemDetail?.itemBrand }}</li>
+    <li *ngIf="itemDetail?.stationaryName">{{ itemDetail?.stationaryName }}</li> -->
+    <li *ngIf="itemDetail?.itemName">{{ itemDetail?.itemName }}</li>
+    <!-- <li *ngIf="itemDetail.itemType">Paper quality : 50 GSM</li> -->
+  </ul>
+
+  <div class="quantity-selector">
+    <label>Quantity</label>
+    <br />
+    <button (click)="decrease()">−</button>
+    <input type="number" [value]="quantity" readonly />
+    <button (click)="increase()">+</button>
+  </div>
+  <br />
+
+  <button mat-raised-button (click)="addToCart()">Add to cart</button>
+  <button mat-raised-button routerLink="/orders/checkout">Checkout</button>
+  </div>
+</div>

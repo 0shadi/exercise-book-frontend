@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="summary-card" id="invoice">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>Order Summary</mat-card-title>
+            </mat-card-header>
+
+        <mat-card-content>
+            <div class="summary-section">
+            <p><strong>Order ID:</strong> {{ formData?.orderId }}</p>
+            <p><strong>Order Date:</strong> {{ orderDetails?.date }}</p>
+            <p><strong>Payment Method:</strong> {{ orderDetails?.paymentMethod }}</p>
+            </div>
+
+        <mat-divider></mat-divider>
+
+            <div class="item-list">
+            <h3>Items Ordered</h3>
+            <img *ngIf="formData?.coverPhoto" [src]="formData?.coverPhoto" alt="Cover Photo" width="150">
+            <table>
+                    <tr><td><strong>Material:</strong></td><td>{{ formData?.material }}</td></tr>
+                    <tr><td><strong>Paper Color:</strong></td><td>{{ formData?.paperColor }}</td></tr>
+                    <tr><td><strong>Size:</strong></td><td>{{ formData?.size }}</td></tr>
+                    <tr><td><strong>Pages Count:</strong></td><td>{{ formData?.pagesCount }}</td></tr>
+                    <tr><td><strong>Paper Type:</strong></td><td>{{ formData?.paperType }}</td></tr>
+                    <tr><td><strong>Paper Quality:</strong></td><td>{{ formData?.paperQuality }}</td></tr>
+                    <tr><td><strong>Quantity:</strong></td><td>{{ formData?.quantity }}</td></tr>
+                    <tr><td><strong>Total Cost Per Book</strong></td><td>Rs.{{totalCostPerBook }}</td></tr>   
+            </table>
+            </div>
+
+        <mat-divider></mat-divider>
+
+            <div class="total-section">
+            <h3>Total Cost: Rs. {{ orderDetails?.cost}}</h3>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions align="end">
+            <button class="submit-btn btn-primary" (click)="printInvoice()">Print Invoice</button>
+            <button class="reset-btn btn-secondary" routerLink="/orders/online-ordering">Back to product List</button>
+        </mat-card-actions>
+        </mat-card>
+    </div>
+</div>
+

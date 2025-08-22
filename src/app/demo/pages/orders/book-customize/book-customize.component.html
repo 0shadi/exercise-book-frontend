@@ -1,0 +1,192 @@
+<div class="book-customize-container">
+  <div class="inputs">
+    <h2>Book Designer</h2>
+    <form [formGroup]="bookForm">
+      <div class="form-group">
+        <label for="coverPhoto">Cover Photo</label>
+        <input type="file" id="coverPhoto" accept="image/*" (change)="onFileChange($event)" />
+        <span>Accepted formats: JPG, JPEG, PNG. Max size: 2MB</span>
+        <div *ngIf="bookForm.get('coverPhoto')?.errors as errors">
+          <span class="text-danger" *ngIf="errors['fileSize']">
+            File must be smaller than 2MB.
+          </span>
+          <span class="text-danger" *ngIf="errors['fileType']">
+            Only JPG, JPEG, and PNG files are allowed.
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="material">Material</label>
+        <select
+          id="material"
+          formControlName="material"
+          class="form-control"
+          [(ngModel)]="selectedMaterial"
+          (change)="onItemChange('material', $event)"
+        >
+          <!-- <option value="">Select Material</option> -->
+          <option *ngFor="let material of materials" [value]="material.value">
+            {{ material.title }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="paperColor">Paper Color</label>
+        <select
+          [(ngModel)]="selectedColor"
+          id="paperColor"
+          formControlName="paperColor"
+          class="form-control"
+          (ngModelChange)="onColorChange()"
+          (change)="onItemChange('paperColor', $event)"
+        >
+          <option *ngFor="let color of colors" [value]="color.value">
+            {{ color.title }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="paperType">Paper Type</label>
+        <select
+          formControlName="paperType"
+          class="form-control"
+          [(ngModel)]="selectedPaperType"
+          (change)="onItemChange('paperType', $event)"
+        >
+          <option *ngFor="let paperType of paperTypes" [value]="paperType.value">
+            {{ paperType.title }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="paperQuality">Paper Quality</label>
+        <select
+          formControlName="paperQuality"
+          class="form-control"
+          [(ngModel)]="selectedPaperQuality"
+          (change)="onItemChange('paperQuality', $event)"
+        >
+          <option *ngFor="let paperQuality of paperQualities" [value]="paperQuality.value">
+            {{ paperQuality.title }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="size">Size</label>
+        <select formControlName="size" class="form-control" [(ngModel)]="selectedSize" (change)="onItemChange('size', $event)">
+          <option *ngFor="let size of sizes" [value]="size.value">
+            {{ size.title }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="pagesCount">Number of Pages</label>
+        <select
+          formControlName="pagesCount"
+          class="form-control"
+          [(ngModel)]="selectedPagesCount"
+          (change)="onItemChange('pagesCount', $event)"
+        >
+          <option *ngFor="let pagesCount of pagesCounts" [value]="pagesCount.value">
+            {{ pagesCount.title }}
+          </option>
+        </select>
+      </div>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Choose the expected date of delivary</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName = "expectedDate">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <div class="quantity-selector">
+        <label>Quantity</label>
+        <br />
+        <button class="btn-primary" type="button" (click)="decrease()">−</button>
+        <input type="number" formControlName="quantity" readonly />
+        <button class="btn-primary" type="button" (click)="increase()">+</button>
+      </div>
+    </form>
+
+    <button class="btn btn-primary" (click)="goToCheckout()">Checkout</button>
+  </div>
+  <div class="preview">
+    <div class="book-customize">
+      <!-- previous button -->
+      <button id="prev-btn" #prevBtn (click)="goPreviousPage()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <!-- book -->
+      <div id="book" #book class="book">
+        <!-- paper 1 flipped-->
+        <!-- [ngClass]="{ flipped: isPageOneFlipped }" [ngStyle]="page1Style" -->
+        <div id="p1" #p1 class="paper">
+          <div class="front">
+            <div id="f1" #f1 class="front-content cover-photo">
+              <img [src]="imageUrl" alt="Cover Photo" />
+              <!-- <h1>Front 1</h1> -->
+              <!-- <img alt="dog" /> -->
+
+              <!-- [src]="coverPhotoUrl || defaultBookImage"  -->
+            </div>
+          </div>
+          <div class="back">
+            <div id="b1" #b1 class="back-content">
+              <h1>Back 1</h1>
+            </div>
+          </div>
+        </div>
+
+        <!-- paper 2 -->
+        <!-- [ngClass]="{ flipped: isPageTwoFlipped }" [ngStyle]="page2Style" -->
+        <div id="p2" #p2 class="paper">
+          <div class="front" [style.backgroundColor]="selectedColor" [ngClass]="[selectedMaterial, getPaperRuleClass()]">
+            <div id="f2" #f2 class="front-content">
+              <!-- <p class="rotingtxt">original</p> -->
+              <h1>Front 2</h1>
+            </div>
+          </div>
+          <div class="back">
+            <div
+              id="b2"
+              #b2
+              class="back-content"
+              [style.backgroundColor]="selectedColor"
+              [ngClass]="[selectedMaterial, getPaperRuleClass()]"
+            >
+              <h1>Back 2</h1>
+            </div>
+          </div>
+        </div>
+
+        <!-- paper 3 -->
+        <!-- [ngClass]="{ flipped: isPageThreeFlipped }" [ngStyle]="page3Style" -->
+        <div id="p3" #p3 class="paper">
+          <div class="front">
+            <div id="f3" #f3 class="front-content">
+              <h1>Front 3</h1>
+            </div>
+          </div>
+          <div class="back">
+            <div id="b2" #b3 class="back-content">
+              <h1>Back 3</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- next button -->
+      <button id="next-btn" #nextBtn (click)="goNextPage()">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

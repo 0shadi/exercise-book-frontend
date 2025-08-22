@@ -1,0 +1,264 @@
+.book-customize-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.inputs {
+    width: 30%;
+    padding: 20px;
+    background-color: #f0f0f0;
+    overflow-y: auto;
+    border: white;
+    border-style: solid;
+}
+
+.preview {
+    width: 70%;
+    padding: 20px;
+    background-color: #f0f0f0;
+    overflow-y: auto;
+}
+
+.book-customize {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: sans-serif;
+    background-color: powderblue;
+}
+
+// book
+.book {
+    position: relative;
+    width: 300px;
+    height: 450px;
+    transition: transform 0.5s;
+}
+
+.paper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    perspective: 1500px;
+}
+
+.front,
+.back {
+    background-color: white;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform-origin: left;
+    transition: transform 0.5s;
+}
+
+.front {
+    z-index: 1;
+    backface-visibility: hidden;
+    border-left: 3px solid powderblue;
+}
+
+.back {
+    z-index: 0;
+}
+
+.front-content,
+.back-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.back-content {
+    transform: rotateY(180deg);
+}
+
+.flipped .front,
+.flipped .back {
+    transform: rotateY(-180deg);
+}
+
+// controllable buttons
+
+button {
+    padding: 8px 16px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    background-color: maroon;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:hover i {
+    color: #636363;
+}
+
+i {
+    font-size: 50px;
+    color: gray;
+}
+
+// paper stack order
+#p1 {
+    z-index: 3;
+}
+#p2 {
+    z-index: 2;
+}
+#p3 {
+    z-index: 1;
+}
+
+.book-cover {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.cover-photo {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #f3f3f3;
+}
+
+.cover-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.rotingtxt {
+    -webkit-transform: rotate(331deg);
+    -moz-transform: rotate(331deg);
+    -o-transform: rotate(331deg);
+    transform: rotate(331deg);
+    font-size: 3em;
+    color: rgba(255, 5, 5, 0.17);
+    border: black;
+    border-radius: 3px;
+    position: absolute;
+    font-family: "Denk One", sans-serif;
+    text-transform: uppercase;
+    padding-left: 10%;
+}
+
+/* Material: Paper */
+// .paper {
+//     background: #fff;
+// }
+
+/* Material: Pulp */
+.pulp {
+    // background: repeating-linear-gradient(45deg, #f3f1e7, #f3f1e7 10px, #e0dccc 10px, #e0dccc 20px);
+    background-color: #f0f0f0;
+    background-image: url("/assets/textures/pulp-texture.jpg");
+    background-size: cover;
+    background-blend-mode: multiply;
+}
+
+/* Material: Paper Board */
+.paperboard {
+    background-color: #f0f0f0;
+    background-image: url("/assets/textures/paperboard-texture.jpg");
+    background-size: cover;
+    background-blend-mode: multiply;
+}
+
+/* Material: Washi */
+.washi {
+    background-color: #faf2e4;
+    background-image: url("/assets/textures/washi-texture2.jpg");
+    background-size: 100% 100%;
+    background-blend-mode: overlay;
+    filter: brightness(50%);
+}
+
+.single-ruled::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.2) 0px,
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  
+    pointer-events: none; // allow clicks to pass through
+    z-index: 2;           // make sure it's above background but below content
+  }
+
+  .double-ruled::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.2) 0px,
+      rgba(0, 0, 0, 0.2) 2px,
+      transparent 2px,
+      transparent 12px,
+      rgba(0, 0, 0, 0.1) 12px,
+      rgba(0, 0, 0, 0.1) 13px,
+      transparent 13px,
+      transparent 24px
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .square-ruled::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.15) 0px,
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 20px
+      ),
+      repeating-linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.15) 0px,
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 20px
+      );
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

@@ -1,0 +1,119 @@
+<h3>All Orders</h3>
+
+<div class="container">
+  <div class="table-container">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="orderId">
+    <th mat-header-cell *matHeaderCellDef> Order Id </th>
+    <td mat-cell *matCellDef="let element"> {{element.orderId}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef> Date </th>
+    <td mat-cell *matCellDef="let element"> {{element.date | date: 'dd/MM/yyyy'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="totalCost">
+    <th mat-header-cell *matHeaderCellDef> Total Cost </th>
+    <td mat-cell *matCellDef="let element">Rs. {{element.totalCost}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="orderStatus">
+    <th mat-header-cell *matHeaderCellDef> Order Status </th>
+    <td mat-cell *matCellDef="let element"> {{element.orderStatus}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="details">
+    <th mat-header-cell *matHeaderCellDef> More details </th>
+    <td mat-cell *matCellDef="let element"> 
+      <button mat icon-button color="warm" (click)="viewDetails(element.orderId)" matTooltip="Details">
+          <mat-icon> visibility</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons
+  aria-label="Select page of periodic elements">
+</mat-paginator>
+</div>
+    
+<div class="order-item-container">
+
+<mat-card appearance="outlined" *ngIf="isOrderSelected">
+  <mat-card-header>
+    <mat-card-title> Order Details</mat-card-title>
+  </mat-card-header>
+  <mat-card-actions class="card">
+    <table mat-table [dataSource]="orderItemDataSource" class="order-item-table">
+      
+      <ng-container matColumnDef="orderId">
+        <th mat-header-cell *matHeaderCellDef> orderId </th>
+        <td mat-cell *matCellDef="let item"> {{ item.orderId }} </td>
+        <td mat-footer-cell *matFooterCellDef> Total </td>
+      </ng-container>
+
+      <ng-container matColumnDef="itemId">
+        <th mat-header-cell *matHeaderCellDef> Item Id </th>
+        <td mat-cell *matCellDef="let item"> {{item.itemId}} </td>
+        <td mat-footer-cell *matFooterCellDef> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="itemName">
+        <th mat-header-cell *matHeaderCellDef> Item Name </th>
+        <td mat-cell *matCellDef="let item"> {{item.itemName}} </td>
+        <td mat-footer-cell *matFooterCellDef> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ordQty">
+        <th mat-header-cell *matHeaderCellDef> Order Quantity </th>
+        <td mat-cell *matCellDef="let item"> {{item.ordQty}} </td>
+        <td mat-footer-cell *matFooterCellDef> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="itemPrice">
+        <th mat-header-cell *matHeaderCellDef> Item Price </th>
+        <td mat-cell *matCellDef="let item">Rs. {{item.itemPrice}} </td>
+        <td mat-footer-cell *matFooterCellDef> </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="subTotal">
+        <th mat-header-cell *matHeaderCellDef> SUB TOTAL </th>
+        <td mat-cell *matCellDef="let item">Rs. {{ item.subTotal }}</td>
+
+        <td mat-footer-cell *matFooterCellDef>Rs.{{ selectedOrder.totalCost }}</td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="orderItemDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: orderItemDisplayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="orderItemDisplayedColumns"></tr>
+      
+    </table>
+    <br><br>
+
+    <div class="status-section" *ngIf="selectedOrder" style="margin-top: 10px;">
+      <strong>Current Order Status:</strong> {{ selectedOrder.orderStatus }}
+      <br>
+          <strong>Change Order Status:</strong>
+          <mat-form-field>
+            <mat-label>Select the Order Status</mat-label>
+            <mat-select [(ngModel)]="selectedStatus">
+                <mat-option *ngFor="let status of orderStatusOptions" [value]="status">{{status}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br><br>
+
+          <button class="btn-primary" (click)="updateOrderStatus(selectedOrder)">Update Status</button>
+    </div>
+
+  </mat-card-actions>
+</mat-card>
+
+
+</div>
+</div>
+

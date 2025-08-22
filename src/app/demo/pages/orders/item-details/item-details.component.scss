@@ -1,0 +1,42 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.left{
+    flex:1;
+    img{
+        width:100%;
+    }
+}
+
+.right{
+    flex:1;
+    h5{
+        color:maroon;
+    }
+    p{
+        font-size: 120%;
+    }
+    button{
+        padding: 8px 16px;
+        margin: 5px;
+        border: none;
+        border-radius: 8px;
+        background-color: maroon;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+}
+
+.list{
+    color: black;
+}
+
+.quantity-selector{
+    input{
+        width: 10%;    
+    }
+}

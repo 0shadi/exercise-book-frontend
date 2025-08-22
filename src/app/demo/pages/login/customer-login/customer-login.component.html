@@ -1,0 +1,124 @@
+<div class="container">
+  <div class="form-section">
+    <p>Customer Form<p>
+    <form [formGroup] = "customerLoginForm"  class="example-form" (ngSubmit) = "onSubmit()" >
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Customer</mat-label>
+        <mat-select  formControlName="customerId" (selectionChange)="onCustomerChange($event.value)">
+          <mat-option *ngFor="let customer of customers" [value]="customer.customerId">{{ customer.customerName }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" *ngIf="!hideFirstName">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" *ngIf="!hideLastName">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" />
+      </mat-form-field>
+
+      <!-- <mat-form-field class="example-full-width">
+        <mat-label>Customer Name</mat-label>
+        <input matInput  formControlName = "customerName">
+        <span class="text-danger" *ngIf="(customerLoginForm.get('customerName').touched || submitted) && customerLoginForm.get('customerName').errors && customerLoginForm.get('customerName').errors['required']">First Name is required</span>
+        <span class="text-danger" *ngIf="(customerLoginForm.get('customerName').touched || submitted) && customerLoginForm.get('customerName').errors && customerLoginForm.get('customerName').errors['pattern']">Enter a valid name</span>
+      </mat-form-field> -->
+
+      <!-- <mat-form-field class="example-full-width">
+        <mat-label>Last Name</mat-label>
+        <input matInput  formControlName = "lastName">
+        <span class="text-danger" *ngIf="(customerLoginForm.get('lastName').touched || submitted) && customerLoginForm.get('lastName').errors && customerLoginForm.get('lastName').errors['pattern']">Enter a valid name</span>
+        <span class="text-danger" *ngIf="(customerLoginForm.get('lastName').touched || submitted) && customerLoginForm.get('lastName').errors && customerLoginForm.get('lastName').errors['required']">Last Name is required</span>
+      </mat-form-field> -->
+
+      <mat-form-field class="example-full-width">
+          <mat-label>Username</mat-label>
+          <input matInput  formControlName = "userName">
+          <span class="text-danger" *ngIf="(customerLoginForm.get('userName').touched || submitted) && customerLoginForm.get('userName').errors && customerLoginForm.get('userName').errors['required']">Username is required</span>
+          <span class="text-danger" *ngIf="(customerLoginForm.get('userName').touched || submitted) && customerLoginForm.get('userName').errors && customerLoginForm.get('userName').errors['pattern']">Username must be 4–10 characters long and can only contain letters, numbers, dots (.) and underscores (_)</span>
+        </mat-form-field>
+  
+        <mat-form-field class="example-full-width">
+          <mat-label>Password</mat-label>
+          <input matInput  formControlName = "password" [type]="hide() ? 'password' : 'text'" >
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+          >
+            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+          <span class="text-danger" *ngIf="(customerLoginForm.get('password').touched || submitted) && customerLoginForm.get('password').errors && customerLoginForm.get('password').errors['required']">Password is required</span>
+          <span class="text-danger" *ngIf="(customerLoginForm.get('password').touched || submitted) && customerLoginForm.get('password').errors && customerLoginForm.get('password').errors['pattern']">Password must be 6–12 characters and include at least one uppercase letter, one lowercase letter, one digit, and one special character</span>
+        </mat-form-field>
+        
+        <button class="btn-primary submit-btn" type="submit" [disabled]="isDisabled">{{saveButtonLabel}}</button>
+        <button class="btn-secondary reset-btn" type="reset" (click) = "resetData()">Reset</button>
+    </form>
+  </div>
+
+  <div class="table-section">
+    <div class="refresh-filter-section">
+      <div class="refreshButton">
+        <button mat-icon-button color="primary" (click)="refreshData()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+
+      <div class="filter">
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="customerName">
+        <th mat-header-cell *matHeaderCellDef> Customer Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef> Last Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef> User Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="actions">
+            <button mat icon-button color="warm" (click)="editData(element)" matTooltip="edit">
+              <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat icon-button color="warm" (click)="openDeleteDialog(element)" matTooltip="delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+  </div>
+
+
+</div>

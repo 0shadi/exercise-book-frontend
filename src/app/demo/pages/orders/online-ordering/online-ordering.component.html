@@ -1,0 +1,21 @@
+
+<div class="item-container">
+  <div *ngFor="let item of items" class="item-card">
+    <div *ngIf="item.itemQuantity > 0">
+      <mat-card class="example-card" appearance="outlined">
+      <mat-card-header>
+        <!-- <div mat-card-avatar class="header-image"></div> -->
+        <mat-card-title>{{ item.itemName }}</mat-card-title>
+      </mat-card-header>
+      <img [src]="'data:image/jpeg;base64,' + item.imageBase64" alt="Item Image" />
+      <mat-card-content>
+        <mat-card-title>Price = Rs. {{ item.itemPrice }}</mat-card-title>
+        <mat-card-subtitle>Quantity available = {{ item.itemQuantity }}</mat-card-subtitle>
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button [routerLink]="['/orders/item-details', item.itemId]">View Item</a>
+      </mat-card-actions>
+    </mat-card>
+    </div>
+  </div>
+</div>

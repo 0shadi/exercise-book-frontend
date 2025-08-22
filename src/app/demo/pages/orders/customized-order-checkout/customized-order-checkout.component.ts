@@ -1,0 +1,192 @@
+import { Component } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { BookCustomizeService } from 'src/app/services/book-customize/book-customize.service';
+import { HttpService } from 'src/app/services/http.service';
+import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
+import { NotificationService } from 'src/app/services/notification-service/notification.service';
+
+@Component({
+  selector: 'app-customized-order-checkout',
+  standalone: false,
+  templateUrl: './customized-order-checkout.component.html',
+  styleUrl: './customized-order-checkout.component.scss'
+})
+export class CustomizedOrderCheckoutComponent {
+  billingDetailsForm : FormGroup;
+  paymentForm: FormGroup;
+  submitted = false;
+  bookDetails: any;
+  selectedPaymentMethod:string;
+  userId = null;
+  coverPhotoFile;
+  totalCost;
+  totalCostPerBook;
+  isDisabled = false;
+
+  constructor(
+    private fb : FormBuilder,
+    private router: Router,
+    private httpService: HttpService,
+    private bookCustomizeService: BookCustomizeService,
+    private messageService:MessageServiceService,
+    private notificationService: NotificationService
+  ){
+    this.billingDetailsForm= this.fb.group({
+      orderId: new FormControl(''),
+      firstName: new FormControl('',[Validators.required,Validators.minLength(3),Validators.maxLength(15),Validators.pattern(/^[A-Za-z]+$/)]),
+      lastName: new FormControl('',[Validators.minLength(3),Validators.maxLength(15),Validators.pattern(/^[A-Za-z]+$/)]),
+      address: new FormControl('',[Validators.required,Validators.minLength(5),Validators.maxLength(100)]),
+      district: new FormControl('',[Validators.required,Validators.pattern(/^[A-Za-z ]+$/)]),
+      nearestCity: new FormControl('',[Validators.pattern(/^[A-Za-z ]+$/)]),
+      postalCode: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{5}$/)]),
+      contactNo: new FormControl('',[Validators.required,Validators.pattern(/^0?[1-9]\d-?\d{7}$/)]),
+      email: new FormControl('',[Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
+      notes: new FormControl('',[Validators.maxLength(500)])
+    });
+
+    this.paymentForm= this.fb.group({
+      name: new FormControl('',[Validators.required,Validators.pattern(/^[a-zA-Z ]+$/)]),
+      number: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{13,19}$/)]),
+      expDate: new FormControl('',[Validators.required,this.validateDate]),
+      cvv: new FormControl('',[Validators.required,Validators.pattern(/^[0-9]{3,4}$/)])
+    });
+
+    const navigation = this.router.getCurrentNavigation();
+    this.bookDetails = navigation?.extras?.state?.['book'];
+    this.coverPhotoFile = navigation?.extras?.state?.['coverPhotoFile'];
+    this.totalCost = navigation?.extras?.state?.['totalCost'];
+    this.totalCostPerBook = navigation?.extras?.state?.['totalCostPerBook'];
+    this.setUserId();
+  }
+
+  public setUserId(): void {
+    this.userId = this.httpService.getUserId();
+    console.log('user id' ,this.userId);
+  }
+
+  placeOrder(){
+    this.submitted=true;
+    if(this.billingDetailsForm.invalid || 
+      !this.selectedPaymentMethod || 
+      (this.selectedPaymentMethod === 'Credit or Debit card' && this.paymentForm.invalid)){
+        return;
+      }
+    
+    const cost = 'Rs. ';
+    const orderDetails = {
+      date: new Date().toISOString(),
+      cost: this.totalCost,
+      paymentMethod: this.selectedPaymentMethod,
+      orderStatus: 'Pending',
+      customerId: this.userId
+    };
+
+    this.bookCustomizeService.saveOrderDetails(orderDetails).subscribe({
+          next:(datalist:any)=>{
+            if(!datalist || !datalist.orderId){
+              return;
+            }
+            const savedOrderId = datalist.orderId; 
+            console.log("Submitted Order Details",datalist);
+            
+
+            const formData = new FormData();
+            formData.append('coverPhoto', this.coverPhotoFile); // File from file input
+
+            // Append the book details object as a JSON blob
+            const bookDetailsWithOrderId = { ...this.bookDetails, orderId: savedOrderId };
+            formData.append('bookForm', new Blob([JSON.stringify(bookDetailsWithOrderId)], { type: 'application/json' }));
+              
+            this.bookCustomizeService.saveBookDetails(formData).subscribe({
+              next:(datalist:any)=>{
+                if(datalist.length <= 0){
+                  return;
+                }
+                console.log("Submitted Customization Details",datalist);
+                
+                
+              },
+              error:(error)=>{
+                this.messageService.showError('Action failed with error ' + error);
+              }
+            
+            });
+
+            const billingDataWithOrderId = { ...this.billingDetailsForm.value, orderId: savedOrderId };
+
+            this.bookCustomizeService.saveBillingDetails(billingDataWithOrderId).subscribe({
+              next:(datalist:any[])=>{
+                if(datalist.length <= 0){
+                  return;
+                }
+                
+                console.log('Submitted billing details:', datalist);
+                
+              },
+              error:(error)=>{
+                this.messageService.showError('Action failed with error ' + error);
+              }
+            
+            });
+
+            const paymentDetails = {...this.paymentForm.value, orderId: savedOrderId};
+            this.bookCustomizeService.saveCardDetails(paymentDetails).subscribe({
+              next:(datalist:any[])=>{
+                if(datalist.length <= 0){
+                  return;
+                }
+
+                console.log("Submitted payment values",datalist);
+
+                this.showOrderSummary(orderDetails, bookDetailsWithOrderId);
+              },
+              error:(error)=>{
+                this.messageService.showError('Action failed with error ' + error);
+              }
+        
+      });
+        this.addNotification('Order Placed Successfully!', datalist.customerId);
+            
+          },
+          error:(error)=>{
+            this.messageService.showError('Action failed with error ' + error);
+          }
+        
+        });
+
+      this.messageService.showSuccess('Order Placed Successfully');
+
+      this.isDisabled = true;
+      this.billingDetailsForm.disable();
+      this.paymentForm.disable();
+  }
+
+  validateDate(control: AbstractControl) {
+        if(!control){
+          return null;
+        }
+
+        const inputDate = new Date(control.value);
+        const today = new Date();
+
+        if (inputDate < today) {
+          return { expired: true };
+        }
+        return null;
+      }
+
+  showOrderSummary(orderDetails:any, bookDetails:any){
+    this.router.navigate(['/customized-order-summary'], { 
+      state: { 
+        orderDetails: orderDetails , 
+        bookDetails: bookDetails,
+        totalCostPerBook: this.totalCostPerBook
+              } });
+    console.log('orderDetails sent :',orderDetails,'bookDetails : ', bookDetails);
+  }
+
+  public addNotification(message: string, userId: number): void {
+    this.notificationService.addNotification(message, 'success', userId);
+  }
+}

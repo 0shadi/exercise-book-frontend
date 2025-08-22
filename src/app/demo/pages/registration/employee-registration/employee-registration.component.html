@@ -1,0 +1,188 @@
+<div class="container">
+  <div class="form-section">
+    <p>Employee Registration Form</p>
+    <form [formGroup] ="employeeForm" class="example-form" (ngSubmit)="onSubmit()">
+
+        <mat-form-field class="example-full-width">
+          <mat-label>First name</mat-label>
+          <input matInput placeholder="First name" formControlName = "firstName">
+          <span class="text-danger" *ngIf="(employeeForm.get('firstName').touched || submitted) && employeeForm.get('firstName').errors && employeeForm.get('firstName').errors['required']">First name is required</span>
+          <span class="text-danger" *ngIf="(employeeForm.get('firstName').touched || submitted) && employeeForm.get('firstName').errors && employeeForm.get('firstName').errors['pattern']">Please enter a valid name</span>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Last name</mat-label>
+          <input matInput placeholder="Last name" formControlName = "lastName">
+          <span class="text-danger" *ngIf="(employeeForm.get('lastName').touched || submitted) && employeeForm.get('lastName').errors && employeeForm.get('lastName').errors['required']">First name is required</span>
+          <span class="text-danger" *ngIf="(employeeForm.get('lastName').touched || submitted) && employeeForm.get('lastName').errors && employeeForm.get('lastName').errors['pattern']">Please enter a valid name</span>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Name with Initials</mat-label>
+          <input matInput placeholder="Full name" formControlName = "fullName">
+          <span class="text-danger" *ngIf="(employeeForm.get('fullName').touched || submitted) && employeeForm.get('fullName').errors && employeeForm.get('fullName').errors['required']">First name is required</span>
+          <span class="text-danger" *ngIf="(employeeForm.get('fullName').touched || submitted) && employeeForm.get('fullName').errors && employeeForm.get('fullName').errors['pattern']">Please enter a valid name</span>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Calling Name</mat-label>
+          <input matInput placeholder="Calling Name" formControlName = "callingName">
+          <!-- <span class="text-danger" *ngIf="(employeeForm.get('callingName').touched||submitted) && employeeForm.get('callingName').errors && employeeForm.get('callingName').errors['minlength']">Enter atleast 3 characters</span>
+          <span class="text-danger" *ngIf="(employeeForm.get('callingName').touched||submitted) && employeeForm.get('callingName').errors && employeeForm.get('callingName').errors['maxlength']">Enter maximum 15 characters</span> -->
+          <span class="text-danger" *ngIf="(employeeForm.get('callingName').touched||submitted) && employeeForm.get('callingName').errors && employeeForm.get('callingName').errors['pattern']">Enter a valid name</span>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>NIC Number</mat-label>
+          <input matInput placeholder="NIC Number" formControlName = "nic">
+          <span class="text-danger" *ngIf="(employeeForm.get('nic').touched||submitted) && employeeForm.get('nic').errors && employeeForm.get('nic').errors['pattern']">Enter a valid NIC number</span>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Contact Number</mat-label>
+          <input matInput placeholder="Enter your Contact Number" formControlName = "contactNo">
+          <span class="text-danger" *ngIf="(employeeForm.get('contactNo').touched||submitted) && employeeForm.get('contactNo').errors && employeeForm.get('contactNo').errors['required']">Contact number is required</span>
+          <span class="text-danger" *ngIf="(employeeForm.get('contactNo').touched||submitted) && employeeForm.get('contactNo').errors && employeeForm.get('contactNo').errors['pattern']">Enter a valid contact number</span>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Choose your date of Birth</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName = "bDay">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <span class="text-danger" *ngIf="(employeeForm.get('bDay').touched||submitted) && employeeForm.get('bDay').errors">Age must be greater than 18 years</span>
+        </mat-form-field>
+
+        <div class="radio-button mb-4" style="background-color: #f9f0ce;">
+          <mat-label >Choose your gender</mat-label><br>
+          <mat-radio-group aria-label="Select an option" formControlName = "gender">
+            <mat-radio-button value="Male">Male</mat-radio-button>
+            <mat-radio-button value="Female">Female</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Address</mat-label>
+          <input matInput placeholder="Address" formControlName = "address">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Emergency contact Number</mat-label>
+          <input matInput placeholder="Emergency contact Number" formControlName = "emergencyContactNumber">
+          <span class="text-danger" *ngIf="(employeeForm.get('emergencyContactNumber').touched||submitted) && employeeForm.get('emergencyContactNumber').errors && employeeForm.get('emergencyContactNumber').errors['pattern']">Enter a valid phone number</span>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Email" formControlName = "email">
+          <span class="text-danger" *ngIf="(employeeForm.get('email').touched||submitted) && employeeForm.get('email').errors && employeeForm.get('email').errors['pattern']">Enter a valid email</span>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Job role</mat-label>
+          <mat-select formControlName="jobRole">
+            <mat-option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button type="button" class="btn btn-primary submit-btn" type="submit" [disabled]="isDisabled">{{saveButtonLabel}}</button>
+        <button  type="button" class="btn btn-secondary reset-btn" type="reset" (click) = "resetEmployee()">Reset</button>
+    </form>
+  </div>
+
+  <div class="table-section">
+    <div class="filter-section">
+      <div class="refresh">
+        <button mat-icon-button color="primary" (click)="refreshData()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+
+      <div class="filter">
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="employeeNumber">
+        <th mat-header-cell *matHeaderCellDef> Employee Number </th>
+        <td mat-cell *matCellDef="let element"> {{element.employeeNumber}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef> First Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef> Last Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nic">
+        <th mat-header-cell *matHeaderCellDef> NIC number </th>
+        <td mat-cell *matCellDef="let element"> {{element.nic}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="contactNo">
+        <th mat-header-cell *matHeaderCellDef> Contact Number </th>
+        <td mat-cell *matCellDef="let element"> {{element.contactNo}} </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="bDay">
+        <th mat-header-cell *matHeaderCellDef> Date of Birth </th>
+        <td mat-cell *matCellDef="let element"> {{element.bDay| date: 'dd/MM/yyyy'}} </td>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="gender">
+        <th mat-header-cell *matHeaderCellDef> Gender </th>
+        <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="emergencyContactNumber">
+        <th mat-header-cell *matHeaderCellDef> Emergency Contact Number </th>
+        <td mat-cell *matCellDef="let element"> {{element.emergencyContactNumber}} </td>
+      </ng-container> -->
+
+      <!-- <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="jobRole">
+        <th mat-header-cell *matHeaderCellDef> Job Role </th>
+        <td mat-cell *matCellDef="let element"> {{element.jobRole}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat icon-button color="warm" (click)="editEmployee(element)" matTooltip="edit">
+              <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat icon-button color="warm" (click)="openDeleteDialog(element)" matTooltip="delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+  </div>
+</div>
+

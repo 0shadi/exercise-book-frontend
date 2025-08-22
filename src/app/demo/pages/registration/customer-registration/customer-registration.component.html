@@ -1,0 +1,139 @@
+<div class="container">
+    <div class="form-section">
+      <p>Customer Registration Form</p>
+        <form class="customer-form" [formGroup] ="customerForm" (ngSubmit)="onSubmit()">
+            <!-- <mat-form-field class="example-full-width">
+              <mat-label>Customer Id</mat-label>
+              <input matInput placeholder="Ex. Pizza" formControlName="customerId">
+            </mat-form-field> -->
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Customer Type</mat-label>
+                <mat-select formControlName="customerType">
+                  <mat-option *ngFor="let type of types" [value]="type.name">{{ type.name }}</mat-option>
+                </mat-select>
+                <span class="text-danger" *ngIf="(customerForm.get('customerType').touched || submitted) && customerForm.get('customerType').errors && customerForm.get('customerType').errors['required']">Customer Type is required</span>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" *ngIf="retailer">
+                <mat-label>Corporate Name</mat-label>
+                <input matInput placeholder="Enter the customer name" formControlName="customerName">
+                <span class="text-danger" *ngIf="(customerForm.get('customerName').touched || submitted) && customerForm.get('customerName').errors && customerForm.get('customerName').errors['required']">Customer name is required</span>
+                <span class="text-danger" *ngIf="(customerForm.get('customerName').touched || submitted) && customerForm.get('customerName').errors && customerForm.get('customerName').errors['pattern']">Enter a valid name</span>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" *ngIf="individualCustomer">
+                <mat-label>First Name</mat-label>
+                <input matInput placeholder="Enter the First name" formControlName="firstName">
+                <span class="text-danger" *ngIf="(customerForm.get('firstName').touched || submitted) && customerForm.get('firstName').errors && customerForm.get('firstName').errors['required']">First name is required</span>
+                <!-- <span class="text-danger" *ngIf="(customerForm.get('firstName').touched || submitted) && customerForm.get('firstName').errors && customerForm.get('firstName').errors['pattern']">Enter a valid name</span> -->
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" *ngIf="individualCustomer">
+                <mat-label>Last Name</mat-label>
+                <input matInput placeholder="Enter the Last name" formControlName="lastName">
+                <span class="text-danger" *ngIf="(customerForm.get('lastName').touched || submitted) && customerForm.get('lastName').errors && customerForm.get('lastName').errors['required']">Last name is required</span>
+                <!-- <span class="text-danger" *ngIf="(customerForm.get('customerName').touched || submitted) && customerForm.get('customerName').errors && customerForm.get('customerName').errors['pattern']">Enter a valid name</span> -->
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Contact Number</mat-label>
+                <input matInput placeholder="Enter the contact number" formControlName="contactNo">
+                <span class="text-danger" *ngIf="(customerForm.get('contactNo').touched || submitted) && customerForm.get('contactNo').errors && customerForm.get('contactNo').errors['pattern']">Enter a valid Contact Number</span>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Enter email" formControlName="email">
+                <span class="text-danger" *ngIf="(customerForm.get('email').touched || submitted) && customerForm.get('email').errors && customerForm.get('email').errors['pattern']">Enter a valid Email</span>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Address</mat-label>
+                <input matInput placeholder="Enter address" formControlName="address">
+                <span class="text-danger" *ngIf="(customerForm.get('address').touched || submitted) && customerForm.get('address').errors && customerForm.get('address').errors['pattern']">Enter a valid address</span>
+            </mat-form-field>
+
+            <button class="btn-primary submit-btn" type="submit" [disabled]="isDisabled">{{saveButtonLabel}}</button>
+            <button class="btn-secondary reset-btn" type="reset" (click) = "resetCustomer()">Reset</button>
+        </form>
+    </div>
+
+    <div class="table-section">
+          <div class="filter-section">
+            <div class="refresh">
+              <button mat-icon-button color="primary" (click)="refreshData()">
+                <mat-icon>refresh</mat-icon>
+              </button>
+            </div>
+
+            <div class="filter">
+              <mat-form-field>
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="customerId">
+              <th mat-header-cell *matHeaderCellDef> Customer Id </th>
+              <td mat-cell *matCellDef="let element"> {{element.customerId}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="customerType">
+              <th mat-header-cell *matHeaderCellDef> Customer Type </th>
+              <td mat-cell *matCellDef="let element"> {{element.customerType}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="customerName">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
+            </ng-container>
+
+            <!-- <ng-container matColumnDef="firstName">
+              <th mat-header-cell *matHeaderCellDef> First Name</th>
+              <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+            </ng-container> -->
+
+            <!-- <ng-container matColumnDef="lastName">
+              <th mat-header-cell *matHeaderCellDef> Last Name</th>
+              <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+            </ng-container> -->
+
+            <ng-container matColumnDef="contactNo">
+              <th mat-header-cell *matHeaderCellDef> Contact Number</th>
+              <td mat-cell *matCellDef="let element"> {{element.contactNo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat icon-button color="warm" (click)="editCustomer(element)" matTooltip="edit">
+                    <mat-icon>edit</mat-icon>
+                </button>
+
+                <button mat icon-button color="warm" (click)="openDeleteDialog(element)" matTooltip="delete">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+          </mat-paginator>
+
+    </div>
+
+</div>

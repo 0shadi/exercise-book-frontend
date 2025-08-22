@@ -1,0 +1,113 @@
+<div class="container">
+  <div class="form-section">
+    <form class="item-form" [formGroup]="itemMapForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="example-full-width">
+        <mat-label>Selling Product</mat-label>
+        <mat-select formControlName="product" (selectionChange)="onProductChange($event)">
+          <mat-option *ngFor="let product of productItems" [value]="product.itemId">
+            {{ product.itemBrand ? product.itemBrand + ' - ' + product.itemName : '' + product.itemName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Product Quantity" formControlName="productQuantity" placeholder="Product Quantity" type="number" />
+      </mat-form-field>
+
+      <div formArrayName="itemList">
+        <div class="subtask-row" *ngFor="let item of itemList.controls; let i = index" [formGroupName]="i">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Item Name</mat-label>
+            <mat-select formControlName="itemId" required (selectionChange)="onItemChange($event, i)">
+              <mat-option *ngFor="let item of filteredItems" [value]="item.itemId">
+                {{ item.itemName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Category</mat-label>
+            <input matInput placeholder="Category" formControlName="categoryName" />
+            <!-- <mat-select formControlName="categoryName" required (selectionChange)="onCategoryChange($event, i)">
+              <mat-option *ngFor="let category of itemCategories" [value]="category.name">
+                {{ category.name }}
+              </mat-option>
+            </mat-select> -->
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Quantity" formControlName="itemQuantity" placeholder="Quantity" type="number" />
+          </mat-form-field>
+
+          <button type="button" class="btn btn-danger remove-button" (click)="removeItem(i)">-</button>
+        </div>
+
+        <button type="button" class="btn btn-primary mt-2 mb-4" (click)="addItem()">+</button>
+      </div>
+
+      <!-- <mat-selection-list class="example-full-width" [(ngModel)]="selectedItems" (ngModelChange)="onItemSelectChange()">
+        <mat-list-option *ngFor="let item of availableItems" [value]="item">
+          <div class="item-row">
+            <span>{{ item.itemType }}</span>
+            <input *ngIf="item.selected" type="number" [(ngModel)]="item.quantityUsed" placeholder="Quantity Used" class="quantity-input" />
+          </div>
+        </mat-list-option>
+      </mat-selection-list> -->
+
+      <button type="submit" class="btn-primary submit-btn"  [disabled]="isDisabled">{{ saveButtonLabel }}</button>
+      <button type="reset" class="btn-secondary reset-btn"  (click)="resetItem()">Reset</button>
+    </form>
+  </div>
+  <div class="table-section">
+    <div class="filter-section">
+      <div class="refresh">
+        <button mat-icon-button color="primary" (click)="refreshData()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+
+      <div class="filter">
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>Id</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef>Product Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.productName }}</td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="itemName">
+        <th mat-header-cell *matHeaderCellDef>Item Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.itemName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="itemQuantity">
+        <th mat-header-cell *matHeaderCellDef>Item Quantity</th>
+        <td mat-cell *matCellDef="let element">{{ element.itemQuantity }}</td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat icon-button color="warm" (click)="editItem(element)" matTooltip="edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+  </div>
+</div>
